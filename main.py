@@ -1,10 +1,12 @@
-##########
-
-# MAIN PROGRAM FILE
-
-##########
-import sys
 import os
+from twython import Twython 
+from twython import TwythonStreamer
+import argparse
+import twitter
+import json
+import os.path
+import signal
+import sys
 
 class color:
    PURPLE = '\033[95m'
@@ -51,5 +53,4 @@ if __name__=="__main__":
 
     print response_dict
     wd = os.getcwd()
-    print wd
 
