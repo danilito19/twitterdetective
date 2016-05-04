@@ -4,6 +4,7 @@
 
 ##########
 import sys
+import os
 
 class color:
    PURPLE = '\033[95m'
@@ -38,7 +39,7 @@ if __name__=="__main__":
     word = sys.argv[1]
 
     # QUERY TWITTER WITH WORD, get list of words back
-    
+
     fake_words = ['hilary', 'prez', 'shower']
     response_dict = {}
 
@@ -49,4 +50,6 @@ if __name__=="__main__":
         response_dict[w] = response
 
     print response_dict
+    wd = os.getcwd()
+    print wd
 
