@@ -2,7 +2,7 @@
 
 def build_query(query_words, exclude_words = None):
 	'''
-	Person Responsible:
+	Person Responsible: Manu Aragones
 
 	+ query_words: list of words / phrases to be included in query
 	+ exclude_words: list of words to exclude from results (should
@@ -14,7 +14,7 @@ def build_query(query_words, exclude_words = None):
 
 def get_tweets(query, size):
 	'''
-	Person Responsible:
+	Person Responsible: Manu Aragones
 
 	+ query: string, query for twitter API
 	+ size: number of tweets desired
@@ -63,7 +63,7 @@ def semantic_indexing(tweets_text, bad_tweets_text = None):
 
 def add_keywords_df(tweets_df, keywords):
 	'''
-	Person Responsible:
+	Person Responsible: Anna Hazard
 
 	+ tweets_df: Dataframe of tweets. May or may not have classifications
 	+ keywords: list of keywords that indicate relevance
@@ -77,7 +77,7 @@ def add_keywords_df(tweets_df, keywords):
 
 def validate_keywords(keywords):
 	'''
-	Person Responsible:
+	Person Responsible: Anna Hazard
 
 	+ keywords: list of keywords extracted from relevant tweets
 
@@ -90,7 +90,7 @@ def validate_keywords(keywords):
 
 def classify_tweets(tweets_df, keyword_tuples):
 	'''
-	Person Responsible:
+	Person Responsible: Anna Hazard
 
 	¡This is not the function where the model is used to predict classifications!
 
@@ -110,7 +110,7 @@ def classify_tweets(tweets_df, keyword_tuples):
 
 def train_model(model, tweets_df, predictor_columns):
 	'''
-	Person Responsible:
+	Person Responsible: Dani Alcala
 
 	model: model being used for classification (will probably refer to a model in a
 		dictionary of models)
@@ -123,7 +123,7 @@ def train_model(model, tweets_df, predictor_columns):
 
 def predict_classification(model, tweets_df, predictor_columns):
 	'''
-	Person Responsible:
+	Person Responsible: Dani Alcala
 
 	model: trained model being used for classification (will probably refer to a model in a
 		dictionary of models)
@@ -135,18 +135,10 @@ def predict_classification(model, tweets_df, predictor_columns):
 
 def get_keywords(tweets_df):
 	'''
-	Person Responsible:
+	Person Responsible: Anna Hazard
 
 	tweets_df: DataFrame of tweets with keyword column and classification
 
 	collect keywords from tweets classified as "relevant"
 	'''
 	return
-
-def go():
-	'''
-	'''
-	return
-
-if __name__ == "__main__":
-	sys.argv
