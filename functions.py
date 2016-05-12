@@ -1,4 +1,29 @@
 
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import *
+from sklearn.cross_validation import train_test_split, KFold
+
+
+clfs = {'RF': RandomForestClassifier(n_estimators=50, n_jobs=-1, random_state=0),
+    'LR': LogisticRegression(random_state=0, n_jobs=-1),
+    'SVM': svm.LinearSVC(random_state=0, dual= False),
+    'NB': GaussianNB(),
+    'KNN': KNeighborsClassifier(n_jobs = -1),
+
+        }
+
+grid = { 
+'RF':{'n_estimators': [1,10,100], 'max_depth': [1,5,10,20,50,75], 'max_features': ['sqrt','log2'],'min_samples_split': [2,5,10]},
+'LR': { 'penalty': ['l1','l2'], 'C': [0.00001,0.0001,0.001,0.01,0.1,1,5]},
+'NB' : {},
+'SVM' :{'C' :[0.00001,0.0001,0.001,0.01,0.1,1], 'penalty': ['l1', 'l2']},
+'KNN' :{'n_neighbors': [1, 3, 5,10,25,50,100],'weights': ['uniform','distance'],'algorithm': ['auto','ball_tree','kd_tree']}
+       }
+
+
 
 def build_query(query_words, exclude_words = None):
 	'''
@@ -108,7 +133,7 @@ def classify_tweets(tweets_df, keyword_tuples):
 	'''
 	return
 
-def train_model(model, tweets_df, predictor_columns):
+def train_model(model, tweets_df, predictor_columns, classification_col):
 	'''
 	Person Responsible: Dani Alcala
 
@@ -119,7 +144,22 @@ def train_model(model, tweets_df, predictor_columns):
 
 	Create and train model on tweet_df
 	'''
+	models_to_run = ['LR']
+
+    train, test = train_test_split(tweets_df, test_size = 0.2)
+
+    for index,clf in enumerate([clfs[x] for x in models_to_run]):
+        running_model = models_to_run[index]
+        parameter_values = grid[running_model]
+        for p in ParameterGrid(parameter_values):
+
 	return model
+
+def evaluate_model():
+	'''
+	need to pick from best models?
+	'''
+	pass
 
 def predict_classification(model, tweets_df, predictor_columns):
 	'''
