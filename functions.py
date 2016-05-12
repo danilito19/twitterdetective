@@ -152,7 +152,16 @@ def train_model(model, tweets_df, predictor_columns, classification_col):
         running_model = models_to_run[index]
         parameter_values = grid[running_model]
         for p in ParameterGrid(parameter_values):
+            clf.set_params(**p)
+            clf.fit(train[predictor_columns], train[classification_col])
+            if hasattr(clf, 'predict_proba'):
+                y_pred_probs = clf.predict_proba(test[predictor_columns])[:,1] #second col only for class = 1
+            else:
+                y_pred_probs = clf.decision_function(test[predictor_columns])
 
+                '''' return WHAT model? best of all of them? return them all and evaluate
+                separately?
+                '''
 	return model
 
 def evaluate_model():
