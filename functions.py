@@ -12,7 +12,6 @@ clfs = {'RF': RandomForestClassifier(n_estimators=50, n_jobs=-1, random_state=0)
     'SVM': svm.LinearSVC(random_state=0, dual= False),
     'NB': GaussianNB(),
     'KNN': KNeighborsClassifier(n_jobs = -1),
-
         }
 
 grid = { 
@@ -133,7 +132,7 @@ def classify_tweets(tweets_df, keyword_tuples):
 	'''
 	return
 
-def train_model(model, tweets_df, predictor_columns, classification_col):
+def train_model_offline(model, tweets_df, predictor_columns, classification_col):
 	'''
 	Person Responsible: Dani Alcala
 
@@ -143,10 +142,19 @@ def train_model(model, tweets_df, predictor_columns, classification_col):
 	predictor_columns: list of column names which are being used to predict classification
 
 	Create and train model on tweet_df
+
+	This is the offline function to use to determine which is the best model to use
+	DO NOT RUN THIS FUNCTION with the interface, only for our purposes.
+
+	Returns the best model according to evaluation criteria
 	'''
-	models_to_run = ['LR']
+	models_to_run = ['LR'] #add more from above
 
     train, test = train_test_split(tweets_df, test_size = 0.2)
+
+    best_model = ''
+    best_auc = 0
+    best_params = ''
 
     for index,clf in enumerate([clfs[x] for x in models_to_run]):
         running_model = models_to_run[index]
@@ -159,28 +167,57 @@ def train_model(model, tweets_df, predictor_columns, classification_col):
             else:
                 y_pred_probs = clf.decision_function(test[predictor_columns])
 
-                '''' return WHAT model? best of all of them? return them all and evaluate
-                separately?
-                '''
-	return model
+            AUC = evaluate_model(test, classification_col, y_pred_probs)
 
-def evaluate_model():
-	'''
-	need to pick from best models?
-	'''
-	pass
+            if AUC > best_auc:
+                best_model = running_model
+                best_auc = AUC
+                best_params = clf
 
-def predict_classification(model, tweets_df, predictor_columns):
+    return best_model, best_params
+
+def evaluate_model(test_data, classification_col, y_pred_probs):
+	'''
+	Evaluate model with AUC of Precision-recall curve
+
+	DO WE WANT RECALL at a specific precision point, instead?
+	'''
+	precision_curve, recall_curve, pr_thresholds = precision_recall_curve(test_data[classification_col], y_pred_probs)
+	precision = precision_curve[:-1]
+	recall = recall_curve[:-1]
+
+	AUC = auc(recall, precision)
+
+	return AUC
+
+def train_model(best_model, best_params, tweets_df, predictor_columns, classification_col):
+	'''
+	Given the best model and best parameters obtained from running train_model_offline,
+	this function will train the best model during user interaction
+
+	tweets_df: DataFrame of tweets which includes classifications
+
+	'''
+    clf = clfs[best_model]  
+    clf.set_params(**best_params)
+    model = clf.fit(tweets_df[predictor_columns], tweets_df[classification_col])
+
+    return model #could combine func with predict_classification func
+
+def predict_classification(model, tweets_df_unclassified, predictor_columns):
 	'''
 	Person Responsible: Dani Alcala
 
-	model: trained model being used for classification (will probably refer to a model in a
-		dictionary of models)
-	tweets_df: DataFrame of tweets which does not include classification
+	model: trained model being used for classification
+	tweets_df: DataFrame of tweets which DOES NOT include classification
 	predictor_columns: list of column names which are being used to predict classification
-	Modify DataFrame in place
+	Modify DataFrame in place 
 	'''
-	return
+
+    predicted_values = model.predict(tweets_df_unclassified[predictor_columns])
+
+    tweets_df_unclassified['class'] = predicted_values
+
 
 def get_keywords(tweets_df):
 	'''
