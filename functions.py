@@ -53,27 +53,31 @@ def save_user_tweets(user, n, auth):
 
 
 # read the filters file to track
-infile = open('filters_file.txt', 'r')
-track = ",".join(infile.read().strip().split("\n"))
+# infile = open('filters_file.txt', 'r')
+# track = ",".join(infile.read().strip().split("\n"))
 
-def build_query(filters_file,  filter_, num_tweets, auth):
+def build_query(num_tweets, auth, filters_file=None, filter_words=None):
     '''
 	Person Responsible: Manu Aragones
 
-	+ filter_file: list of words / phrases to be included in query
-	+ filter_: if filter_file not specified -> you can input filter manually
-	+ num_tweets: the maximum number of tweets befor break
+	+ filter_file: list of words / phrases to be included in query IN FILE
+	+ filter_words: if filter_file not specified -> you can input filter manually
+	+ num_tweets: the maximum number of tweets before break
 	builds query for twitter API from user input
+
+    Simplified fuction from Borja Sotomayor Twitter Harvester
+
+    AND SAVES TO JSON_OUT OR RETURNS TO BE USED BY OTHER FUNCTIONS ?
 	'''
-    # simplified version from Borja Sotomayor Twitter Harvester
+
     outf = open('json_out', "w")
     # Connect to the stream
     twitter_stream = twitter.TwitterStream(auth=auth)
-    if filter_ is None and filters_file is None:
+    if filter_words is None and filters_file is None:
         stream = twitter_stream.statuses.sample()
     else:
-        if filter_ is not None:
-            track = filter_
+        if filter_words is not None:
+            track = filter_words
         elif filters_file is not None:
             infile = open(filters_file, 'r')
             track = ",".join(infile.read().strip().split("\n"))
@@ -107,7 +111,7 @@ def build_query(filters_file,  filter_, num_tweets, auth):
                     break
 
 
-def get_tweets(query, size):
+def get_tweets(query, size, to_file=False):
 	'''
 	Person Responsible: Manu Aragones
 
@@ -117,10 +121,15 @@ def get_tweets(query, size):
 
 	Takes query, queries twitter API, returns JSON of tweets
 	'''
-	build_query('filters_file.txt',None,2,auth)
-	# this function dumps the tweets to json file in folder
-	#return tweets_raw
 
+    if not to file:
+        # get this part to return the tweets, not in file
+        build_query(2, auth, 'filters_file.txt')
+            #return tweets_raw
+
+    else:
+        # save to output file
+        # this function dumps the tweets to json file in folder
 
 def cycle1(word_list):
     for word in word_list:
