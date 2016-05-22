@@ -5,6 +5,8 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import *
 from sklearn.cross_validation import train_test_split, KFold
+from autorizador import *
+
 
 
 clfs = {'RF': RandomForestClassifier(n_estimators=50, n_jobs=-1, random_state=0),
@@ -23,18 +25,87 @@ grid = {
        }
 
 
+def get_credents():
+	creds = get_creds('secrets.txt')
+	auth=twitter.OAuth(creds.AccessToken,creds.AccessTokenSecret,creds.ConsumerKey, creds.ConsumerKeySecret)
+	return auth
 
-def build_query(query_words, exclude_words = None):
-	'''
+def save_tweet(tweet, f):
+    # Replace HTML entities; function extracted from Borja Sotomayor Twitter Harvester 
+    tweet['text'] = tweet['text'].replace("&gt;", ">").replace("&lt;", "<").replace("&amp;", "&")
+    json.dump(tweet, f)
+
+
+def save_user_tweets(user, n, auth):
+    t = twitter.Twitter(auth=auth)
+    print("Fetching %i tweets from @%s" % (n, user))
+    tweets = t.statuses.user_timeline(screen_name=user, count=n)
+    print("  (actually fetched %i)" % len(tweets))
+    for tweet in tweets:
+        save_tweet(tweet, outfile)
+        print(tweet['text'])
+
+
+# code to test that save is working
+#users = ['aurelionuno']
+#outfile = open('data.json', 'w')
+# save_user_tweets('aurelionuno', 10, auth)
+
+
+# read the filters file to track
+infile = open('filters_file.txt', 'r')
+track = ",".join(infile.read().strip().split("\n"))
+
+def build_query(filters_file,  filter_, num_tweets, auth):
+  	'''
 	Person Responsible: Manu Aragones
 
-	+ query_words: list of words / phrases to be included in query
-	+ exclude_words: list of words to exclude from results (should
-		this be here or in later function? Depends if API allows exclusion)
-	
+	+ filter_file: list of words / phrases to be included in query
+	+ filter_: if filter_file not specified -> you can input filter manually
+	+ num_tweets: the maximum number of tweets befor break
 	builds query for twitter API from user input
 	'''
-	return query
+    # simplified version from Borja Sotomayor Twitter Harvester
+    outf = open('json_out', "w")
+    # Connect to the stream
+    twitter_stream = twitter.TwitterStream(auth=auth)
+    if filter_ is None and filters_file is None:
+        stream = twitter_stream.statuses.sample()
+    else:
+        if filter_ is not None:
+            track = filter_
+        elif filters_file is not None:
+            infile = open(filters_file, 'r')
+            track = ",".join(infile.read().strip().split("\n"))
+        stream = twitter_stream.statuses.filter(track=track)
+    # Fetch the tweets
+    fetched = 0
+
+    if num_tweets > 0:
+        if outf != sys.stdout: print("Fetching %i tweets... " % num_tweets)
+    else:
+        signal.signal(signal.SIGINT, signal_handler)
+        now = datetime.now().isoformat(sep=" ")
+        msg = "[{}] Fetching tweets. Press Ctrl+C to stop.".format(now)
+        if outf != sys.stdout: print(msg)
+
+    for tweet in stream:
+        print(tweet['text'])
+        # The public stream includes tweets, but also other messages, such
+        # as deletion notices. We are only interested in the tweets.
+        # See: https://dev.twitter.com/streaming/overview/messages-types
+        if tweet.get('text'):
+            # We also only want English tweets
+            if tweet['lang'] == "es":
+                save_tweet(tweet, outf)
+                fetched += 1
+                if fetched % num_tweets == 0:
+                    now = datetime.now().isoformat(sep=" ")
+                    msg = "[{}] Fetched {:,} tweets.".format(now, fetched)
+                    if outf != sys.stdout: print(msg)
+                if num_tweets > 0 and fetched >= num_tweets:
+                    break
+
 
 def get_tweets(query, size):
 	'''
@@ -46,7 +117,9 @@ def get_tweets(query, size):
 
 	Takes query, queries twitter API, returns JSON of tweets
 	'''
-	return tweets_raw
+	build_query('filters_file.txt',None,2,auth)
+	# this function dumps the tweets to json file in folder
+	#return tweets_raw
 
 def process_tweets(tweets_raw, tweets_random = None):
 	'''
