@@ -112,24 +112,26 @@ def build_query(num_tweets, auth, filters_file=None, filter_words=None):
 
 
 def get_tweets(query, size, to_file=False):
-	'''
-	Person Responsible: Manu Aragones
+    '''
+    Person Responsible: Manu Aragones
 
-	+ query: string, query for twitter API
-	+ size: number of tweets desired
-	+ other arguments?
+    + query: string, query for twitter API
+    + size: number of tweets desired
+    + other arguments?
 
-	Takes query, queries twitter API, returns JSON of tweets
-	'''
+    Takes query, queries twitter API, returns JSON of tweets
+    '''
 
-    if not to file:
+    if not to_file:
         # get this part to return the tweets, not in file
-        build_query(2, auth, 'filters_file.txt')
-            #return tweets_raw
+        # and to take words from user interfase in main.py
+        build_query(2, auth, 'words from main.py')
+        #return tweets_raw
 
     else:
         # save to output file
         # this function dumps the tweets to json file in folder
+        build_query(2, auth)
 
 def cycle1(word_list):
     for word in word_list:
