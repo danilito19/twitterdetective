@@ -6,7 +6,23 @@ import signal
 import sys
 from twitterlock import Twitterlock
 
+class color:
+   # use to make terminal interfase pretty.
+    
+   PURPLE = '\033[95m'
+   CYAN = '\033[96m'
+   DARKCYAN = '\033[36m'
+   BLUE = '\033[94m'
+   GREEN = '\033[92m'
+   YELLOW = '\033[93m'
+   RED = '\033[91m'
+   BOLD = '\033[1m'
+   UNDERLINE = '\033[4m'
+   END = '\033[0m'
+
+
 if __name__ == "__main__":
+
     intro = "Welcome to TwitterDetective!"
     print(intro)
     print("Please type a term or terms to begin building your query. If using multiple terms separate with a space only")

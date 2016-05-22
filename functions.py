@@ -2,6 +2,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn import svm, ensemble
 from sklearn.metrics import *
 from sklearn.cross_validation import train_test_split, KFold
 from autorizador import *
@@ -56,7 +57,7 @@ infile = open('filters_file.txt', 'r')
 track = ",".join(infile.read().strip().split("\n"))
 
 def build_query(filters_file,  filter_, num_tweets, auth):
-  	'''
+    '''
 	Person Responsible: Manu Aragones
 
 	+ filter_file: list of words / phrases to be included in query
