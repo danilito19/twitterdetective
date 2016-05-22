@@ -1,150 +1,49 @@
 import os
-from twython import Twython 
-from twython import TwythonStreamer
 import argparse
-import twitter
 import json
 import os.path
 import signal
 import sys
+from twitterlock import Twitterlock
 
-class color:
-   PURPLE = '\033[95m'
-   CYAN = '\033[96m'
-   DARKCYAN = '\033[36m'
-   BLUE = '\033[94m'
-   GREEN = '\033[92m'
-   YELLOW = '\033[93m'
-   RED = '\033[91m'
-   BOLD = '\033[1m'
-   UNDERLINE = '\033[4m'
-   END = '\033[0m'
+if __name__ == "__main__":
+    intro = "Welcome to TwitterDetective!"
+    print(intro)
+    print("Please type a term or terms to begin building your query. If using multiple terms separate with a space only")
 
-## FUNCTION TO QUERY TWITTER API
-# should output a json of Tweets for now, or store them
+    first_query = input("Query terms: ")
+    query_words = first_query.split()
+    tw = Twitterlock(words = query_words)
 
-class AuOth:
-    def __init__(self, CK, CKS, AT, ATS):
-        self.ConsumerKey = CK
-        self.ConsumerKeySecret = CKS
-        self.AccessToken = AT
-        self.AccessTokenSecret = ATS
+    while not tw.satisfactory:
 
-    def getConsumerKey(self):
-        return self.ConsumerKey
+        print("Indicate the relevance of each term to your interest.")
 
-    def getConsumerKeySecret(self):
-        return self.ConsumerKeySecret
+        response_dict = {1: "good", "relevant": "good", 2: "neutral", "neutral": "neutral", 3:"bad", "irrelevant": "bad"}
+        feedback = {}
+        for word in tw.keywords:
+            prompt = word + " is (1) relevant, (2) neutral, (3) irrelevant: "
+            response = input(prompt)
+            feedback[word] = response
 
-    def getAccessToken(self):
-        return self.AccessToken
+        tw.take_feedback(feedback)
 
-    def getAccessTokenSecret(self):
-        return self.AccessTokenSecret
+        print("Here are your suggested search terms:")
 
-class MyStreamer(TwythonStreamer):
-    def on_success(self, data):
-        if 'text' in data:
-            print(data['text'].encode('utf-8'))
+        print(", ".join(tw.keywords))
 
-    def on_error(self, status_code, data):
-        print(status_code)
+        cont = input("Are you satisfied with this list (y/n)? ")
 
-        # Want to stop trying to get data because of the error?
-        # Uncomment the next line!
-        # self.disconnect()
+        if cont == "n":
 
-def makeAuth(infoStr):
-    CK, CKS, AT, ATS = infoStr.split(",")
-    return AuOth(CK, CKS, AT, ATS)
+            tw.cycle2()
 
-def get_creds(filename):
-    infile = open(filename, 'r')
-    c = makeAuth(infile.readline())
-    return c
+        elif cont == "y":
 
+            tw.set_satisfaction(True)
 
-def get_tweets_from_stream(filter_, num_tweets, auth):
-  
-    # Connect to the stream
-        twitter_stream = twitter.TwitterStream(auth=auth)
-    
-        if filter_ is None and filters_file is None:
-            stream = twitter_stream.statuses.sample()
-        else:
-            if filter_ is not None:
-                track = filter_
-            elif filters_file is not None:
-                track = ",".join(filters_file.read().strip().split("\n"))
+            filename = input("Where would you like the results of your query stored? Type file path: ")
 
-            stream = twitter_stream.statuses.filter(track=track)
-    
-        fetched = 0
-    
-        if num_tweets > 0:
-            if outf != sys.stdout: print("Fetching %i tweets... " % num_tweets)
-        else:
-            signal.signal(signal.SIGINT, signal_handler)
-            now = datetime.now().isoformat(sep=" ")
-            msg = "[{}] Fetching tweets. Press Ctrl+C to stop.".format(now)
-            if outf != sys.stdout: print(msg)
-    
-        for tweet in stream:
-            # The public stream includes tweets, but also other messages, such
-            # as deletion notices. We are only interested in the tweets.
-            # See: https://dev.twitter.com/streaming/overview/messages-types
-            if tweet.has_key("text"):
-                # We also only want English tweets
-                if tweet["lang"] == "en":
-                    save_tweet(tweet, outf, format)
-                    fetched += 1
-                    if fetched % 100 == 0:
-                        now = datetime.now().isoformat(sep=" ")
-                        msg = "[{}] Fetched {:,} tweets.".format(now, fetched)
-                        if outf != sys.stdout: print(msg)
-                    if num_tweets > 0 and fetched >= num_tweets:
-                        break
-    
+            tw.finish(filename)
 
-
-creds = get_creds('secrets.txt')
-consumer_key, consumer_secret, oauth_token, oauth_secret =  creds.ConsumerKey, creds.ConsumerKeySecret, creds.AccessToken,creds.AccessTokenSecret
-auth = twitter.OAuth(oauth_token, oauth_secret, consumer_key, consumer_secret)
-print oauth_token
-print oauth_secret
-print consumer_key
-print consumer_secret
-#t = twitter.Twitter(auth=auth)
-users = ['aurelionuno']
-twitter_stream = twitter.TwitterStream(auth=auth)
-iterator = twitter_stream.statuses.sample()
-
-tweet_count = 10
-for tweet in iterator:
-  tweet_count -= 1
-  print json.dumps(tweet)  
-
-# if __name__=="__main__":
-#     instructions = '''Usage: main.py word 
-#         '''
-
-#     if(len(sys.argv) != 2):
-#         print(instructions)
-#         sys.exit()
-
-#     word = sys.argv[1]
-
-#     # QUERY TWITTER WITH WORD, get list of words back
-
-#     fake_words = ['hilary', 'prez', 'shower']
-#     response_dict = {}
-
-#     print '''WELCOME TO TWITTER DETECTIVE! \n 
-#                     The word you selected to begin your query is:  %s ''' % word
-#     for w in fake_words:
-#         response = raw_input('Enter 1 if {} is a word associated with your word / topic of interest: '.format(color.BOLD + w + color.END))
-#         response_dict[w] = response
-
-#     print response_dict
-#     wd = os.getcwd()
 
