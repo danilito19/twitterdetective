@@ -163,6 +163,10 @@ def process_tweets(tweets_raw, tweets_random = None):
     (Do we want tweets to be kept distinct?)
     (Do we need to also output text of not relevant tweets for elimination purposes?)
     Output forrmat TBD by semantic processing person
+
+    NEED TWEETS TO BE CONVERTED TO WORD COUNTS  OR 0/1 DF because ML models don't
+    take strings!
+    
     '''
     return tweets_df, tweets_text, bad_tweets_text
     return tweets_df, tweets_text
