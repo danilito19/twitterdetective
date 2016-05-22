@@ -94,9 +94,22 @@ def add_keywords_df(tweets_df, keywords):
 
 	Check tweet text for keywords
 	Add column to tweets_df for keywords contained in given tweet
-	Column should contain list of strings
+	Column should contain list of strings, KEYWORDS WILL BE REPEATED IN LIST IF THEY OCCUR MORE THAN ONCE IN TWEET!
+	(This is in case some weighting property is added in the future)
 	Change DataFrame in place
 	'''
+	new_column = []
+
+	word_list = []
+
+	for text in tweets_df["text"]:
+		for word in keywords:
+			if word in text:
+				word_list.append(word)
+		new_column.append(word_list)
+
+	tweets_df["keywords"] = new_column
+
 	return
 
 def validate_keywords(keywords):
@@ -130,6 +143,24 @@ def classify_tweets(tweets_df, keyword_tuples):
 	Tweets containing "good" and "neutral" words and *no* "bad" words
 	should be classified as relevant
 	'''
+
+	class_column = []
+
+	for word_list in tweets_df["keywords"]:
+		word_class_list = []
+		for word in word_list:
+			word_class_list.append(keyword_dict[word])
+		if "bad" in word_class_list:
+			classification = "irrelevant"
+		elif "good" not in word_class_list:
+			classification = "irrelevant"
+		else:
+			classification = "relevant"
+
+		class_column.append(classification)
+
+	tweets_df["classificatiion"] = class_column
+	
 	return
 
 def train_model_offline(model, tweets_df, predictor_columns, classification_col):
@@ -227,4 +258,11 @@ def get_keywords(tweets_df):
 
 	collect keywords from tweets classified as "relevant"
 	'''
-	return
+
+	keywords = set([])
+
+	for i, word_list in enumerate(tweets_df["keywords"]):
+		if tweets_df["classification"][i] == "relevant":
+			keywords.update(word_list)
+
+	return list(keywords)
