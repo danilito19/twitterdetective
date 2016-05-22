@@ -230,9 +230,12 @@ def train_model(tweets_df, predictor_columns=[], classification_col="", best_mod
     clf.set_params(**best_params)
     model = clf.fit(tweets_df[predictor_columns], tweets_df[classification_col])
 
-    return model #could combine func with predict_classification func (note - good idea, I have just used "predict_classification" in the twitterlock class assuming this would be done)
+    return model #could combine func with predict_classification func
 
-def predict_classification(model, tweets_df_unclassified, predictor_columns):
+    #NOTE: good idea - I assumed the two would be combined under predict_classification with the arguments (predictor_columns, train_df, classify_df)
+    # when I called it elsewhere
+
+def predict_classification(predictor_columns, tweets_df_unclassified, model):
     '''
     Person Responsible: Dani Alcala
 
