@@ -7,8 +7,12 @@ import sys
 from twitterlock import Twitterlock
 
 class color:
-   # use to make terminal interfase pretty.
-    
+   '''
+   use to make terminal interfase pretty.
+   usage: 
+   print color.BOLD + 'Hello World !' + color.END
+   '''
+
    PURPLE = '\033[95m'
    CYAN = '\033[96m'
    DARKCYAN = '\033[36m'
