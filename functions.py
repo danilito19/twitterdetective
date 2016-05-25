@@ -282,7 +282,7 @@ def train_model(tweets_df, predictor_columns=[], classification_col="", best_mod
     clf.set_params(**best_params)
     model = clf.fit(tweets_df[predictor_columns], tweets_df[classification_col])
 
-    return model #could combine func with predict_classification func
+    return model 
 
     #NOTE: good idea - I assumed the two would be combined under predict_classification with the arguments (predictor_columns, train_df, classify_df)
     # when I called it elsewhere
@@ -295,13 +295,14 @@ def predict_classification(predictor_columns, tweets_df_unclassified, model):
     tweets_df: DataFrame of tweets which DOES NOT include classification
     predictor_columns: list of column names which are being used to predict classification
     Modify DataFrame in place 
+
+    REVERT TO OLD PARAMS?
     '''
 
     predicted_values = model.predict(tweets_df_unclassified[predictor_columns])
 
     tweets_df_unclassified['class'] = predicted_values
 
-    # keep this func or the one below. classify_tweets
 
 def classify_tweets(tweets_df, keyword_dict):
     '''
