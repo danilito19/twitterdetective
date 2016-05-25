@@ -1,11 +1,12 @@
-
-from sklearn import svm
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn import svm, ensemble
 from sklearn.metrics import *
 from sklearn.cross_validation import train_test_split, KFold
+from autorizador import *
+
 
 
 clfs = {'RF': RandomForestClassifier(n_estimators=50, n_jobs=-1, random_state=0),
@@ -23,27 +24,94 @@ grid = {
 'KNN' :{'n_neighbors': [1, 3, 5,10,25,50,100],'weights': ['uniform','distance'],'algorithm': ['auto','ball_tree','kd_tree']}
        }
 
-def cycle1(word_list):
-    for word in word_list:
-        print(word)
-    return ["alpha", "beta", "theta"], None
 
-def cycle2(feedback_dict, tweet_df):
-    return ["crimson", "calico", "qwark"], None
+def get_credents():
+	creds = get_creds('secrets.txt')
+	auth=twitter.OAuth(creds.AccessToken,creds.AccessTokenSecret,creds.ConsumerKey, creds.ConsumerKeySecret)
+	return auth
 
-def build_query(query_words, exclude_words = None):
+def save_tweet(tweet, f):
+    # Replace HTML entities; function extracted from Borja Sotomayor Twitter Harvester 
+    tweet['text'] = tweet['text'].replace("&gt;", ">").replace("&lt;", "<").replace("&amp;", "&")
+    json.dump(tweet, f)
+
+
+def save_user_tweets(user, n, auth):
+    t = twitter.Twitter(auth=auth)
+    print("Fetching %i tweets from @%s" % (n, user))
+    tweets = t.statuses.user_timeline(screen_name=user, count=n)
+    print("  (actually fetched %i)" % len(tweets))
+    for tweet in tweets:
+        save_tweet(tweet, outfile)
+        print(tweet['text'])
+
+
+# code to test that save is working
+#users = ['aurelionuno']
+#outfile = open('data.json', 'w')
+# save_user_tweets('aurelionuno', 10, auth)
+
+
+# read the filters file to track
+# infile = open('filters_file.txt', 'r')
+# track = ",".join(infile.read().strip().split("\n"))
+
+def build_query(num_tweets, auth, filters_file=None, filter_words=None):
     '''
-    Person Responsible: Manu Aragones
+	Person Responsible: Manu Aragones
 
-    + query_words: list of words / phrases to be included in query
-    + exclude_words: list of words to exclude from results (should
-        this be here or in later function? Depends if API allows exclusion)
-    
-    builds query for twitter API from user input
-    '''
-    return query
+	+ filter_file: list of words / phrases to be included in query IN FILE
+	+ filter_words: if filter_file not specified -> you can input filter manually
+	+ num_tweets: the maximum number of tweets before break
+	builds query for twitter API from user input
 
-def get_tweets(query, size):
+    Simplified fuction from Borja Sotomayor Twitter Harvester
+
+    AND SAVES TO JSON_OUT OR RETURNS TO BE USED BY OTHER FUNCTIONS ?
+	'''
+
+    outf = open('json_out', "w")
+    # Connect to the stream
+    twitter_stream = twitter.TwitterStream(auth=auth)
+    if filter_words is None and filters_file is None:
+        stream = twitter_stream.statuses.sample()
+    else:
+        if filter_words is not None:
+            track = filter_words
+        elif filters_file is not None:
+            infile = open(filters_file, 'r')
+            track = ",".join(infile.read().strip().split("\n"))
+        stream = twitter_stream.statuses.filter(track=track)
+    # Fetch the tweets
+    fetched = 0
+
+    if num_tweets > 0:
+        if outf != sys.stdout: print("Fetching %i tweets... " % num_tweets)
+    else:
+        signal.signal(signal.SIGINT, signal_handler)
+        now = datetime.now().isoformat(sep=" ")
+        msg = "[{}] Fetching tweets. Press Ctrl+C to stop.".format(now)
+        if outf != sys.stdout: print(msg)
+
+    for tweet in stream:
+        print(tweet['text'])
+        # The public stream includes tweets, but also other messages, such
+        # as deletion notices. We are only interested in the tweets.
+        # See: https://dev.twitter.com/streaming/overview/messages-types
+        if tweet.get('text'):
+            # We also only want English tweets
+            if tweet['lang'] == "es":
+                save_tweet(tweet, outf)
+                fetched += 1
+                if fetched % num_tweets == 0:
+                    now = datetime.now().isoformat(sep=" ")
+                    msg = "[{}] Fetched {:,} tweets.".format(now, fetched)
+                    if outf != sys.stdout: print(msg)
+                if num_tweets > 0 and fetched >= num_tweets:
+                    break
+
+
+def get_tweets(query, size, to_file=False):
     '''
     Person Responsible: Manu Aragones
 
@@ -52,10 +120,27 @@ def get_tweets(query, size):
     + other arguments?
 
     Takes query, queries twitter API, returns JSON of tweets
-
-    If query is None, random sample of tweets should be selected
     '''
-    return tweets_raw
+
+    if not to_file:
+        # get this part to return the tweets, not in file
+        # and to take words from user interfase in main.py
+        build_query(2, auth, 'words from main.py')
+        #return tweets_raw
+
+    else:
+        # save to output file
+        # this function dumps the tweets to json file in folder
+        build_query(2, auth)
+
+def cycle1(word_list):
+    for word in word_list:
+        print(word)
+    return ["alpha", "beta", "theta"], None
+
+def cycle2(feedback_dict, tweet_df):
+    return ["crimson", "calico", "qwark"], None
+
 
 def process_tweets(tweets_raw, tweets_random = None):
     '''
@@ -78,6 +163,10 @@ def process_tweets(tweets_raw, tweets_random = None):
     (Do we want tweets to be kept distinct?)
     (Do we need to also output text of not relevant tweets for elimination purposes?)
     Output forrmat TBD by semantic processing person
+
+    NEED TWEETS TO BE CONVERTED TO WORD COUNTS  OR 0/1 DF because ML models don't
+    take strings!
+    
     '''
     return tweets_df, tweets_text, bad_tweets_text
     return tweets_df, tweets_text
@@ -122,45 +211,7 @@ def add_keywords_df(tweets_df, keywords):
     return
 
 
-def classify_tweets(tweets_df, keyword_dict):
-    '''
-    Person Responsible: Anna Hazard
-
-    This is not the function where the model is used to predict classifications!
-
-    + tweets_df: DataFrame of tweets. At this point tweets_df should have a keywords
-    column, and may or may not already have a classification column.
-    + keyword_dict: Dictionary containing keywords with user feedback,
-    format: {"bezoar": "bad", "turquoise": "neutral", "hrc": "good" ...}
-
-    Add or change classification based on classificatiion of keywords in tuples list
-    Tentatively:
-    Tweets containing "bad" words should be classified as irrelevant
-    Tweets containing *only* neutral words should be classified as irrelevant
-    Tweets containing "good" and "neutral" words and *no* "bad" words
-    should be classified as relevant
-    '''
-
-    class_column = []
-
-    for word_list in tweets_df["keywords"]:
-        word_class_list = []
-        for word in word_list:
-            word_class_list.append(keyword_dict[word])
-        if "bad" in word_class_list:
-            classification = "irrelevant"
-        elif "good" not in word_class_list:
-            classification = "irrelevant"
-        else:
-            classification = "relevant"
-
-        class_column.append(classification)
-
-    tweets_df["classificatiion"] = class_column
-    
-    return
-
-def train_model_offline(tweets_df, model='NB' predictor_columns=[], classification_col=""):
+def train_model_offline(model, tweets_df, predictor_columns, classification_col):
     '''
     Person Responsible: Dani Alcala
 
@@ -218,6 +269,7 @@ def evaluate_model(test_data, classification_col, y_pred_probs):
 
     return AUC
 
+
 def train_model(tweets_df, predictor_columns=[], classification_col="", best_model="NB", best_params=""):
     '''
     Given the best model and best parameters obtained from running train_model_offline,
@@ -248,6 +300,46 @@ def predict_classification(predictor_columns, tweets_df_unclassified, model):
     predicted_values = model.predict(tweets_df_unclassified[predictor_columns])
 
     tweets_df_unclassified['class'] = predicted_values
+
+    # keep this func or the one below. classify_tweets
+
+def classify_tweets(tweets_df, keyword_dict):
+    '''
+    Person Responsible: Anna Hazard
+
+    This is not the function where the model is used to predict classifications!
+
+    + tweets_df: DataFrame of tweets. At this point tweets_df should have a keywords
+    column, and may or may not already have a classification column.
+    + keyword_dict: Dictionary containing keywords with user feedback,
+    format: {"bezoar": "bad", "turquoise": "neutral", "hrc": "good" ...}
+
+    Add or change classification based on classificatiion of keywords in tuples list
+    Tentatively:
+    Tweets containing "bad" words should be classified as irrelevant
+    Tweets containing *only* neutral words should be classified as irrelevant
+    Tweets containing "good" and "neutral" words and *no* "bad" words
+    should be classified as relevant
+    '''
+
+    class_column = []
+
+    for word_list in tweets_df["keywords"]:
+        word_class_list = []
+        for word in word_list:
+            word_class_list.append(keyword_dict[word])
+        if "bad" in word_class_list:
+            classification = "irrelevant"
+        elif "good" not in word_class_list:
+            classification = "irrelevant"
+        else:
+            classification = "relevant"
+
+        class_column.append(classification)
+
+    tweets_df["classificatiion"] = class_column
+    
+    return
 
 def keyword_binary_col(keywords, tweet_df):
     '''
@@ -286,6 +378,3 @@ def update_keywords(keyword_dict):
             new_keywords.append(key)
 
     return new_keywords
-
-
-
