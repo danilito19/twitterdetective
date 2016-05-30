@@ -35,6 +35,18 @@ if __name__ == "__main__":
     query_words = first_query.split()
     tw = Twitterlock(words = query_words)
 
+    tw.cycle1()
+
+    print("Here are your suggested search terms:")
+
+    print(", ".join(tw.keywords))
+
+    cont = input("Are you satisfied with this list (y/n)? ")
+
+    if cont == "y":
+
+    tw.set_satisfaction(True)
+
     while not tw.satisfactory:
 
         print("Indicate the relevance of each term to your interest.")
@@ -62,8 +74,8 @@ if __name__ == "__main__":
 
             tw.set_satisfaction(True)
 
-            filename = input("Where would you like the results of your query stored? Type file path: ")
+    filename = input("Where would you like the results of your query stored? Type file path: ")
 
-            tw.finish(filename)
+    tw.finish(filename)
 
 
