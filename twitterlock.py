@@ -2,7 +2,7 @@ import functions as fct
 import pandas as pd
 
 class Twitterlock:
-	def __init__(self, words=None, size=20):
+	def __init__(self, words=None, size=20, filename="test.json"):
 		self.init_terms = words
 		self.keywords = None
 		self.old_keywords = None
@@ -12,10 +12,11 @@ class Twitterlock:
 		self.size = size
 		self.satisfactory = False
 		self.feedback = None
+		self.filename = filename
 
 	def cycle1(self):
 		query = fct.build_query(self.init_terms)
-		tweets = fct.get_tweets(query, self.size)
+		tweets = fct.get_tweets(query, self.size, self.filename)
 		tweets_random = fct.get_tweets(None, self.size)
 		tweets_df, tweets_text = fct.process_tweets(tweets, tweets_random)
 		keywords = fct.semantic_indexing(tweets_text)

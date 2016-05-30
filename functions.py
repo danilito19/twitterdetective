@@ -329,11 +329,11 @@ def classify_tweets(tweets_df, keyword_dict):
         for word in word_list:
             word_class_list.append(keyword_dict[word])
         if "bad" in word_class_list:
-            classification = "irrelevant"
+            classification = 0
         elif "good" not in word_class_list:
-            classification = "irrelevant"
+            classification = 0
         else:
-            classification = "relevant"
+            classification = 1
 
         class_column.append(classification)
 
@@ -363,7 +363,7 @@ def get_keywords(tweets_df):
     keywords = set([])
 
     for i, word_list in enumerate(tweets_df["keywords"]):
-        if tweets_df["classification"][i] == "relevant":
+        if tweets_df["classification"][i] == 1:
             keywords.update(word_list)
 
     return list(keywords)
