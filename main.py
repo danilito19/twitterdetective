@@ -27,18 +27,18 @@ class color:
 
 if __name__ == "__main__":
 
-    intro = "Welcome to TwitterDetective!"
+    intro = color.GREEN + "Welcome to TwitterDetective!" + color.END
     print(intro)
     print("Please type a term or terms to begin building your query. If using multiple terms separate with a space only")
 
-    first_query = raw_input("Query terms: ")
-    print first_query
+    first_query = raw_input(color.BOLD + "Query terms: " + color.END)
+    # makes raw input into array passed to twitterlock ['hilary', 'clinton']
     query_words = first_query.split()
     tw = Twitterlock(words = query_words)
 
     tw.cycle1()
 
-    print("Here are your suggested search terms:")
+    print(color.BOLD + "Here are your suggested search terms:" + color.END)
 
     print(", ".join(tw.keywords))
 

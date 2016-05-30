@@ -51,6 +51,12 @@ def get_creds(filename):
     c = makeAuth(infile.readline())
     return c
 
+def save_tweet(tweet, f):
+    # Replace HTML entities; function extracted from Borja Sotomayor Twitter Harvester 
+    tweet['text'] = tweet['text'].replace("&gt;", ">").replace("&lt;", "<").replace("&amp;", "&")
+    json.dump(tweet, f)
+    f.write('\n')
+
 
 def get_tweets_from_stream(filter_, num_tweets, auth):
   
@@ -95,19 +101,16 @@ def get_tweets_from_stream(filter_, num_tweets, auth):
     
 
 
-creds = get_creds('secrets.txt')
+creds = get_creds('secrets-manu.txt')
 consumer_key, consumer_secret, oauth_token, oauth_secret =  creds.ConsumerKey, creds.ConsumerKeySecret, creds.AccessToken,creds.AccessTokenSecret
 auth = twitter.OAuth(oauth_token, oauth_secret, consumer_key, consumer_secret)
-print oauth_token
-print oauth_secret
-print consumer_key
-print consumer_secret
+
 #t = twitter.Twitter(auth=auth)
-users = ['aurelionuno']
 twitter_stream = twitter.TwitterStream(auth=auth)
 iterator = twitter_stream.statuses.sample()
 
-tweet_count = 10
+outf = open('json_out-hil', "w")
 for tweet in iterator:
-  tweet_count -= 1
-  print json.dumps(tweet)  
+    save_tweet(tweet, outf)    
+
+
