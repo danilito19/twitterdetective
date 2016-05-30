@@ -31,7 +31,8 @@ if __name__ == "__main__":
     print(intro)
     print("Please type a term or terms to begin building your query. If using multiple terms separate with a space only")
 
-    first_query = input("Query terms: ")
+    first_query = raw_input("Query terms: ")
+    print first_query
     query_words = first_query.split()
     tw = Twitterlock(words = query_words)
 
@@ -41,11 +42,11 @@ if __name__ == "__main__":
 
     print(", ".join(tw.keywords))
 
-    cont = input("Are you satisfied with this list (y/n)? ")
+    cont = raw_input("Are you satisfied with this list (y/n)? ")
 
     if cont == "y":
 
-    tw.set_satisfaction(True)
+      tw.set_satisfaction(True)
 
     while not tw.satisfactory:
 
@@ -55,7 +56,7 @@ if __name__ == "__main__":
         feedback = {}
         for word in tw.keywords:
             prompt = word + " is (1) relevant, (2) neutral, (3) irrelevant: "
-            response = input(prompt)
+            response = raw_input(prompt)
             feedback[word] = response
 
         tw.take_feedback(feedback)
@@ -64,7 +65,7 @@ if __name__ == "__main__":
 
         print(", ".join(tw.keywords))
 
-        cont = input("Are you satisfied with this list (y/n)? ")
+        cont = raw_input("Are you satisfied with this list (y/n)? ")
 
         if cont == "n":
 
@@ -74,7 +75,7 @@ if __name__ == "__main__":
 
             tw.set_satisfaction(True)
 
-    filename = input("Where would you like the results of your query stored? Type file path: ")
+    filename = raw_input("Where would you like the results of your query stored? Type file path: ")
 
     tw.finish(filename)
 
