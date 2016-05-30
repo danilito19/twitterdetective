@@ -7,6 +7,10 @@ from sklearn.metrics import *
 from sklearn.cross_validation import train_test_split, KFold
 from autorizador import *
 
+import json
+import string
+from nltk.tokenize import TweetTokenizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 clfs = {'RF': RandomForestClassifier(n_estimators=50, n_jobs=-1, random_state=0),
@@ -34,6 +38,8 @@ def save_tweet(tweet, f):
     # Replace HTML entities; function extracted from Borja Sotomayor Twitter Harvester 
     tweet['text'] = tweet['text'].replace("&gt;", ">").replace("&lt;", "<").replace("&amp;", "&")
     json.dump(tweet, f)
+    f.write('\n')
+
 
 
 def save_user_tweets(user, n, auth):
@@ -168,10 +174,33 @@ def process_tweets(tweets_raw, tweets_random = None):
     take strings!
     
     '''
-    return tweets_df, tweets_text, bad_tweets_text
+
+    tweets_df = read_tweets_from_file(tweets_raw)
+    ## Create string of tweet text
+    tweets_text = " ".join(tweets_df)
+
+    ## If phase 1, read each JSON from tweets_random file
+    if tweets_random != None:
+        read_tweets_from_file(tweets_raw, tweets_df)
+        ## Create string of nonrelevant tweet text
+        bad_tweets_text = " ".join(tweets_df)
+        return tweets_df, tweets_text, bad_tweets_text
+
     return tweets_df, tweets_text
 
-def semantic_indexing(tweets_text, bad_tweets_text = None):
+def read_tweets_from_file(file_name, tweets_df = []):
+    tokenizer = TweetTokenizer(preserve_case = False, strip_handles = True)
+    ## Read each JSON from file
+    with open(file_name) as data_file:
+        for tweet in data_file.readlines():
+            text = json.loads(tweet).get("text", "")
+            ## Remove handle, punctuation from tweet text
+            text_words = filter(lambda x: x not in string.punctuation, tokenizer.tokenize(text))
+            ## Add tweet text to list
+            tweets_df.append(" ".join(text_words))
+    return tweets_df
+
+def semantic_indexing(tweets_df, tweets_text = None, bad_tweets_text = None):
     '''
     Person Responsible: Devin Munger
 
@@ -181,7 +210,17 @@ def semantic_indexing(tweets_text, bad_tweets_text = None):
     Process text of tweets to produce list of keywords
     Text of not-relevant tweets might (?) be used for elimination purposes
     '''
-    return keywords
+    ## Extract keywords from tweet text corpus using TF-IDF algorithm
+    tfidf = TfidfVectorizer(stop_words = "english")
+    tfidf_matrix = tfidf.fit_transform(tweets_df)
+    ## Get indexed list of feature keywords
+    features = tfidf.get_feature_names()
+    ## Get indexed list of feature weights
+    weights = tfidf.idf_
+    feature_weights = list(zip(weights, features))
+    feature_weights.sort(reverse = True)
+    ## Return sorted keywords
+    return [x[1] for x in feature_weights]
 
 def add_keywords_df(tweets_df, keywords):
     '''
