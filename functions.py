@@ -194,6 +194,8 @@ def read_tweets_from_file(file_name, tweets_df = []):
     with open(file_name) as data_file:
         for tweet in data_file.readlines():
             text = json.loads(tweet).get("text", "")
+            ## Remove links from text
+            text = re.sub(r"http\S+", "", text)
             ## Remove handle, punctuation from tweet text
             text_words = filter(lambda x: x not in string.punctuation, tokenizer.tokenize(text))
             ## Add tweet text to list
