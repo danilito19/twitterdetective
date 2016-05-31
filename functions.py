@@ -35,6 +35,7 @@ MODELS_TO_RUN = ['LR'] #add more from above
 BEST_MODEL = "NB"
 BEST_PARAMS = ""
 
+
 def get_credents():
 	creds = get_creds('secrets.txt')
 	auth=twitter.OAuth(creds.AccessToken,creds.AccessTokenSecret,creds.ConsumerKey, creds.ConsumerKeySecret)
@@ -57,7 +58,7 @@ def save_user_tweets(user, n, auth):
         save_tweet(tweet, outfile)
 
 
-def get_tweets(num_tweets, auth, filter_words, filename):
+def get_tweets(filter_words, num_tweets, filename):
     '''
     Person Responsible: Manu Aragones
 
@@ -73,6 +74,7 @@ def get_tweets(num_tweets, auth, filter_words, filename):
     '''
     outf = open(filename, "w")
     # Connect to the stream
+    auth = get_credents()
     twitter_stream = twitter.TwitterStream(auth=auth)
     if filter_words is None:
         stream = twitter_stream.statuses.sample()
