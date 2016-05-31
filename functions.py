@@ -185,14 +185,6 @@ def process_tweets(tweets_raw, tweets_random = None):
     ## Create string of tweet text
     tweets_text = " ".join(tweets_df)
 
-    ## If phase 1, read each JSON from tweets_random file
-    if tweets_random != None:
-        read_tweets_from_file(tweets_raw, tweets_df)
-        ## Create string of nonrelevant tweet text
-        bad_tweets_text = " ".join(tweets_df)
-
-        return tweets_df, tweets_text, bad_tweets_text
-
     return tweets_df, tweets_text
 
 def read_tweets_from_file(file_name, tweets_df = []):
