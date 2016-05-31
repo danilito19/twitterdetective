@@ -1,6 +1,6 @@
 secrets.txt
 secrets-manu.txt
-
+*.pyc
 ml3/
 # OS generated files #
 ######################
