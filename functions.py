@@ -37,7 +37,7 @@ BEST_PARAMS = ""
 
 
 def get_credents():
-	creds = get_creds('secrets.txt')
+	creds = get_creds('secrets-manu.txt')
 	auth=twitter.OAuth(creds.AccessToken,creds.AccessTokenSecret,creds.ConsumerKey, creds.ConsumerKeySecret)
 	return auth
 
@@ -98,7 +98,7 @@ def get_tweets(filter_words, num_tweets, filename):
         # See: https://dev.twitter.com/streaming/overview/messages-types
         if tweet.get('text'):
             # We also only want English tweets
-            if tweet['lang'] == "en" or tweet['lang'] == "es":
+            if tweet['lang'] == "en":
                 save_tweet(tweet, outf)
                 fetched += 1
                 if fetched % num_tweets == 0:
