@@ -47,9 +47,8 @@ def save_tweet(tweet, f):
     json.dump(tweet, f)
     f.write('\n')
 
-
-
 def save_user_tweets(user, n, auth):
+
     t = twitter.Twitter(auth=auth)
     print("Fetching %i tweets from @%s" % (n, user))
     tweets = t.statuses.user_timeline(screen_name=user, count=n)
@@ -112,42 +111,6 @@ def get_tweets(filter_words, num_tweets, filename):
                     stream.close()
                     break
 
-
-
-### GETTING TWEETS FOR KEYWORK PRESIDENt
-## issues: very slow and only gets spanish tweets
-'''
-creds = get_creds('secrets-manu.txt')
-consumer_key, consumer_secret, oauth_token, oauth_secret =  creds.ConsumerKey, creds.ConsumerKeySecret, creds.AccessToken,creds.AccessTokenSecret
-auth = twitter.OAuth(oauth_token, oauth_secret, consumer_key, consumer_secret)
-
-#took over 10 mins to save only 8 tweets, feed kept printing
-build_query(100, auth, filter_words='president')
-'''
-
-# def get_tweets(query, size, to_file=False):
-#     '''
-#     Person Responsible: Manu Aragones
-
-#     + query: string, query for twitter API
-#     + size: number of tweets desired
-#     + other arguments?
-
-#     Takes query, queries twitter API, returns JSON of tweets
-#     '''
-
-#     if not to_file:
-#         # get this part to return the tweets, not in file
-#         # and to take words from user interfase in main.py
-#         build_query(2, auth, ['words', 'from', 'main'])
-#         #return tweets_raw
-
-#     else:
-#         # save to output file
-#         # this function dumps the tweets to json file in folder
-#         build_query(2, auth)
-
-#     #MUST RETURN FILE NAMES
 
 def cycle1(word_list):
     for word in word_list:
