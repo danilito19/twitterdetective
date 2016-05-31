@@ -120,7 +120,6 @@ def cycle1(word_list):
 def cycle2(feedback_dict, tweet_df):
     return ["crimson", "calico", "qwark"], None
 
-
 def process_tweets(tweets_raw, tweets_random = None):
     '''
     Person Responsible: Devin Munger
@@ -143,7 +142,6 @@ def process_tweets(tweets_raw, tweets_random = None):
     (Do we need to also output text of not relevant tweets for elimination purposes?)
     Output forrmat TBD by semantic processing person
 
-    
     '''
 
     tweets_df = read_tweets_from_file(tweets_raw)
@@ -222,7 +220,6 @@ def add_keywords_df(tweets_df, keywords):
     tweets_df["keywords"] = new_column
 
     return
-
 
 def train_model_offline(tweets_df, predictor_columns):
     '''
