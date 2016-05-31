@@ -8,12 +8,12 @@ from sklearn.cross_validation import train_test_split, KFold
 from autorizador import *
 import twitter
 import sys
-
 import json
 import string
 from nltk.tokenize import TweetTokenizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 import re
+import datetime
 
 
 clfs = {'RF': RandomForestClassifier(n_estimators=50, n_jobs=-1, random_state=0),
@@ -75,12 +75,12 @@ def get_tweets(filter_words, num_tweets, filename):
     # Connect to the stream
     auth = get_credents()
     twitter_stream = twitter.TwitterStream(auth=auth)
-    if filter_words is None:
-        stream = twitter_stream.statuses.sample()
-    else:
-        if filter_words is not None:
-            track = filter_words
-        stream = twitter_stream.statuses.filter(track=track)
+    # if filter_words is None:
+    #     stream = twitter_stream.statuses.sample()
+    # else:
+    #     if filter_words is not None:
+    track = filter_words
+    stream = twitter_stream.statuses.filter(track=track)
     # Fetch the tweets
     fetched = 0
 
