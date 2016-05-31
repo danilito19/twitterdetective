@@ -6,6 +6,7 @@ import signal
 import sys
 from twitterlock import Twitterlock
 
+
 class color:
    '''
    use to make terminal interfase pretty.
@@ -31,7 +32,7 @@ if __name__ == "__main__":
     print(intro)
     print("Please type a term or terms to begin building your query. If using multiple terms separate with a space only")
 
-    first_query = eval(input(color.BOLD + "Query terms: " + color.END))
+    first_query = input(color.BOLD + "Query terms: " + color.END)
     # makes raw input into array passed to twitterlock ['hilary', 'clinton']
     query_words = first_query.split()
     tw = Twitterlock(words = query_words)
