@@ -20,6 +20,7 @@ class Twitterlock:
         # bc get tweets already calls build query ??
         # (build_query deleted)
         # tweets and tweets_random are FILE NAMES
+        
         tweets = fct.get_tweets(self.init_terms, self.size, self.filename)
         tweets_random = fct.get_tweets(None, self.size)
         tweets_df, tweets_text, bad_tweets_text = fct.process_tweets(tweets, tweets_random)
