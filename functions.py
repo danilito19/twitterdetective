@@ -57,31 +57,28 @@ def save_user_tweets(user, n, auth):
         save_tweet(tweet, outfile)
 
 
-def build_query(num_tweets, auth, filters_file=None, filter_words=None):
+def get_tweets(num_tweets, auth, filter_words, filename):
     '''
-	Person Responsible: Manu Aragones
+    Person Responsible: Manu Aragones
 
-	+ filter_file: list of words / phrases to be included in query IN FILE
-	+ filter_words: if filter_file not specified -> you can input filter manually
-	+ num_tweets: the maximum number of tweets before break
-	builds query for twitter API from user input
+    + filter_file: list of words / phrases to be included in query IN FILE
+    + filter_words: if filter_file not specified -> you can input filter manually
+                    format: comma-separated list of phrases which will be used to
+                            determine what Tweets will be delivered on the stream
+    + num_tweets: the maximum number of tweets before break
+    builds query for twitter API from user input
 
     Simplified fuction from Borja Sotomayor Twitter Harvester
 
-    AND SAVES TO JSON_OUT OR RETURNS TO BE USED BY OTHER FUNCTIONS ?
-	'''
-
-    outf = open('json_out', "w")
+    '''
+    outf = open(filename, "w")
     # Connect to the stream
     twitter_stream = twitter.TwitterStream(auth=auth)
-    if filter_words is None and filters_file is None:
+    if filter_words is None:
         stream = twitter_stream.statuses.sample()
     else:
         if filter_words is not None:
             track = filter_words
-        elif filters_file is not None:
-            infile = open(filters_file, 'r')
-            track = ",".join(infile.read().strip().split("\n"))
         stream = twitter_stream.statuses.filter(track=track)
     # Fetch the tweets
     fetched = 0
@@ -100,15 +97,20 @@ def build_query(num_tweets, auth, filters_file=None, filter_words=None):
         # See: https://dev.twitter.com/streaming/overview/messages-types
         if tweet.get('text'):
             # We also only want English tweets
-            if tweet['lang'] == "es":
+            if tweet['lang'] == "en" or tweet['lang'] == "es":
                 save_tweet(tweet, outf)
                 fetched += 1
                 if fetched % num_tweets == 0:
                     now = datetime.now().isoformat(sep=" ")
                     msg = "[{}] Fetched {:,} tweets.".format(now, fetched)
-                    if outf != sys.stdout: print(msg)
+                    if outf != sys.stdout: 
+                        print(msg)
+                        stream.close()
                 if num_tweets > 0 and fetched >= num_tweets:
+                    stream.close()
                     break
+
+
 
 ### GETTING TWEETS FOR KEYWORK PRESIDENt
 ## issues: very slow and only gets spanish tweets
@@ -121,29 +123,29 @@ auth = twitter.OAuth(oauth_token, oauth_secret, consumer_key, consumer_secret)
 build_query(100, auth, filter_words='president')
 '''
 
-def get_tweets(query, size, to_file=False):
-    '''
-    Person Responsible: Manu Aragones
+# def get_tweets(query, size, to_file=False):
+#     '''
+#     Person Responsible: Manu Aragones
 
-    + query: string, query for twitter API
-    + size: number of tweets desired
-    + other arguments?
+#     + query: string, query for twitter API
+#     + size: number of tweets desired
+#     + other arguments?
 
-    Takes query, queries twitter API, returns JSON of tweets
-    '''
+#     Takes query, queries twitter API, returns JSON of tweets
+#     '''
 
-    if not to_file:
-        # get this part to return the tweets, not in file
-        # and to take words from user interfase in main.py
-        build_query(2, auth, ['words', 'from', 'main'])
-        #return tweets_raw
+#     if not to_file:
+#         # get this part to return the tweets, not in file
+#         # and to take words from user interfase in main.py
+#         build_query(2, auth, ['words', 'from', 'main'])
+#         #return tweets_raw
 
-    else:
-        # save to output file
-        # this function dumps the tweets to json file in folder
-        build_query(2, auth)
+#     else:
+#         # save to output file
+#         # this function dumps the tweets to json file in folder
+#         build_query(2, auth)
 
-    #MUST RETURN FILE NAMES
+#     #MUST RETURN FILE NAMES
 
 def cycle1(word_list):
     for word in word_list:

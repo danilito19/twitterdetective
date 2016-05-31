@@ -18,8 +18,11 @@ class Twitterlock:
 
         # must call get_tweets here only, not build query
         # bc get tweets already calls build query ??
-        query = fct.build_query(self.init_terms)
+        # query = fct.build_query(self.init_terms)
         # tweets and tweets_random are FILE NAMES
+
+        #params in get_tweets
+        # num_tweets, auth, filters_file, filter_words, filename
         tweets = fct.get_tweets(query, self.size, self.filename)
         tweets_random = fct.get_tweets(None, self.size)
         tweets_df, tweets_text, bad_tweets_text = fct.process_tweets(tweets, tweets_random)
