@@ -15,7 +15,7 @@ class Twitterlock:
         self.filename = filename
 
     def cycle1(self):
-        #fct.get_tweets(self.init_terms, self.size, self.filename)
+        fct.get_tweets(self.init_terms, self.size, self.filename)
 
         # tweets_df is NOT a df right now, it's a list, convert it?
         # need a create_df func?
