@@ -337,9 +337,22 @@ def keyword_binary_col(keywords, tweet_df):
     Transform other non-numeric data
     Change dataframe in place and return list of column names that should be used for model training
     '''
-    predictor_columns = []
+    key_dict = {}
 
-    return predictor_columns
+    for word in keywords:
+        key_dict[word] = []
+
+    for word, bin_col in key_dict.items():
+        for field in df["keywords"]:
+            if word in field:
+                bin_col.append(1)
+            else:
+                bin_col.append(0)
+
+    for key, val in key_dict.items():
+        tweet_df[key] = val
+
+    return keywords
 
 def get_keywords(tweets_df):
     '''
