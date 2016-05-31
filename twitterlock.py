@@ -15,10 +15,6 @@ class Twitterlock:
         self.filename = filename
 
     def cycle1(self):
-
-        # must call get_tweets here only, not build query
-        # bc get tweets already calls build query ??
-        # (build_query deleted)
         # tweets and tweets_random are FILE NAMES
         
         tweets = fct.get_tweets(self.init_terms, self.size, self.filename)
