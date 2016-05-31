@@ -1,5 +1,7 @@
 secrets.txt
 secrets-manu.txt
+__pycache__
+ml3/
 # OS generated files #
 ######################
 .DS_Store

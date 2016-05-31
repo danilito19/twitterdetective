@@ -8,12 +8,12 @@ from sklearn.cross_validation import train_test_split, KFold
 from autorizador import *
 import twitter
 import sys
-
 import json
 import string
 from nltk.tokenize import TweetTokenizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 import re
+import datetime
 
 
 clfs = {'RF': RandomForestClassifier(n_estimators=50, n_jobs=-1, random_state=0),
@@ -37,7 +37,7 @@ BEST_PARAMS = ""
 
 
 def get_credents():
-	creds = get_creds('secrets.txt')
+	creds = get_creds('secrets-manu.txt')
 	auth=twitter.OAuth(creds.AccessToken,creds.AccessTokenSecret,creds.ConsumerKey, creds.ConsumerKeySecret)
 	return auth
 
@@ -75,12 +75,12 @@ def get_tweets(filter_words, num_tweets, filename):
     # Connect to the stream
     auth = get_credents()
     twitter_stream = twitter.TwitterStream(auth=auth)
-    if filter_words is None:
-        stream = twitter_stream.statuses.sample()
-    else:
-        if filter_words is not None:
-            track = filter_words
-        stream = twitter_stream.statuses.filter(track=track)
+    # if filter_words is None:
+    #     stream = twitter_stream.statuses.sample()
+    # else:
+    #     if filter_words is not None:
+    track = filter_words
+    stream = twitter_stream.statuses.filter(track=track)
     # Fetch the tweets
     fetched = 0
 
@@ -98,7 +98,7 @@ def get_tweets(filter_words, num_tweets, filename):
         # See: https://dev.twitter.com/streaming/overview/messages-types
         if tweet.get('text'):
             # We also only want English tweets
-            if tweet['lang'] == "en" or tweet['lang'] == "es":
+            if tweet['lang'] == "en":
                 save_tweet(tweet, outf)
                 fetched += 1
                 if fetched % num_tweets == 0:
@@ -119,7 +119,6 @@ def cycle1(word_list):
 
 def cycle2(feedback_dict, tweet_df):
     return ["crimson", "calico", "qwark"], None
-
 
 def process_tweets(tweets_raw, tweets_random = None):
     '''
@@ -143,7 +142,6 @@ def process_tweets(tweets_raw, tweets_random = None):
     (Do we need to also output text of not relevant tweets for elimination purposes?)
     Output forrmat TBD by semantic processing person
 
-    
     '''
 
     tweets_df = read_tweets_from_file(tweets_raw)
@@ -214,7 +212,6 @@ def add_keywords_df(tweets_df, keywords):
     tweets_df["keywords"] = new_column
 
     return
-
 
 def train_model_offline(tweets_df, predictor_columns):
     '''
