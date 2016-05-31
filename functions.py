@@ -27,7 +27,7 @@ grid = {
 'RF':{'n_estimators': [1,10,100], 'max_depth': [1,5,10,20,50,75], 'max_features': ['sqrt','log2'],'min_samples_split': [2,5,10]},
 'LR': { 'penalty': ['l1','l2'], 'C': [0.00001,0.0001,0.001,0.01,0.1,1,5]},
 'NB' : {},
-'SVM' :{'C' :[0.00001,0.0001,0.001,0.01,0.1,1], 'penalty': ['l1', 'l2']},
+'SVM' :{'C' :[0.001,0.01,0.1,1], 'penalty': ['l1', 'l2']},
 'KNN' :{'n_neighbors': [1, 3, 5,10,25,50,100],'weights': ['uniform','distance'],'algorithm': ['auto','ball_tree','kd_tree']}
        }
 
@@ -120,7 +120,7 @@ def cycle1(word_list):
 def cycle2(feedback_dict, tweet_df):
     return ["crimson", "calico", "qwark"], None
 
-def process_tweets(tweets_raw, tweets_random = None):
+def process_tweets(tweets_raw_filename, tweets_random = None):
     '''
     Person Responsible: Devin Munger
 
@@ -143,8 +143,7 @@ def process_tweets(tweets_raw, tweets_random = None):
     Output forrmat TBD by semantic processing person
 
     '''
-
-    tweets_df = read_tweets_from_file(tweets_raw)
+    tweets_df = read_tweets_from_file(tweets_raw_filename)
     ## Create string of tweet text
     tweets_text = " ".join(tweets_df)
 
@@ -175,8 +174,11 @@ def semantic_indexing(tweets_df, tweets_text = None, bad_tweets_text = None):
     Text of not-relevant tweets might (?) be used for elimination purposes
     '''
     ## Extract keywords from tweet text corpus using TF-IDF algorithm
+
     tfidf = TfidfVectorizer(stop_words = "english")
-    tfidf_matrix = tfidf.fit_transform(tweets_df)
+
+    #ADDED \n to make it work, can't with a single string, CHANGE PARAM THEN?
+    tfidf_matrix = tfidf.fit_transform(tweets_df.split('\n'))
     ## Get indexed list of feature keywords
     features = tfidf.get_feature_names()
     ## Get indexed list of feature weights
@@ -268,7 +270,7 @@ def evaluate_model(test_data, classification_col, y_pred_probs):
     return AUC
 
 
-def predict_classification(predictor_columns, tweets_df_classified, tweets_df_unclassified):
+def predict_classification(predictor_columns, tweets_df_classified, tweets_df_unclassified, plot=False):
     '''
     Person Responsible: Dani Alcala
 
@@ -289,6 +291,35 @@ def predict_classification(predictor_columns, tweets_df_classified, tweets_df_un
 
     tweets_df_unclassified['classification'] = predicted_values
 
+    #if plot parameters is True, get y_pred probs
+    if plot:
+        if hasattr(clf, 'predict_proba'):
+            y_pred_probs = clf.predict_proba(test[features])[:,1] #second col only for class = 1
+        else:
+            y_pred_probs = clf.decision_function(test[features])
+
+        plot_precision_recall(tweets_df_unclassified['classification'], y_pred_probs, BEST_MODEL, BEST_PARAMS)
+
+
+def plot_precision_recall(y_true, y_prob, model_name, model_params):
+
+    '''
+    Plot a precision recall curve for one model with its y_prob values.
+    '''
+
+    precision_curve, recall_curve, pr_thresholds = precision_recall_curve(y_true, y_prob)
+    precision = precision_curve[:-1]
+    recall = recall_curve[:-1]
+    plt.clf()
+    plt.plot(recall, precision, label='%s' % model_params)
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.ylim([0.0, 1.0])
+    plt.xlim([0.0, 1.0])
+    plt.title("Precision Recall Curve for %s" %model_name)
+    plt.savefig(model_name)
+    plt.legend(loc="lower right")
+    #plt.show()
 
 def classify_tweets(tweets_df, keyword_dict):
     '''
