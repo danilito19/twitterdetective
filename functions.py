@@ -6,7 +6,14 @@ from sklearn import svm, ensemble
 from sklearn.metrics import *
 from sklearn.cross_validation import train_test_split, KFold
 from autorizador import *
+import twitter
+import sys
 
+import json
+import string
+from nltk.tokenize import TweetTokenizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+import re
 
 
 clfs = {'RF': RandomForestClassifier(n_estimators=50, n_jobs=-1, random_state=0),
@@ -24,6 +31,9 @@ grid = {
 'KNN' :{'n_neighbors': [1, 3, 5,10,25,50,100],'weights': ['uniform','distance'],'algorithm': ['auto','ball_tree','kd_tree']}
        }
 
+MODELS_TO_RUN = ['LR'] #add more from above
+BEST_MODEL = "NB"
+BEST_PARAMS = ""
 
 def get_credents():
 	creds = get_creds('secrets.txt')
@@ -34,6 +44,8 @@ def save_tweet(tweet, f):
     # Replace HTML entities; function extracted from Borja Sotomayor Twitter Harvester 
     tweet['text'] = tweet['text'].replace("&gt;", ">").replace("&lt;", "<").replace("&amp;", "&")
     json.dump(tweet, f)
+    f.write('\n')
+
 
 
 def save_user_tweets(user, n, auth):
@@ -43,18 +55,7 @@ def save_user_tweets(user, n, auth):
     print("  (actually fetched %i)" % len(tweets))
     for tweet in tweets:
         save_tweet(tweet, outfile)
-        print(tweet['text'])
 
-
-# code to test that save is working
-#users = ['aurelionuno']
-#outfile = open('data.json', 'w')
-# save_user_tweets('aurelionuno', 10, auth)
-
-
-# read the filters file to track
-# infile = open('filters_file.txt', 'r')
-# track = ",".join(infile.read().strip().split("\n"))
 
 def build_query(num_tweets, auth, filters_file=None, filter_words=None):
     '''
@@ -94,7 +95,6 @@ def build_query(num_tweets, auth, filters_file=None, filter_words=None):
         if outf != sys.stdout: print(msg)
 
     for tweet in stream:
-        print(tweet['text'])
         # The public stream includes tweets, but also other messages, such
         # as deletion notices. We are only interested in the tweets.
         # See: https://dev.twitter.com/streaming/overview/messages-types
@@ -110,6 +110,16 @@ def build_query(num_tweets, auth, filters_file=None, filter_words=None):
                 if num_tweets > 0 and fetched >= num_tweets:
                     break
 
+### GETTING TWEETS FOR KEYWORK PRESIDENt
+## issues: very slow and only gets spanish tweets
+'''
+creds = get_creds('secrets-manu.txt')
+consumer_key, consumer_secret, oauth_token, oauth_secret =  creds.ConsumerKey, creds.ConsumerKeySecret, creds.AccessToken,creds.AccessTokenSecret
+auth = twitter.OAuth(oauth_token, oauth_secret, consumer_key, consumer_secret)
+
+#took over 10 mins to save only 8 tweets, feed kept printing
+build_query(100, auth, filter_words='president')
+'''
 
 def get_tweets(query, size, to_file=False):
     '''
@@ -125,13 +135,15 @@ def get_tweets(query, size, to_file=False):
     if not to_file:
         # get this part to return the tweets, not in file
         # and to take words from user interfase in main.py
-        build_query(2, auth, 'words from main.py')
+        build_query(2, auth, ['words', 'from', 'main'])
         #return tweets_raw
 
     else:
         # save to output file
         # this function dumps the tweets to json file in folder
         build_query(2, auth)
+
+    #MUST RETURN FILE NAMES
 
 def cycle1(word_list):
     for word in word_list:
@@ -164,14 +176,38 @@ def process_tweets(tweets_raw, tweets_random = None):
     (Do we need to also output text of not relevant tweets for elimination purposes?)
     Output forrmat TBD by semantic processing person
 
-    NEED TWEETS TO BE CONVERTED TO WORD COUNTS  OR 0/1 DF because ML models don't
-    take strings!
     
     '''
-    return tweets_df, tweets_text, bad_tweets_text
+
+    tweets_df = read_tweets_from_file(tweets_raw)
+    ## Create string of tweet text
+    tweets_text = " ".join(tweets_df)
+
+    ## If phase 1, read each JSON from tweets_random file
+    if tweets_random != None:
+        read_tweets_from_file(tweets_raw, tweets_df)
+        ## Create string of nonrelevant tweet text
+        bad_tweets_text = " ".join(tweets_df)
+
+        return tweets_df, tweets_text, bad_tweets_text
+
     return tweets_df, tweets_text
 
-def semantic_indexing(tweets_text, bad_tweets_text = None):
+def read_tweets_from_file(file_name, tweets_df = []):
+    tokenizer = TweetTokenizer(preserve_case = False, strip_handles = True)
+    ## Read each JSON from file
+    with open(file_name) as data_file:
+        for tweet in data_file.readlines():
+            text = json.loads(tweet).get("text", "")
+            ## Remove links from text
+            text = re.sub(r"http\S+", "", text)
+            ## Remove handle, punctuation from tweet text
+            text_words = filter(lambda x: x not in string.punctuation, tokenizer.tokenize(text))
+            ## Add tweet text to list
+            tweets_df.append(" ".join(text_words))
+    return tweets_df
+
+def semantic_indexing(tweets_df, tweets_text = None, bad_tweets_text = None):
     '''
     Person Responsible: Devin Munger
 
@@ -181,7 +217,17 @@ def semantic_indexing(tweets_text, bad_tweets_text = None):
     Process text of tweets to produce list of keywords
     Text of not-relevant tweets might (?) be used for elimination purposes
     '''
-    return keywords
+    ## Extract keywords from tweet text corpus using TF-IDF algorithm
+    tfidf = TfidfVectorizer(stop_words = "english")
+    tfidf_matrix = tfidf.fit_transform(tweets_df)
+    ## Get indexed list of feature keywords
+    features = tfidf.get_feature_names()
+    ## Get indexed list of feature weights
+    weights = tfidf.idf_
+    feature_weights = list(zip(weights, features))
+    feature_weights.sort(reverse = True)
+    ## Return sorted keywords
+    return [x[1] for x in feature_weights]
 
 def add_keywords_df(tweets_df, keywords):
     '''
@@ -211,7 +257,7 @@ def add_keywords_df(tweets_df, keywords):
     return
 
 
-def train_model_offline(model, tweets_df, predictor_columns, classification_col):
+def train_model_offline(tweets_df, predictor_columns):
     '''
     Person Responsible: Dani Alcala
 
@@ -227,33 +273,29 @@ def train_model_offline(model, tweets_df, predictor_columns, classification_col)
 
     Returns the best model according to evaluation criteria
     '''
-    models_to_run = ['LR'] #add more from above
 
     train, test = train_test_split(tweets_df, test_size = 0.2)
 
-    best_model = ''
     best_auc = 0
-    best_params = ''
 
-    for index,clf in enumerate([clfs[x] for x in models_to_run]):
-        running_model = models_to_run[index]
+    for index,clf in enumerate([clfs[x] for x in MODELS_TO_RUN]):
+        running_model = MODELS_TO_RUN[index]
         parameter_values = grid[running_model]
         for p in ParameterGrid(parameter_values):
             clf.set_params(**p)
-            clf.fit(train[predictor_columns], train[classification_col])
+            clf.fit(train[predictor_columns], train['classification'])
             if hasattr(clf, 'predict_proba'):
                 y_pred_probs = clf.predict_proba(test[predictor_columns])[:,1] #second col only for class = 1
             else:
                 y_pred_probs = clf.decision_function(test[predictor_columns])
 
-            AUC = evaluate_model(test, classification_col, y_pred_probs)
+            AUC = evaluate_model(test, 'classification', y_pred_probs)
 
             if AUC > best_auc:
-                best_model = running_model
+                BEST_MODEL = running_model
                 best_auc = AUC
-                best_params = clf
+                BEST_PARAMS = clf
 
-    return best_model, best_params
 
 def evaluate_model(test_data, classification_col, y_pred_probs):
     '''
@@ -270,38 +312,26 @@ def evaluate_model(test_data, classification_col, y_pred_probs):
     return AUC
 
 
-def train_model(tweets_df, predictor_columns=[], classification_col="", best_model="NB", best_params=""):
-    '''
-    Given the best model and best parameters obtained from running train_model_offline,
-    this function will train the best model during user interaction
-
-    tweets_df: DataFrame of tweets which includes classifications
-
-    '''
-    clf = clfs[best_model]  
-    clf.set_params(**best_params)
-    model = clf.fit(tweets_df[predictor_columns], tweets_df[classification_col])
-
-    return model 
-
-    #NOTE: good idea - I assumed the two would be combined under predict_classification with the arguments (predictor_columns, train_df, classify_df)
-    # when I called it elsewhere
-
-def predict_classification(predictor_columns, tweets_df_unclassified, model):
+def predict_classification(predictor_columns, tweets_df_classified, tweets_df_unclassified):
     '''
     Person Responsible: Dani Alcala
 
-    model: trained model being used for classification
     tweets_df: DataFrame of tweets which DOES NOT include classification
     predictor_columns: list of column names which are being used to predict classification
     Modify DataFrame in place 
 
-    REVERT TO OLD PARAMS?
+    train the model on the first dataframe using the specified columns and then 
+    predict the classifictions on the second dataframe, 
+    and add the classifications to this dataframe in place
+
     '''
+    clf = clfs[BEST_MODEL]  
+    clf.set_params(**BEST_PARAMS)
+    model = clf.fit(tweets_df_classified[predictor_columns], tweets_df_classified["classification"])
 
     predicted_values = model.predict(tweets_df_unclassified[predictor_columns])
 
-    tweets_df_unclassified['class'] = predicted_values
+    tweets_df_unclassified['classification'] = predicted_values
 
 
 def classify_tweets(tweets_df, keyword_dict):
