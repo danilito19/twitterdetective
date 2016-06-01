@@ -37,7 +37,6 @@ if __name__ == "__main__":
     query_words = first_query.split()
 
 
-    query_words = ['president']
     tw = Twitterlock(words = query_words)
 
     tw.cycle1()

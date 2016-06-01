@@ -51,7 +51,10 @@ def save_tweet(tweet, f):
     f.write('\n')
 
 def save_user_tweets(user, n, auth):
-
+    """
+    Function that iterates through every tweet in the stream and calls the save_tweet function to 
+    dump each tweet in a text file in json format
+    """
     t = twitter.Twitter(auth=auth)
     print("Fetching %i tweets from @%s" % (n, user))
     tweets = t.statuses.user_timeline(screen_name=user, count=n)
@@ -82,7 +85,7 @@ def get_tweets(filter_words, num_tweets, filename):
     #     stream = twitter_stream.statuses.sample()
     # else:
     #     if filter_words is not None:
-    track = filter_words
+    track = ",".join(filter_words)
     stream = twitter_stream.statuses.filter(track=track)
     # Fetch the tweets
     fetched = 0
