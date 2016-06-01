@@ -33,11 +33,8 @@ if __name__ == "__main__":
     print(intro)
 
     print(color.DARKCYAN + "\nName this session\n" + color.END)
-
     temp_file = [input(color.BOLD + "Session Name: " +color.END)]
-
     temp_file_processed = "Sessions/"+  "_".join(temp_file) + ".txt"
-
     print(color.DARKCYAN + "\nDefine session scope\n" + color.END)
 
     num_tweets = input(color.BOLD + "Number of Tweets: " +color.END)
@@ -74,10 +71,8 @@ if __name__ == "__main__":
             prompt = color.PURPLE + word + color.END + " is (1) relevant, (2) neutral, (3) irrelevant: "
             response = input(prompt)
             feedback[word] = response
-
+        '''SHOULD BE GOING TO CYCLE 2 AFTER ASKING FOR INDIVIDUAL FEEDBACK'''
         tw.take_feedback(feedback)
-
-        print(tw.feedback)
 
         print("Here are your suggested search terms:")
 
@@ -86,7 +81,7 @@ if __name__ == "__main__":
         cont = input("Are you satisfied with this list (y/n)? ")
 
         if cont == "n":
-
+            print 'IN CYCLE 2'
             tw.cycle2()
 
         elif cont == "y":
