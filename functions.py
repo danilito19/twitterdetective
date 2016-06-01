@@ -104,12 +104,12 @@ def get_tweets(filter_words, num_tweets, filename):
             if tweet['lang'] == "en":
                 save_tweet(tweet, outf)
                 fetched += 1
-                if fetched % num_tweets == 0:
-                    now = datetime.now().isoformat(sep=" ")
-                    msg = "[{}] Fetched {:,} tweets.".format(now, fetched)
-                    if outf != sys.stdout: 
-                        print(msg)
-                        stream.close()
+                # if fetched % num_tweets == 0:
+                #     now = datetime.now().isoformat(sep=" ")
+                #     msg = "[{}] Fetched {:,} tweets.".format(now, fetched)
+                #     if outf != sys.stdout: 
+                #         print(msg)
+                #         stream.close()
                 if num_tweets > 0 and fetched >= num_tweets:
                     stream.close()
                     break
