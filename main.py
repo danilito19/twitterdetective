@@ -74,6 +74,7 @@ if __name__ == "__main__":
         '''SHOULD BE GOING TO CYCLE 2 AFTER ASKING FOR INDIVIDUAL FEEDBACK'''
         tw.take_feedback(feedback)
 
+        ''' this is getting printed without any suggested terms'''
         print("Here are your suggested search terms:")
 
         print(", ".join(tw.keywords))

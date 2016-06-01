@@ -31,9 +31,10 @@ class Twitterlock:
         self.old_df = self.df
 
         #get new dataframe and set to self.df
-        fct.get_tweets(self.init_terms, self.size, self.filename)
-        #tweets = fct.get_tweets(query, self.size)
-        tweets_df = fct.process_tweets(tweets)
+        ''' Keywords is empty at this point'''
+        print 'KEYWORDS', self.keywords
+        fct.get_tweets(self.keywords, self.size, self.filename)
+        tweets_df = fct.process_tweets(self.filename)
         self.df = tweets_df
 
         #classify data from temporary new dataframe with model based on old dataframe

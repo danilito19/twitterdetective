@@ -4,7 +4,7 @@ secrets-manu.txt
 __pycache__
 =======
 *.pyc
-
+Sessions/
 >>>>>>> a2dd6020cc41a645f4395fbde4014f60f1f015ca
 ml3/
 # OS generated files #
