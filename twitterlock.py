@@ -28,7 +28,6 @@ class Twitterlock:
         fct.add_keywords_df(tweets_df, keywords)
         self.keywords = list(set(keywords))
         self.df = tweets_df
-        self.tweets = tweets
 
     def cycle2(self):
         #classify old dataframe based on new feedback
