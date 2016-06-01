@@ -2,7 +2,7 @@ import functions as fct
 import pandas as pd
 
 class Twitterlock:
-    def __init__(self, words=None, size=20, filename="test.txt"):
+    def __init__(self, words=None, size=20, filename="temp.txt"):
         self.init_terms = words
         self.keywords = None
         self.old_keywords = None
