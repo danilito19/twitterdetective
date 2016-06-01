@@ -158,16 +158,14 @@ def process_tweets(file_name):
     with open(file_name) as data_file:
         for entry in data_file.readlines():
             tweet = json.loads(entry)
-            tweet_id = tweet.get("id", "")
+            tweet_id = str(tweet.get("id", ""))
             text = tweet.get("text", "")
             ## Remove links from text
             text = re.sub(r"http\S+", "", text)
             ## Remove handle, punctuation from tweet text
             text_words = filter(lambda x: x not in string.punctuation, tokenizer.tokenize(text))
-            text = " ".join(text_words)
             ## Add tweet to dataframe
-            print({"text": text, "id": tweet_id})
-            tweets_df.append({"text": text, "id": tweet_id}, ignore_index = True)
+            tweets_df.loc[len(tweets_df)] = [" ".join(text_words), tweet_id]
     return tweets_df
 
 
@@ -185,7 +183,7 @@ def semantic_indexing(tweets_df):
     tfidf = TfidfVectorizer(stop_words = "english")
 
     #ADDED \n to make it work, can't with a single string, CHANGE PARAM THEN?
-    tfidf_matrix = tfidf.fit_transform(tweets_df.split('\n'))
+    tfidf_matrix = tfidf.fit_transform(tweets_df["text"].values)
     ## Get indexed list of feature keywords
     features = tfidf.get_feature_names()
     ## Get indexed list of feature weights
