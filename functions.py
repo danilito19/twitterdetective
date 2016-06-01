@@ -410,7 +410,7 @@ def update_keywords(keyword_dict):
     '''
     new_keywords = []
     for key, value in keyword_dict.items():
-        if value == "good":
+        if value == "good" or value == "1":
             new_keywords.append(key)
 
     return new_keywords

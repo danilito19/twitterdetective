@@ -71,11 +71,13 @@ if __name__ == "__main__":
         response_dict = {1: "good", "relevant": "good", 2: "neutral", "neutral": "neutral", 3:"bad", "irrelevant": "bad"}
         feedback = {}
         for word in tw.keywords:
-            prompt = word + " is (1) relevant, (2) neutral, (3) irrelevant: "
+            prompt = color.PURPLE + word + color.END + " is (1) relevant, (2) neutral, (3) irrelevant: "
             response = input(prompt)
             feedback[word] = response
 
         tw.take_feedback(feedback)
+
+        print(tw.feedback)
 
         print("Here are your suggested search terms:")
 
