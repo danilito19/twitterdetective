@@ -19,10 +19,12 @@ class Twitterlock:
         print("tweets obtained")
         # tweets_df is NOT a df right now, it's a list, convert it?
         # need a create_df func?
-        tweets_df, tweets_text = fct.process_tweets(self.filename)
+        tweets_df = fct.process_tweets(self.filename)
 
         ''' ambugious of these func are using / returning df or just tweet text '''
-        keywords = fct.semantic_indexing(tweets_text)
+
+        keywords = fct.semantic_indexing(tweets_df)
+        print('TWEETS DF {}'.format(tweets_df))
         fct.add_keywords_df(tweets_df, keywords)
         self.keywords = list(set(keywords))
         self.df = tweets_df
@@ -37,7 +39,7 @@ class Twitterlock:
         #get new dataframe and set to self.df
         query = fct.build_query(self.keywords)
         tweets = fct.get_tweets(query, self.size)
-        tweets_df, tweets_text = fct.process_tweets(tweets)
+        tweets_df = fct.process_tweets(tweets)
         self.df = tweets_df
 
         #classify data from temporary new dataframe with model based on old dataframe
@@ -46,7 +48,7 @@ class Twitterlock:
         
         #prep for validation and next round
         self.df["classification"] = tweets_df["classification"]
-        new_keywords = fct.semantic_indexing(tweets_text)
+        new_keywords = fct.semantic_indexing(tweets_df)
         fct.add_keywords_df(self.df, new_keywords)
         final_keywords = get_keywords(self.df)
         self.keywords = list(set(final_keywords))

@@ -6,6 +6,7 @@ import signal
 import sys
 from twitterlock import Twitterlock
 
+
 class color:
    '''
    use to make terminal interfase pretty.

@@ -10,10 +10,14 @@ import twitter
 import sys
 import json
 import string
-from nltk.tokenize import TweetTokenizer
+import warnings
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore")
+    from nltk.tokenize import TweetTokenizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 import re
 import datetime
+import pandas as pd
 
 
 clfs = {'RF': RandomForestClassifier(n_estimators=50, n_jobs=-1, random_state=0),
@@ -123,7 +127,7 @@ def cycle1(word_list):
 def cycle2(feedback_dict, tweet_df):
     return ["crimson", "calico", "qwark"], None
 
-def process_tweets(tweets_raw_filename, tweets_random = None):
+def process_tweets(file_name):
     '''
     Person Responsible: Devin Munger
 
@@ -146,27 +150,28 @@ def process_tweets(tweets_raw_filename, tweets_random = None):
     Output forrmat TBD by semantic processing person
 
     '''
-    tweets_df = read_tweets_from_file(tweets_raw_filename)
-    ## Create string of tweet text
-    tweets_text = " ".join(tweets_df)
+    ## Create empty dataframe
+    tweets_df = pd.DataFrame(columns = ["text", "id"])
 
-    return tweets_df, tweets_text
-
-def read_tweets_from_file(file_name, tweets_df = []):
     tokenizer = TweetTokenizer(preserve_case = False, strip_handles = True)
     ## Read each JSON from file
     with open(file_name) as data_file:
-        for tweet in data_file.readlines():
-            text = json.loads(tweet).get("text", "")
+        for entry in data_file.readlines():
+            tweet = json.loads(entry)
+            tweet_id = tweet.get("id", "")
+            text = tweet.get("text", "")
             ## Remove links from text
             text = re.sub(r"http\S+", "", text)
             ## Remove handle, punctuation from tweet text
             text_words = filter(lambda x: x not in string.punctuation, tokenizer.tokenize(text))
-            ## Add tweet text to list
-            tweets_df.append(" ".join(text_words))
+            text = " ".join(text_words)
+            ## Add tweet to dataframe
+            print({"text": text, "id": tweet_id})
+            tweets_df.append({"text": text, "id": tweet_id}, ignore_index = True)
     return tweets_df
 
-def semantic_indexing(tweets_df, tweets_text = None, bad_tweets_text = None):
+
+def semantic_indexing(tweets_df):
     '''
     Person Responsible: Devin Munger
 
@@ -177,7 +182,6 @@ def semantic_indexing(tweets_df, tweets_text = None, bad_tweets_text = None):
     Text of not-relevant tweets might (?) be used for elimination purposes
     '''
     ## Extract keywords from tweet text corpus using TF-IDF algorithm
-
     tfidf = TfidfVectorizer(stop_words = "english")
 
     #ADDED \n to make it work, can't with a single string, CHANGE PARAM THEN?
