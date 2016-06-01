@@ -27,14 +27,14 @@ class color:
 
 if __name__ == "__main__":
 
-    intro = color.GREEN + "Welcome to TwitterDetective!" + color.END
+    intro = color.GREEN + "\nWelcome to TwitterDetective!" + color.END
     print(intro)
 
     print(color.DARKCYAN + "\nName this session\n" + color.END)
 
-    temp_file = input(color.BOLD + "Session Name: " +color.END)
+    temp_file = [input(color.BOLD + "Session Name: " +color.END)]
 
-    temp_file_processed = "Sessions/"+  "_".join(str(temp_file)) + ".txt"
+    temp_file_processed = "Sessions/"+  "_".join(temp_file) + ".txt"
 
     print(color.DARKCYAN + "\nDefine session scope\n" + color.END)
 
