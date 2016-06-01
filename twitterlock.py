@@ -17,12 +17,7 @@ class Twitterlock:
     def cycle1(self):
         fct.get_tweets(self.init_terms, self.size, self.filename)
         print("tweets obtained")
-        # tweets_df is NOT a df right now, it's a list, convert it?
-        # need a create_df func?
         tweets_df = fct.process_tweets(self.filename)
-
-        ''' ambugious of these func are using / returning df or just tweet text '''
-
         keywords = fct.semantic_indexing(tweets_df)
         print('TWEETS DF {}'.format(tweets_df))
         fct.add_keywords_df(tweets_df, keywords)
