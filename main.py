@@ -32,10 +32,6 @@ if __name__ == "__main__":
     print(intro)
     print("Please type a term or terms to begin building your query. If using multiple terms separate with a space only")
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 3323c8e07d1a28a2f122a9e06d7a8c2c5a855ea4
     first_query = input(color.BOLD + "Query terms: " + color.END)
     # makes raw input into array passed to twitterlock ['hilary', 'clinton']
     query_words = first_query.split()

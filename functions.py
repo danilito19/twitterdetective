@@ -10,7 +10,10 @@ import twitter
 import sys
 import json
 import string
-from nltk.tokenize import TweetTokenizer
+import warnings
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore")
+    from nltk.tokenize import TweetTokenizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 import re
 import datetime

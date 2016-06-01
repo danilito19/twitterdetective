@@ -23,7 +23,7 @@ class Twitterlock:
 
         ''' ambugious of these func are using / returning df or just tweet text '''
         keywords = fct.semantic_indexing(tweets_text)
-        print 'TWEETS DF', tweets_df
+        print('TWEETS DF {}'.format(tweets_df))
         fct.add_keywords_df(tweets_df, keywords)
         self.keywords = list(set(keywords))
         self.df = tweets_df
