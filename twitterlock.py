@@ -16,10 +16,10 @@ class Twitterlock:
 
     def cycle1(self):
         fct.get_tweets(self.init_terms, self.size, self.filename)
-        print("tweets obtained")
+        print("tweets obtained CYCLE 1")
         tweets_df = fct.process_tweets(self.filename)
         keywords = fct.semantic_indexing(tweets_df)
-        print('TWEETS DF {}'.format(tweets_df))
+        print('TWEETS DF CYCLE 1 {}'.format(tweets_df))
         fct.add_keywords_df(tweets_df, keywords)
         self.keywords = list(set(keywords))
         self.df = tweets_df
@@ -31,8 +31,8 @@ class Twitterlock:
         self.old_df = self.df
 
         #get new dataframe and set to self.df
-        query = fct.build_query(self.keywords)
-        tweets = fct.get_tweets(query, self.size)
+        fct.get_tweets(self.init_terms, self.size, self.filename)
+        #tweets = fct.get_tweets(query, self.size)
         tweets_df = fct.process_tweets(tweets)
         self.df = tweets_df
 
