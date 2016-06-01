@@ -18,6 +18,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import re
 import datetime
 import pandas as pd
+import random
 
 
 clfs = {'RF': RandomForestClassifier(n_estimators=50, n_jobs=-1, random_state=0),
@@ -162,6 +163,8 @@ def process_tweets(file_name):
             text = tweet.get("text", "")
             ## Remove links from text
             text = re.sub(r"http\S+", "", text)
+            ## Remove twitter keywords
+            text.replace("rt", "")
             ## Remove handle, punctuation from tweet text
             text_words = filter(lambda x: x not in string.punctuation, tokenizer.tokenize(text))
             ## Add tweet to dataframe
@@ -169,7 +172,7 @@ def process_tweets(file_name):
     return tweets_df
 
 
-def semantic_indexing(tweets_df):
+def semantic_indexing(tweets_df, min_keywords = 20):
     '''
     Person Responsible: Devin Munger
 
@@ -180,18 +183,19 @@ def semantic_indexing(tweets_df):
     Text of not-relevant tweets might (?) be used for elimination purposes
     '''
     ## Extract keywords from tweet text corpus using TF-IDF algorithm
-    tfidf = TfidfVectorizer(stop_words = "english")
-
-    #ADDED \n to make it work, can't with a single string, CHANGE PARAM THEN?
+    tfidf = TfidfVectorizer(stop_words = "english", smooth_idf = False)
     tfidf_matrix = tfidf.fit_transform(tweets_df["text"].values)
     ## Get indexed list of feature keywords
     features = tfidf.get_feature_names()
     ## Get indexed list of feature weights
     weights = tfidf.idf_
-    feature_weights = list(zip(weights, features))
-    feature_weights.sort(reverse = True)
-    ## Return sorted keywords
-    return [x[1] for x in feature_weights]
+    ## Extract highest weighted keywords
+    max_weight = max(weights)
+    weighted_words = [features[i] for i, x in enumerate(weights) if x == max_weight]
+    ## Return sample of highest weighted keywords
+    indices = random.sample(range(len(weighted_words)), min(min_keywords, len(weighted_words)))
+    return [weighted_words[i] for i in indices]
+    
 
 def add_keywords_df(tweets_df, keywords):
     '''
