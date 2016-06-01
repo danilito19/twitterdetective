@@ -1,7 +1,11 @@
 secrets.txt
 secrets-manu.txt
+<<<<<<< HEAD
+__pycache__
+=======
 *.pyc
 
+>>>>>>> a2dd6020cc41a645f4395fbde4014f60f1f015ca
 ml3/
 # OS generated files #
 ######################

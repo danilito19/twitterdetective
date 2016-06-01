@@ -29,15 +29,26 @@ if __name__ == "__main__":
 
     intro = color.GREEN + "Welcome to TwitterDetective!" + color.END
     print(intro)
-    print("Please type a term or terms to begin building your query. If using multiple terms separate with a space only")
 
+    print(color.DARKCYAN + "\nName this session\n" + color.END)
+
+    temp_file = input(color.BOLD + "Session Name: " +color.END)
+
+    temp_file_processed = "Sessions/"+  "_".join(str(temp_file)) + ".txt"
+
+    print(color.DARKCYAN + "\nDefine session scope\n" + color.END)
+
+    num_tweets = input(color.BOLD + "Number of Tweets: " +color.END)
+
+    num_tweets_process = int(num_tweets)
+
+    print(color.DARKCYAN + "\nPlease type a term or terms to begin building your query.\nIf using multiple terms separate with a space only\n" + color.END)
 
     first_query = input(color.BOLD + "Query terms: " + color.END)
     # makes raw input into array passed to twitterlock ['hilary', 'clinton']
     query_words = first_query.split()
 
-
-    tw = Twitterlock(words = query_words)
+    tw = Twitterlock(words = query_words, size = num_tweets_process, filename= temp_file_processed)
 
     tw.cycle1()
 

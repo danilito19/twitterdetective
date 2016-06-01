@@ -2,7 +2,7 @@ import functions as fct
 import pandas as pd
 
 class Twitterlock:
-    def __init__(self, words=None, size=20, filename="Trumpd.txt"):
+    def __init__(self, words=None, size=20, filename="temp.txt"):
         self.init_terms = words
         self.keywords = None
         self.old_keywords = None
@@ -16,14 +16,13 @@ class Twitterlock:
 
     def cycle1(self):
         fct.get_tweets(self.init_terms, self.size, self.filename)
-
+        print("tweets obtained")
         # tweets_df is NOT a df right now, it's a list, convert it?
         # need a create_df func?
         tweets_df, tweets_text = fct.process_tweets(self.filename)
 
         ''' ambugious of these func are using / returning df or just tweet text '''
         keywords = fct.semantic_indexing(tweets_text)
-        print 'TWEETS DF', tweets_df
         fct.add_keywords_df(tweets_df, keywords)
         self.keywords = list(set(keywords))
         self.df = tweets_df
