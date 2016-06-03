@@ -369,10 +369,11 @@ def keyword_binary_col(keywords, tweet_df):
 
     for word in keywords:
         key_dict[word] = []
-    print(tweet_df)
+
     for word, bin_col in key_dict.items():
-        for field in tweet_df["keywords"].iterrows():
-            if word in field:
+        #for field in tweet_df.loc("keywords"):
+        for index, row in tweet_df.iterrows():   
+            if word in row['keywords']:
                 bin_col.append(1)
             else:
                 bin_col.append(0)
