@@ -354,20 +354,15 @@ def classify_tweets(tweet_df, keyword_dict):
     Tweets containing "good" and "neutral" words and *no* "bad" words
     should be classified as relevant
     '''
-
-    print(tweet_df.head)
-
     class_column = []
-
-    print(tweet_df.head)
 
     for word_list in tweet_df["keywords"]:
         word_class_list = []
         for word in word_list:
             word_class_list.append(keyword_dict[word])
-        if "bad" in word_class_list:
+        if 3 in word_class_list:
             classification = 0
-        elif "good" not in word_class_list:
+        elif 1 not in word_class_list:
             classification = 0
         else:
             classification = 1
@@ -388,8 +383,6 @@ def keyword_binary_col(keywords, tweet_df):
 
     for word in keywords:
         key_dict[word] = []
-
-    print(tweet_df.head)
 
     for word, bin_col in key_dict.items():
         # for index, row in tweet_df.iterrows():   
@@ -428,7 +421,7 @@ def update_keywords(keyword_dict):
     '''
     new_keywords = []
     for key, value in keyword_dict.items():
-        if value == "good" or value == "1":
+        if value == 1:
             new_keywords.append(key)
 
     return new_keywords
