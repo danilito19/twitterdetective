@@ -22,10 +22,12 @@ class Twitterlock:
         self.keywords = list(set(keywords))
         self.df = tweets_df
 
+
     def cycle2(self):
         #classify old dataframe based on new feedback
         fct.classify_tweets(self.df, self.feedback)
         columns = fct.keyword_binary_col(self.keywords, self.df)
+        print("binary 1 passed")
         self.old_df = self.df
 
         #get new dataframe and set to self.df
@@ -33,10 +35,14 @@ class Twitterlock:
         print('KEYWORDS', self.keywords)
         fct.get_tweets(self.keywords, self.size, self.filename)
         tweets_df = fct.process_tweets(self.filename)
+        print("tweets_df processed")
+        print(tweets_df.head)
         self.df = tweets_df
 
         #classify data from temporary new dataframe with model based on old dataframe
+        fct.add_keywords_df(tweets_df, self.old_keywords)
         fct.keyword_binary_col(self.old_keywords, tweets_df)
+        print("binary 2 passed")
         fct.predict_classification(columns, self.old_df, tweets_df)
         
         #prep for validation and next round
