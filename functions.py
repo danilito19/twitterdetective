@@ -143,7 +143,7 @@ def process_tweets(file_name):
 
     '''
     ## Create empty dataframe
-    tweets_df = pd.DataFrame(columns = ["text", "id"])
+    tweet_df = pd.DataFrame(columns = ["text", "id"])
 
     tokenizer = TweetTokenizer(preserve_case = False, strip_handles = True)
     ## Read each JSON from file
@@ -159,11 +159,11 @@ def process_tweets(file_name):
             ## Remove handle, punctuation from tweet text
             text_words = filter(lambda x: x not in string.punctuation, tokenizer.tokenize(text))
             ## Add tweet to dataframe
-            tweets_df.loc[len(tweets_df)] = [" ".join(text_words), tweet_id]
-    return tweets_df
+            tweet_df.loc[len(tweet_df)] = [" ".join(text_words), tweet_id]
+    return tweet_df
 
 
-def semantic_indexing(tweets_df, min_keywords = 20):
+def semantic_indexing(tweet_df, min_keywords = 20):
     '''
     Person Responsible: Devin Munger
 
@@ -175,7 +175,7 @@ def semantic_indexing(tweets_df, min_keywords = 20):
     '''
     ## Extract keywords from tweet text corpus using TF-IDF algorithm
     tfidf = TfidfVectorizer(stop_words = "english", smooth_idf = False)
-    tfidf_matrix = tfidf.fit_transform(tweets_df["text"].values)
+    tfidf_matrix = tfidf.fit_transform(tweet_df["text"].values)
     ## Get indexed list of feature keywords
     features = tfidf.get_feature_names()
     ## Get indexed list of feature weights
@@ -188,40 +188,39 @@ def semantic_indexing(tweets_df, min_keywords = 20):
     return [weighted_words[i] for i in indices]
     
 
-def add_keywords_df(tweets_df, keywords):
+def add_keywords_df(tweet_df, keywords):
     '''
     Person Responsible: Anna Hazard
 
-    + tweets_df: Dataframe of tweets. May or may not have classifications
+    + tweet_df: Dataframe of tweets. May or may not have classifications
     + keywords: list of keywords that indicate relevance
 
     Check tweet text for keywords
-    Add column to tweets_df for keywords contained in given tweet
+    Add column to tweet_df for keywords contained in given tweet
     Column should contain list of strings, KEYWORDS WILL BE REPEATED IN LIST IF THEY OCCUR MORE THAN ONCE IN TWEET!
     (This is in case some weighting property is added in the future)
     Change DataFrame in place
     '''
     new_column = []
 
-    word_list = []
-
-    for text in tweets_df["text"]:
+    for text in tweet_df["text"]:
+        word_list = []
         for word in keywords:
             if word in text:
                 word_list.append(word)
         new_column.append(word_list)
 
-    tweets_df["keywords"] = new_column
+    tweet_df["keywords"] = new_column
 
     return
 
-def train_model_offline(tweets_df, predictor_columns):
+def train_model_offline(tweet_df, predictor_columns):
     '''
     Person Responsible: Dani Alcala
 
     model: model being used for classification (will probably refer to a model in a
         dictionary of models)
-    tweets_df: DataFrame of tweets which includes classifications
+    tweet_df: DataFrame of tweets which includes classifications
     predictor_columns: list of column names which are being used to predict classification
 
     Create and train model on tweet_df
@@ -232,7 +231,7 @@ def train_model_offline(tweets_df, predictor_columns):
     Returns the best model according to evaluation criteria
     '''
 
-    train, test = train_test_split(tweets_df, test_size = 0.2)
+    train, test = train_test_split(tweet_df, test_size = 0.2)
 
     best_auc = 0
 
@@ -270,11 +269,11 @@ def evaluate_model(test_data, classification_col, y_pred_probs):
     return AUC
 
 
-def predict_classification(predictor_columns, tweets_df_classified, tweets_df_unclassified, plot=False):
+def predict_classification(predictor_columns, tweet_df_classified, tweet_df_unclassified, plot=False):
     '''
     Person Responsible: Dani Alcala
 
-    tweets_df: DataFrame of tweets which DOES NOT include classification
+    tweet_df: DataFrame of tweets which DOES NOT include classification
     predictor_columns: list of column names which are being used to predict classification
     Modify DataFrame in place 
 
@@ -285,11 +284,11 @@ def predict_classification(predictor_columns, tweets_df_classified, tweets_df_un
     '''
     clf = clfs[BEST_MODEL]  
     clf.set_params(**BEST_PARAMS)
-    model = clf.fit(tweets_df_classified[predictor_columns], tweets_df_classified["classification"])
+    model = clf.fit(tweet_df_classified[predictor_columns], tweet_df_classified["classification"])
 
-    predicted_values = model.predict(tweets_df_unclassified[predictor_columns])
+    predicted_values = model.predict(tweet_df_unclassified[predictor_columns])
 
-    tweets_df_unclassified['classification'] = predicted_values
+    tweet_df_unclassified['classification'] = predicted_values
 
     #if plot parameters is True, get y_pred probs
     if plot:
@@ -298,7 +297,7 @@ def predict_classification(predictor_columns, tweets_df_classified, tweets_df_un
         else:
             y_pred_probs = clf.decision_function(test[features])
 
-        plot_precision_recall(tweets_df_unclassified['classification'], y_pred_probs, BEST_MODEL, BEST_PARAMS)
+        plot_precision_recall(tweet_df_unclassified['classification'], y_pred_probs, BEST_MODEL, BEST_PARAMS)
 
 
 def plot_precision_recall(y_true, y_prob, model_name, model_params):
@@ -321,13 +320,13 @@ def plot_precision_recall(y_true, y_prob, model_name, model_params):
     plt.legend(loc="lower right")
     #plt.show()
 
-def classify_tweets(tweets_df, keyword_dict):
+def classify_tweets(tweet_df, keyword_dict):
     '''
     Person Responsible: Anna Hazard
 
     This is not the function where the model is used to predict classifications!
 
-    + tweets_df: DataFrame of tweets. At this point tweets_df should have a keywords
+    + tweet_df: DataFrame of tweets. At this point tweet_df should have a keywords
     column, and may or may not already have a classification column.
     + keyword_dict: Dictionary containing keywords with user feedback,
     format: {"bezoar": "bad", "turquoise": "neutral", "hrc": "good" ...}
@@ -340,9 +339,13 @@ def classify_tweets(tweets_df, keyword_dict):
     should be classified as relevant
     '''
 
+    print(tweet_df.head)
+
     class_column = []
 
-    for word_list in tweets_df["keywords"]:
+    print(tweet_df.head)
+
+    for word_list in tweet_df["keywords"]:
         word_class_list = []
         for word in word_list:
             word_class_list.append(keyword_dict[word])
@@ -355,7 +358,7 @@ def classify_tweets(tweets_df, keyword_dict):
 
         class_column.append(classification)
 
-    tweets_df["classificatiion"] = class_column
+    tweet_df["classificatiion"] = class_column
     
     return
 
@@ -370,10 +373,13 @@ def keyword_binary_col(keywords, tweet_df):
     for word in keywords:
         key_dict[word] = []
 
+    print(tweet_df.head)
+
     for word, bin_col in key_dict.items():
-        #for field in tweet_df.loc("keywords"):
-        for index, row in tweet_df.iterrows():   
-            if word in row['keywords']:
+        # for index, row in tweet_df.iterrows():   
+        #     if word in row['keywords']:
+        for field in tweet_df["keywords"]:
+            if word in field:
                 bin_col.append(1)
             else:
                 bin_col.append(0)
@@ -383,19 +389,19 @@ def keyword_binary_col(keywords, tweet_df):
 
     return keywords
 
-def get_keywords(tweets_df):
+def get_keywords(tweet_df):
     '''
     Person Responsible: Anna Hazard
 
-    tweets_df: DataFrame of tweets with keyword column and classification
+    tweet_df: DataFrame of tweets with keyword column and classification
 
     collect keywords from tweets classified as "relevant"
     '''
 
     keywords = set([])
 
-    for i, word_list in enumerate(tweets_df["keywords"]):
-        if tweets_df["classification"][i] == 1:
+    for i, word_list in enumerate(tweet_df["keywords"]):
+        if tweet_df["classification"][i] == 1:
             keywords.update(word_list)
 
     return list(keywords)
