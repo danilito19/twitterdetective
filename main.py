@@ -5,7 +5,7 @@ import os.path
 import signal
 import sys
 from twitterlock import Twitterlock
-from six.moves import input
+from six.moves import input #for python2.7
 
 
 class color:

@@ -39,7 +39,7 @@ grid = {
 
 MODELS_TO_RUN = ['LR', "NB", 'SVM', "RF"] #add more from above
 BEST_MODEL = "NB"
-BEST_PARAMS = ""
+BEST_PARAMS = None
 
 
 def get_credents():
@@ -216,6 +216,10 @@ def train_model_offline(tweet_df, predictor_columns):
     Returns the best model according to evaluation criteria
     '''
     print("TRAINING OFFLINE")
+    table_file = open('parameters-table.csv', 'wb')
+    w = csv.writer(table_file, delimiter=',')
+    w.writerow(['MODEL', 'PARAMETERS', 'AUC'])
+
     train, test = train_test_split(tweet_df, test_size = 0.2)
 
     best_auc = 0
@@ -232,6 +236,7 @@ def train_model_offline(tweet_df, predictor_columns):
                 y_pred_probs = clf.decision_function(test[predictor_columns])
 
             AUC = evaluate_model(test['classification'], y_pred_probs)
+            w.writerow([running_model, clf, AUC])
 
             if AUC > best_auc:
                 BEST_MODEL = running_model
@@ -239,6 +244,7 @@ def train_model_offline(tweet_df, predictor_columns):
                 BEST_PARAMS = clf
     print(BEST_PARAMS)
     print(BEST_PARAMS)
+    table_file.close()
 
 def evaluate_model(test_data_classification_col, y_pred_probs):
     '''

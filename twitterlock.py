@@ -37,10 +37,9 @@ class Twitterlock:
         #classify data from temporary new dataframe with model based on old dataframe
         fct.add_keywords_df(tweets_df, self.old_keywords)
         fct.keyword_binary_col(self.old_keywords, tweets_df)
-        print("binary 2 passed")
 
         fct.train_model_offline(self.old_df, columns)
-        fct.predict_classification(columns, self.old_df, tweets_df)
+        fct.predict_classification(columns, self.old_df, tweets_df, True)
 
         #prep for validation and next round
         self.df["classification"] = tweets_df["classification"]
