@@ -26,23 +26,19 @@ class Twitterlock:
     def cycle2(self):
         #classify old dataframe based on new feedback
         fct.classify_tweets(self.df, self.feedback)
+        print(self.df.head)
         columns = fct.keyword_binary_col(self.keywords, self.df)
-        print("binary 1 passed")
         self.old_df = self.df
 
         #get new dataframe and set to self.df
         ''' Keywords is empty at this point'''
-        print('KEYWORDS', self.keywords)
         fct.get_tweets(self.keywords, self.size, self.filename)
         tweets_df = fct.process_tweets(self.filename)
-        print("tweets_df processed")
-        print(tweets_df.head)
         self.df = tweets_df
 
         #classify data from temporary new dataframe with model based on old dataframe
         fct.add_keywords_df(tweets_df, self.old_keywords)
         fct.keyword_binary_col(self.old_keywords, tweets_df)
-        print("binary 2 passed")
         fct.predict_classification(columns, self.old_df, tweets_df)
         
         #prep for validation and next round
@@ -61,8 +57,7 @@ class Twitterlock:
     def finish(self, filename):
         #final query and write tweets to filename
         good_words = fct.update_keywords(self.feedback)
-        query = fct.build_query(good_words)
-        tweets = fct.get_tweets(query, self.size)
+        tweets = fct.get_tweets(query_words, self.size, filename)
         tweets_df, _ = fct.process_tweets(tweets)
         tweets_df.to_csv(filename)
 
