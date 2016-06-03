@@ -44,7 +44,6 @@ if __name__ == "__main__":
     print(color.DARKCYAN + "\nPlease type a term or terms to begin building your query.\nIf using multiple terms separate with a space only\n" + color.END)
 
     first_query = input(color.BOLD + "Query terms: " + color.END)
-    # makes raw input into array passed to twitterlock ['hilary', 'clinton']
     query_words = first_query.split()
 
     tw = Twitterlock(words = query_words, size = num_tweets_process, filename= temp_file_processed)
@@ -71,7 +70,6 @@ if __name__ == "__main__":
             prompt = color.PURPLE + word + color.END + " is (1) relevant, (2) neutral, (3) irrelevant: "
             response = input(prompt)
             feedback[word] = response
-        '''SHOULD BE GOING TO CYCLE 2 AFTER ASKING FOR INDIVIDUAL FEEDBACK'''
         tw.take_feedback(feedback)
 
         print("Here are your suggested search terms:")
