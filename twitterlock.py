@@ -19,7 +19,7 @@ class Twitterlock:
         print("tweets obtained CYCLE 1")
         tweets_df = fct.process_tweets(self.filename)
         print('TWEETS DF CYCLE 1 {}'.format(tweets_df))
-        keywords = fct.semantic_indexing(tweets_df, size)
+        keywords = fct.semantic_indexing(tweets_df, self.size)
         fct.add_keywords_df(tweets_df, keywords)
         self.keywords = list(set(keywords))
         self.df = tweets_df
@@ -32,6 +32,7 @@ class Twitterlock:
 
         #get new dataframe and set to self.df
         ''' Keywords is empty at this point'''
+
         fct.get_tweets(self.keywords, self.size, self.filename)
         tweets_df = fct.process_tweets(self.filename)
         self.df = tweets_df
@@ -42,7 +43,7 @@ class Twitterlock:
         
         #prep for validation and next round
         self.df["classification"] = tweets_df["classification"]
-        new_keywords = fct.semantic_indexing(tweets_df, size)
+        new_keywords = fct.semantic_indexing(tweets_df, self.size)
         fct.add_keywords_df(self.df, new_keywords)
         final_keywords = get_keywords(self.df)
         self.keywords = list(set(final_keywords))
