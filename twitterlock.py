@@ -2,7 +2,7 @@ import functions as fct
 import pandas as pd
 
 class Twitterlock:
-    def __init__(self, words=None, size=20, filename="temp.txt"):
+    def __init__(self, words=None, size=20, filename="Trumpd_1K.txt"):
         self.init_terms = words
         self.keywords = None
         self.old_keywords = None
@@ -13,9 +13,10 @@ class Twitterlock:
         self.satisfactory = False
         self.feedback = None
         self.filename = filename
+        self.all_feedback = {}
 
     def cycle1(self):
-        fct.get_tweets(self.init_terms, self.size, self.filename)
+        #fct.get_tweets(self.init_terms, self.size, self.filename)
         tweets_df = fct.process_tweets(self.filename)
         keywords = fct.semantic_indexing(tweets_df, self.size)
         fct.add_keywords_df(tweets_df, keywords)
@@ -30,8 +31,13 @@ class Twitterlock:
 
         #get new dataframe and set to self.df
         ''' Keywords is empty at this point'''
+<<<<<<< HEAD
 
         fct.get_tweets(self.keywords, self.size, self.filename)
+=======
+        print('KEYWORDS', self.keywords)
+        #fct.get_tweets(self.keywords, self.size, self.filename)
+>>>>>>> 48815aa2310d4652c2f79389070ece92284c9272
         tweets_df = fct.process_tweets(self.filename)
         self.df = tweets_df
 

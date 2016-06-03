@@ -81,6 +81,11 @@ if __name__ == "__main__":
         cont = input("Are you satisfied with this list (y/n)? ")
 
         if cont == "n":
+<<<<<<< HEAD
+=======
+          
+            print('IN CYCLE 2') #delete for final
+>>>>>>> 48815aa2310d4652c2f79389070ece92284c9272
 
             tw.cycle2()
 
