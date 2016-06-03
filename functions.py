@@ -149,7 +149,7 @@ def process_tweets(file_name):
     return tweet_df
 
 
-def semantic_indexing(tweets_df, max_keywords = 20):
+def semantic_indexing(tweet_df, max_keywords = 20):
     '''
     Person Responsible: Devin Munger
 
@@ -231,7 +231,7 @@ def train_model_offline(tweet_df, predictor_columns):
             else:
                 y_pred_probs = clf.decision_function(test[predictor_columns])
 
-            AUC = evaluate_model(test, 'classification', y_pred_probs)
+            AUC = evaluate_model(test['classification'], y_pred_probs)
 
             if AUC > best_auc:
                 BEST_MODEL = running_model
@@ -240,7 +240,7 @@ def train_model_offline(tweet_df, predictor_columns):
     print(BEST_PARAMS)
     print(BEST_PARAMS)
 
-def evaluate_model(test_data, classification_col, y_pred_probs):
+def evaluate_model(test_data_classification_col, y_pred_probs):
     '''
     Evaluate model with AUC of Precision-recall curve
 
@@ -250,6 +250,8 @@ def evaluate_model(test_data, classification_col, y_pred_probs):
     precision = precision_curve[:-1]
     recall = recall_curve[:-1]
 
+    print(precision)
+    print(recall)
     AUC = auc(recall, precision)
 
     return AUC
