@@ -17,9 +17,7 @@ class Twitterlock:
 
     def cycle1(self):
         fct.get_tweets(self.init_terms, self.size, self.filename)
-        print("tweets obtained CYCLE 1")
         tweets_df = fct.process_tweets(self.filename)
-        print('TWEETS DF CYCLE 1 {}'.format(tweets_df))
         keywords = fct.semantic_indexing(tweets_df, self.size)
         fct.add_keywords_df(tweets_df, keywords)
         self.keywords = list(set(keywords))
