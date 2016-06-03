@@ -32,14 +32,9 @@ class Twitterlock:
 
         #get new dataframe and set to self.df
         ''' Keywords is empty at this point'''
-<<<<<<< HEAD
 
         fct.get_tweets(self.keywords, self.size, self.filename)
 
-=======
-        print('KEYWORDS', self.keywords)
-        fct.get_tweets(self.keywords, self.size, self.filename)
->>>>>>> 37573430a1743d045c0c72481f8b66d6f7264810
         tweets_df = fct.process_tweets(self.filename)
         print("tweets_df processed")
         print(tweets_df.head)

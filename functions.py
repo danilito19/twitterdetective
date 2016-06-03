@@ -148,11 +148,7 @@ def process_tweets(file_name):
     return tweet_df
 
 
-<<<<<<< HEAD
 def semantic_indexing(tweets_df, max_keywords = 20):
-=======
-def semantic_indexing(tweet_df, min_keywords = 20):
->>>>>>> 37573430a1743d045c0c72481f8b66d6f7264810
     '''
     Person Responsible: Devin Munger
 
@@ -308,7 +304,7 @@ def plot_precision_recall(y_true, y_prob, model_name, model_params):
     plt.legend(loc="lower right")
     #plt.show()
 
-<<<<<<< HEAD
+
 def plot_precision_and_recall(y_true, y_prob, model_name, model_params):
     precision_curve, recall_curve, pr_thresholds = precision_recall_curve(y_true, y_prob)
     precision = precision_curve[:-1]
@@ -335,10 +331,8 @@ def plot_precision_and_recall(y_true, y_prob, model_name, model_params):
     plt.legend(loc="lower right")
     #plt.show()
 
-def classify_tweets(tweets_df, keyword_dict):
-=======
+
 def classify_tweets(tweet_df, keyword_dict):
->>>>>>> 37573430a1743d045c0c72481f8b66d6f7264810
     '''
     Person Responsible: Anna Hazard
 
