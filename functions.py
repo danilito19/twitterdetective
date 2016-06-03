@@ -37,7 +37,7 @@ grid = {
 'KNN' :{'n_neighbors': [1, 3, 5,10,25,50,100],'weights': ['uniform','distance'],'algorithm': ['auto','ball_tree','kd_tree']}
        }
 
-MODELS_TO_RUN = ['LR'] #add more from above
+MODELS_TO_RUN = ['LR', "NB", 'SVM', "RF"] #add more from above
 BEST_MODEL = "NB"
 BEST_PARAMS = ""
 
@@ -215,7 +215,7 @@ def train_model_offline(tweet_df, predictor_columns):
 
     Returns the best model according to evaluation criteria
     '''
-
+    print("TRAINING OFFLINE")
     train, test = train_test_split(tweet_df, test_size = 0.2)
 
     best_auc = 0
@@ -246,12 +246,10 @@ def evaluate_model(test_data_classification_col, y_pred_probs):
 
     DO WE WANT RECALL at a specific precision point, instead?
     '''
-    precision_curve, recall_curve, pr_thresholds = precision_recall_curve(test_data[classification_col], y_pred_probs)
-    precision = precision_curve[:-1]
-    recall = recall_curve[:-1]
+    precision_curve, recall_curve, pr_thresholds = precision_recall_curve(test_data_classification_col, y_pred_probs)
+    precision = precision_curve
+    recall = recall_curve
 
-    print(precision)
-    print(recall)
     AUC = auc(recall, precision)
 
     return AUC
@@ -270,6 +268,7 @@ def predict_classification(predictor_columns, tweet_df_classified, tweet_df_uncl
     and add the classifications to this dataframe in place
 
     '''
+    print('PREDICTING CLASSIFICATION')
     clf = clfs[BEST_MODEL]  
     clf.set_params(**BEST_PARAMS)
     model = clf.fit(tweet_df_classified[predictor_columns], tweet_df_classified["classification"])
