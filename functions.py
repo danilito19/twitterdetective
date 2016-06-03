@@ -331,7 +331,7 @@ def classify_tweets(tweet_df, keyword_dict):
     + keyword_dict: Dictionary containing keywords with user feedback,
     format: {"bezoar": "bad", "turquoise": "neutral", "hrc": "good" ...}
 
-    Add or change classification based on classificatiion of keywords in tuples list
+    Add or change classification based on classification of keywords in tuples list
     Tentatively:
     Tweets containing "bad" words should be classified as irrelevant
     Tweets containing *only* neutral words should be classified as irrelevant
@@ -358,7 +358,7 @@ def classify_tweets(tweet_df, keyword_dict):
 
         class_column.append(classification)
 
-    tweet_df["classificatiion"] = class_column
+    tweet_df["classification"] = class_column
     
     return
 
