@@ -19,6 +19,7 @@ import re
 import datetime
 import pandas as pd
 import random
+from sklearn.grid_search import ParameterGrid
 
 
 clfs = {'RF': RandomForestClassifier(n_estimators=50, n_jobs=-1, random_state=0),
@@ -252,7 +253,8 @@ def train_model_offline(tweet_df, predictor_columns):
                 BEST_MODEL = running_model
                 best_auc = AUC
                 BEST_PARAMS = clf
-
+    print(BEST_PARAMS)
+    print(BEST_PARAMS)
 
 def evaluate_model(test_data, classification_col, y_pred_probs):
     '''

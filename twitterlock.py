@@ -43,8 +43,12 @@ class Twitterlock:
         fct.add_keywords_df(tweets_df, self.old_keywords)
         fct.keyword_binary_col(self.old_keywords, tweets_df)
         print("binary 2 passed")
-        fct.predict_classification(columns, self.old_df, tweets_df)
-        
+        print(self.old_df)
+        self.old_df.to_csv("old_df.csv", sep=',', encoding='utf-8')
+        fct.train_model_offline(self.old_df, columns)
+
+        #fct.predict_classification(columns, self.old_df, tweets_df)
+
         #prep for validation and next round
         self.df["classification"] = tweets_df["classification"]
         new_keywords = fct.semantic_indexing(tweets_df, self.size)
