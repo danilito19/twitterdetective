@@ -13,6 +13,7 @@ class Twitterlock:
         self.satisfactory = False
         self.feedback = None
         self.filename = filename
+        self.all_feedback = {}
 
     def cycle1(self):
         #fct.get_tweets(self.init_terms, self.size, self.filename)
