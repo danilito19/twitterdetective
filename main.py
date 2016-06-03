@@ -69,7 +69,7 @@ if __name__ == "__main__":
         for word in tw.keywords:
             prompt = color.PURPLE + word + color.END + " is (1) relevant, (2) neutral, (3) irrelevant: "
             response = input(prompt)
-            feedback[word] = response
+            feedback[word] = int(response)
         tw.take_feedback(feedback)
 
         print("Here are your suggested search terms:")
