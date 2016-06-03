@@ -123,24 +123,9 @@ def process_tweets(file_name):
     '''
     Person Responsible: Devin Munger
 
-    + tweets_raw: JSON of tweets as they are returned from API based on query
-    + tweets_random: JSON of random sample of tweets as they are returned from API
-    
-    - If this is phase 1:
-    tweets_random should be provided. tweets_raw and tweets_random should be added
-    to one dataframe. Classification should be added. Tweets from tweets_random
-    should be classified as not relevant, tweets from tweets_raw should be classified
-    as relevant
-
-    - If this phase 2:
-    Tweets random should be translated into a dataframe. No classification added.
-
-    - In either phase:
-    Extract text from tweets_raw, write to file or create single string / dataframe
-    (Do we want tweets to be kept distinct?)
-    (Do we need to also output text of not relevant tweets for elimination purposes?)
-    Output forrmat TBD by semantic processing person
-
+    + file_name: filename of tweets as returned from API based on query
+   
+    Extract text from file; return dataframe with tweet text, id
     '''
     ## Create empty dataframe
     tweets_df = pd.DataFrame(columns = ["text", "id"])
@@ -163,15 +148,14 @@ def process_tweets(file_name):
     return tweets_df
 
 
-def semantic_indexing(tweets_df, min_keywords = 20):
+def semantic_indexing(tweets_df, max_keywords = 20):
     '''
     Person Responsible: Devin Munger
 
-    + tweets_text: text of relevant
-    + bad_tweets_text: text of not relevant tweetse
+    + tweets_df: dataframe containing tweet text, ids
+    + max_keywords: maximum number of keywords to return
 
     Process text of tweets to produce list of keywords
-    Text of not-relevant tweets might (?) be used for elimination purposes
     '''
     ## Extract keywords from tweet text corpus using TF-IDF algorithm
     tfidf = TfidfVectorizer(stop_words = "english", smooth_idf = False)
@@ -184,7 +168,7 @@ def semantic_indexing(tweets_df, min_keywords = 20):
     max_weight = max(weights)
     weighted_words = [features[i] for i, x in enumerate(weights) if x == max_weight]
     ## Return sample of highest weighted keywords
-    indices = random.sample(range(len(weighted_words)), min(min_keywords, len(weighted_words)))
+    indices = random.sample(range(len(weighted_words)), min(max_keywords, len(weighted_words)))
     return [weighted_words[i] for i in indices]
     
 
@@ -318,6 +302,32 @@ def plot_precision_recall(y_true, y_prob, model_name, model_params):
     plt.xlim([0.0, 1.0])
     plt.title("Precision Recall Curve for %s" %model_name)
     plt.savefig(model_name)
+    plt.legend(loc="lower right")
+    #plt.show()
+
+def plot_precision_and_recall(y_true, y_prob, model_name, model_params):
+    precision_curve, recall_curve, pr_thresholds = precision_recall_curve(y_true, y_prob)
+    precision = precision_curve[:-1]
+    recall = recall_curve[:-1]
+
+    num = len(y_prob)
+    pct_above_per_thresh = []
+    for value in pr_thresholds:
+        num_above_thresh = len(y_prob[y_prob >= value])
+        pct_above_thresh = num_above_thresh / float(num)
+        pct_above_per_thresh.append(pct_above_thresh)
+    pct_above_per_thresh = np.array(pct_above_per_thresh)
+    
+    plt.clf()
+    fig, ax1 = plt.subplots()
+    ax1.plot(pct_above_per_thresh, precision_curve, "blue", label = '%s' % model_param)
+    ax1.set_xlabel("Percent of Population")
+    ax1.set_ylabel("Precision", color = "blue")
+    
+    ax2 = ax1.twinx()
+    ax2.plot(pct_above_per_thresh, recall_curve, "red")
+    ax2.set_ylabel("Recall", color = "red")
+    plt.title("Precision Recall Curve for %s" %model_name)
     plt.legend(loc="lower right")
     #plt.show()
 
