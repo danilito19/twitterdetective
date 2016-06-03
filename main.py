@@ -81,7 +81,7 @@ if __name__ == "__main__":
         cont = input("Are you satisfied with this list (y/n)? ")
 
         if cont == "n":
-            print 'IN CYCLE 2'
+            print('IN CYCLE 2') #delete for final
             tw.cycle2()
 
         elif cont == "y":
