@@ -89,7 +89,7 @@ def get_tweets(filter_words, num_tweets, filename):
     #     if filter_words is not None:
     track = ",".join(filter_words)
     stream = twitter_stream.statuses.filter(track=track)
-    # Fetch the tweets
+    
     fetched = 0
 
     if num_tweets > 0:
@@ -101,20 +101,11 @@ def get_tweets(filter_words, num_tweets, filename):
         if outf != sys.stdout: print(msg)
 
     for tweet in stream:
-        # The public stream includes tweets, but also other messages, such
-        # as deletion notices. We are only interested in the tweets.
-        # See: https://dev.twitter.com/streaming/overview/messages-types
         if tweet.get('text'):
-            # We also only want English tweets
+            # We  only want English tweets
             if tweet['lang'] == "en":
                 save_tweet(tweet, outf)
                 fetched += 1
-                # if fetched % num_tweets == 0:
-                #     now = datetime.now().isoformat(sep=" ")
-                #     msg = "[{}] Fetched {:,} tweets.".format(now, fetched)
-                #     if outf != sys.stdout: 
-                #         print(msg)
-                #         stream.close()
                 if num_tweets > 0 and fetched >= num_tweets:
                     stream.close()
                     break
