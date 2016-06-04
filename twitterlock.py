@@ -38,8 +38,8 @@ class Twitterlock:
         fct.add_keywords_df(tweets_df, self.old_keywords)
         fct.keyword_binary_col(self.old_keywords, tweets_df)
 
-        fct.train_model_offline(self.old_df, columns)
-        fct.predict_classification(columns, self.old_df, tweets_df, True)
+        BEST_MODEL, BEST_PARAMS = fct.train_model_offline(self.old_df, columns)
+        fct.predict_classification(columns, self.old_df, tweets_df, BEST_MODEL, BEST_PARAMS, True)
 
         #prep for validation and next round
         self.df["classification"] = tweets_df["classification"]
