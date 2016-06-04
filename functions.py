@@ -224,7 +224,7 @@ def train_model_offline(tweet_df, predictor_columns):
 
     Returns the best model according to evaluation criteria
     '''
-    print("TRAINING OFFLINE")
+    print("TRAINING OFFLINE    (lasts about a minute)")
 
     BEST_MODEL = ''
     BEST_PARAMS = ''
@@ -308,10 +308,13 @@ def predict_classification(predictor_columns, tweet_df_classified, tweet_df_uncl
     model = clf.fit(tweet_df_classified[predictor_columns], tweet_df_classified["classification"])
 
     predicted_values = model.predict(tweet_df_unclassified[predictor_columns])
-
     tweet_df_unclassified['classification'] = predicted_values
 
-    #if plot parameters is True, get y_pred probs
+    '''ISSUE:  model is predicting almost all 0!!! '''
+    print('predicted values for unclassified df   (weird if all 0 or 1!')
+    print(tweet_df_unclassified['classification'])
+    
+    #if plot parameters is True, get y_pred probs to plot with
     if plot:
         if hasattr(clf, 'predict_proba'):
             y_pred_probs = clf.predict_proba(tweet_df_unclassified[predictor_columns])[:,1] #second col only for class = 1
@@ -329,11 +332,18 @@ def plot_precision_recall(y_true, y_prob, model_name, model_params):
 
     print('PLOTTING PRECISION RECALL WITH')
 
+    print 'y true'
+    print y_true
+    print 'y probs'
+    print y_prob
+
     precision_curve, recall_curve, pr_thresholds = precision_recall_curve(y_true, y_prob)
     precision = precision_curve[:-1]
     recall = recall_curve[:-1]
 
-    '''For some reason, very few precision and recall points so NO GRAPH :9'''
+    '''Because all y_true values are 0, very few precision and recall points so NO GRAPH :9'''
+    print('precision curve ', precision_curve)
+    print('recall curve ', recall_curve)
     print('precision:', precision)
     print('recall" ', recall)
     print()
