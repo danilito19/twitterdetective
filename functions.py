@@ -19,15 +19,6 @@ import re
 import datetime
 import pandas as pd
 import random
-import csv
-from sklearn.grid_search import ParameterGrid
-import matplotlib.pyplot as plt
-import pylab
-import warnings
-warnings.filterwarnings("ignore", category=DeprecationWarning)
-
-plt.rcParams["figure.figsize"] = [18.0, 8.0]
-
 
 
 clfs = {'RF': RandomForestClassifier(n_estimators=50, n_jobs=-1, random_state=0),
@@ -45,9 +36,9 @@ grid = {
 'KNN' :{'n_neighbors': [1, 3, 5,10,25,50,100],'weights': ['uniform','distance'],'algorithm': ['auto','ball_tree','kd_tree']}
        }
 
-MODELS_TO_RUN = ['LR', "NB", 'SVM', "RF"] #add more from above
-# BEST_MODEL = "NB"
-# BEST_PARAMS = ''
+MODELS_TO_RUN = ['LR'] #add more from above
+BEST_MODEL = "NB"
+BEST_PARAMS = ""
 
 
 def get_credents():
@@ -157,7 +148,7 @@ def process_tweets(file_name):
     return tweet_df
 
 
-def semantic_indexing(tweet_df, max_keywords = 20):
+def semantic_indexing(tweets_df, max_keywords = 20):
     '''
     Person Responsible: Devin Munger
 
@@ -223,17 +214,10 @@ def train_model_offline(tweet_df, predictor_columns):
 
     Returns the best model according to evaluation criteria
     '''
-    print("TRAINING OFFLINE")
-    BEST_MODEL = ''
-    BEST_PARAMS = ''
-    best_auc = 0
-
-    table_file = open('parameters-table.csv', 'wb')
-    w = csv.writer(table_file, delimiter=',')
-    w.writerow(['MODEL', 'PARAMETERS', 'AUC'])
 
     train, test = train_test_split(tweet_df, test_size = 0.2)
 
+    best_auc = 0
 
     for index,clf in enumerate([clfs[x] for x in MODELS_TO_RUN]):
         running_model = MODELS_TO_RUN[index]
@@ -246,35 +230,30 @@ def train_model_offline(tweet_df, predictor_columns):
             else:
                 y_pred_probs = clf.decision_function(test[predictor_columns])
 
-            AUC = evaluate_model(test['classification'], y_pred_probs)
-            w.writerow([running_model, clf, AUC])
+            AUC = evaluate_model(test, 'classification', y_pred_probs)
 
             if AUC > best_auc:
                 BEST_MODEL = running_model
                 best_auc = AUC
-                BEST_PARAMS = p
+                BEST_PARAMS = clf
 
-    if best_auc == 0:
-        print('WARNING:  BEST AUC IS : ', best_auc)
-    table_file.close()
 
-    return BEST_MODEL, BEST_PARAMS
-
-def evaluate_model(test_data_classification_col, y_pred_probs):
+def evaluate_model(test_data, classification_col, y_pred_probs):
     '''
     Evaluate model with AUC of Precision-recall curve
 
     DO WE WANT RECALL at a specific precision point, instead?
     '''
-    precision_curve, recall_curve, pr_thresholds = precision_recall_curve(test_data_classification_col, y_pred_probs)
-    precision = precision_curve
-    recall = recall_curve
+    precision_curve, recall_curve, pr_thresholds = precision_recall_curve(test_data[classification_col], y_pred_probs)
+    precision = precision_curve[:-1]
+    recall = recall_curve[:-1]
+
     AUC = auc(recall, precision)
 
     return AUC
 
 
-def predict_classification(predictor_columns, tweet_df_classified, tweet_df_unclassified, best_model, best_params, plot=False):
+def predict_classification(predictor_columns, tweet_df_classified, tweet_df_unclassified, plot=False):
     '''
     Person Responsible: Dani Alcala
 
@@ -287,16 +266,8 @@ def predict_classification(predictor_columns, tweet_df_classified, tweet_df_uncl
     and add the classifications to this dataframe in place
 
     '''
-    # global BEST_MODEL
-    # global BEST_PARAMS
-    print('PREDICTING CLASSIFICATION')
-
-    print('BEST MODEL: ', best_model)
-    print('BEST PARAMS: ', best_params)
-
-    clf = clfs[best_model] 
-    params = best_params 
-    clf.set_params(**best_params)
+    clf = clfs[BEST_MODEL]  
+    clf.set_params(**BEST_PARAMS)
     model = clf.fit(tweet_df_classified[predictor_columns], tweet_df_classified["classification"])
 
     predicted_values = model.predict(tweet_df_unclassified[predictor_columns])
@@ -306,11 +277,11 @@ def predict_classification(predictor_columns, tweet_df_classified, tweet_df_uncl
     #if plot parameters is True, get y_pred probs
     if plot:
         if hasattr(clf, 'predict_proba'):
-            y_pred_probs = clf.predict_proba(tweet_df_unclassified[predictor_columns])[:,1] #second col only for class = 1
+            y_pred_probs = clf.predict_proba(test[features])[:,1] #second col only for class = 1
         else:
-            y_pred_probs = clf.decision_function(tweet_df_unclassified[predictor_columns])
+            y_pred_probs = clf.decision_function(test[features])
 
-        plot_precision_recall(tweet_df_unclassified['classification'], y_pred_probs, best_model, best_params)
+        plot_precision_recall(tweet_df_unclassified['classification'], y_pred_probs, BEST_MODEL, BEST_PARAMS)
 
 
 def plot_precision_recall(y_true, y_prob, model_name, model_params):
@@ -379,15 +350,20 @@ def classify_tweets(tweet_df, keyword_dict):
     Tweets containing "good" and "neutral" words and *no* "bad" words
     should be classified as relevant
     '''
+
+    print(tweet_df.head)
+
     class_column = []
+
+    print(tweet_df.head)
 
     for word_list in tweet_df["keywords"]:
         word_class_list = []
         for word in word_list:
             word_class_list.append(keyword_dict[word])
-        if 3 in word_class_list:
+        if "bad" in word_class_list:
             classification = 0
-        elif 1 not in word_class_list:
+        elif "good" not in word_class_list:
             classification = 0
         else:
             classification = 1
@@ -408,6 +384,8 @@ def keyword_binary_col(keywords, tweet_df):
 
     for word in keywords:
         key_dict[word] = []
+
+    print(tweet_df.head)
 
     for word, bin_col in key_dict.items():
         # for index, row in tweet_df.iterrows():   
@@ -446,7 +424,7 @@ def update_keywords(keyword_dict):
     '''
     new_keywords = []
     for key, value in keyword_dict.items():
-        if value == 1:
+        if value == "good" or value == "1":
             new_keywords.append(key)
 
     return new_keywords
