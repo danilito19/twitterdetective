@@ -1,630 +1,758 @@
-MODEL,PARAMETERS,AUC
+MODEL,PARAMETERS,AUC,acc,preci,recall,f1
 LR,"LogisticRegression(C=1e-05, class_weight=None, dual=False, fit_intercept=True,
           intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=-1,
           penalty='l1', random_state=0, solver='liblinear', tol=0.0001,
-          verbose=0, warm_start=False)",0.5714285714285714
+          verbose=0, warm_start=False)",0.625,0.75,0.0,0.0,0.0
 LR,"LogisticRegression(C=1e-05, class_weight=None, dual=False, fit_intercept=True,
           intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=-1,
           penalty='l2', random_state=0, solver='liblinear', tol=0.0001,
-          verbose=0, warm_start=False)",0.78846153846153844
+          verbose=0, warm_start=False)",0.71875,0.75,0.0,0.0,0.0
 LR,"LogisticRegression(C=0.0001, class_weight=None, dual=False,
           fit_intercept=True, intercept_scaling=1, max_iter=100,
           multi_class='ovr', n_jobs=-1, penalty='l1', random_state=0,
-          solver='liblinear', tol=0.0001, verbose=0, warm_start=False)",0.5714285714285714
+          solver='liblinear', tol=0.0001, verbose=0, warm_start=False)",0.625,0.75,0.0,0.0,0.0
 LR,"LogisticRegression(C=0.0001, class_weight=None, dual=False,
           fit_intercept=True, intercept_scaling=1, max_iter=100,
           multi_class='ovr', n_jobs=-1, penalty='l2', random_state=0,
-          solver='liblinear', tol=0.0001, verbose=0, warm_start=False)",0.78846153846153844
+          solver='liblinear', tol=0.0001, verbose=0, warm_start=False)",0.71875,0.75,0.0,0.0,0.0
 LR,"LogisticRegression(C=0.001, class_weight=None, dual=False, fit_intercept=True,
           intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=-1,
           penalty='l1', random_state=0, solver='liblinear', tol=0.0001,
-          verbose=0, warm_start=False)",0.5714285714285714
+          verbose=0, warm_start=False)",0.625,0.75,0.0,0.0,0.0
 LR,"LogisticRegression(C=0.001, class_weight=None, dual=False, fit_intercept=True,
           intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=-1,
           penalty='l2', random_state=0, solver='liblinear', tol=0.0001,
-          verbose=0, warm_start=False)",0.78846153846153844
+          verbose=0, warm_start=False)",0.71875,0.75,0.0,0.0,0.0
 LR,"LogisticRegression(C=0.01, class_weight=None, dual=False, fit_intercept=True,
           intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=-1,
           penalty='l1', random_state=0, solver='liblinear', tol=0.0001,
-          verbose=0, warm_start=False)",0.5714285714285714
+          verbose=0, warm_start=False)",0.625,0.75,0.0,0.0,0.0
 LR,"LogisticRegression(C=0.01, class_weight=None, dual=False, fit_intercept=True,
           intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=-1,
           penalty='l2', random_state=0, solver='liblinear', tol=0.0001,
-          verbose=0, warm_start=False)",0.78846153846153844
+          verbose=0, warm_start=False)",0.71875,0.75,0.0,0.0,0.0
 LR,"LogisticRegression(C=0.1, class_weight=None, dual=False, fit_intercept=True,
           intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=-1,
           penalty='l1', random_state=0, solver='liblinear', tol=0.0001,
-          verbose=0, warm_start=False)",0.5714285714285714
+          verbose=0, warm_start=False)",0.625,0.75,0.0,0.0,0.0
 LR,"LogisticRegression(C=0.1, class_weight=None, dual=False, fit_intercept=True,
           intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=-1,
           penalty='l2', random_state=0, solver='liblinear', tol=0.0001,
-          verbose=0, warm_start=False)",0.78846153846153844
+          verbose=0, warm_start=False)",0.71875,0.75,0.0,0.0,0.0
 LR,"LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
           intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=-1,
           penalty='l1', random_state=0, solver='liblinear', tol=0.0001,
-          verbose=0, warm_start=False)",0.5714285714285714
+          verbose=0, warm_start=False)",0.71875,0.75,0.0,0.0,0.0
 LR,"LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
           intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=-1,
           penalty='l2', random_state=0, solver='liblinear', tol=0.0001,
-          verbose=0, warm_start=False)",0.78846153846153844
+          verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 LR,"LogisticRegression(C=5, class_weight=None, dual=False, fit_intercept=True,
           intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=-1,
           penalty='l1', random_state=0, solver='liblinear', tol=0.0001,
-          verbose=0, warm_start=False)",0.7857142857142857
+          verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 LR,"LogisticRegression(C=5, class_weight=None, dual=False, fit_intercept=True,
           intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=-1,
           penalty='l2', random_state=0, solver='liblinear', tol=0.0001,
-          verbose=0, warm_start=False)",0.78846153846153844
-NB,GaussianNB(),0.5714285714285714
+          verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
+NB,GaussianNB(),0.71875,0.8125,1.0,0.25,0.40000000000000002
 SVM,"LinearSVC(C=0.001, class_weight=None, dual=False, fit_intercept=True,
      intercept_scaling=1, loss='squared_hinge', max_iter=1000,
      multi_class='ovr', penalty='l1', random_state=0, tol=0.0001,
-     verbose=0)",0.5714285714285714
+     verbose=0)",0.625,0.75,0.0,0.0,0.0
 SVM,"LinearSVC(C=0.001, class_weight=None, dual=False, fit_intercept=True,
      intercept_scaling=1, loss='squared_hinge', max_iter=1000,
      multi_class='ovr', penalty='l2', random_state=0, tol=0.0001,
-     verbose=0)",0.78846153846153844
+     verbose=0)",0.71875,0.75,0.0,0.0,0.0
 SVM,"LinearSVC(C=0.01, class_weight=None, dual=False, fit_intercept=True,
      intercept_scaling=1, loss='squared_hinge', max_iter=1000,
      multi_class='ovr', penalty='l1', random_state=0, tol=0.0001,
-     verbose=0)",0.5714285714285714
+     verbose=0)",0.625,0.75,0.0,0.0,0.0
 SVM,"LinearSVC(C=0.01, class_weight=None, dual=False, fit_intercept=True,
      intercept_scaling=1, loss='squared_hinge', max_iter=1000,
      multi_class='ovr', penalty='l2', random_state=0, tol=0.0001,
-     verbose=0)",0.78846153846153844
+     verbose=0)",0.71875,0.75,0.0,0.0,0.0
 SVM,"LinearSVC(C=0.1, class_weight=None, dual=False, fit_intercept=True,
      intercept_scaling=1, loss='squared_hinge', max_iter=1000,
      multi_class='ovr', penalty='l1', random_state=0, tol=0.0001,
-     verbose=0)",0.5714285714285714
+     verbose=0)",0.625,0.75,0.0,0.0,0.0
 SVM,"LinearSVC(C=0.1, class_weight=None, dual=False, fit_intercept=True,
      intercept_scaling=1, loss='squared_hinge', max_iter=1000,
      multi_class='ovr', penalty='l2', random_state=0, tol=0.0001,
-     verbose=0)",0.78846153846153844
+     verbose=0)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 SVM,"LinearSVC(C=1, class_weight=None, dual=False, fit_intercept=True,
      intercept_scaling=1, loss='squared_hinge', max_iter=1000,
      multi_class='ovr', penalty='l1', random_state=0, tol=0.0001,
-     verbose=0)",0.7857142857142857
+     verbose=0)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 SVM,"LinearSVC(C=1, class_weight=None, dual=False, fit_intercept=True,
      intercept_scaling=1, loss='squared_hinge', max_iter=1000,
      multi_class='ovr', penalty='l2', random_state=0, tol=0.0001,
-     verbose=0)",0.78846153846153844
+     verbose=0)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=1, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.625,0.75,0.0,0.0,0.0
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=1, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.75,0.0,0.0,0.0
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=1, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.75,0.0,0.0,0.0
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=1, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.625,0.75,0.0,0.0,0.0
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=1, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.75,0.0,0.0,0.0
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=1, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.75,0.0,0.0,0.0
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=1, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.625,0.75,0.0,0.0,0.0
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=1, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.75,0.0,0.0,0.0
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=1, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.75,0.0,0.0,0.0
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=1, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.625,0.75,0.0,0.0,0.0
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=1, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.75,0.0,0.0,0.0
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=1, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.78846153846153844
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.75,0.0,0.0,0.0
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=1, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.625,0.75,0.0,0.0,0.0
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=1, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.75,0.0,0.0,0.0
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=1, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.78846153846153844
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.75,0.0,0.0,0.0
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=1, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.625,0.75,0.0,0.0,0.0
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=1, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.75,0.0,0.0,0.0
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=1, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.78846153846153844
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.75,0.0,0.0,0.0
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=5, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=5, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=5, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=5, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=5, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=5, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=5, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=5, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=5, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=5, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=5, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=5, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=5, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=5, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=5, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=5, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=5, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=5, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=10, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=10, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=10, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=10, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=10, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=10, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=10, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=10, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=10, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=10, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=10, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=10, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=10, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=10, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=10, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=10, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=10, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=10, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=20, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=20, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=20, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=20, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=20, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=20, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=20, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=20, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=20, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=20, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=20, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=20, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=20, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=20, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=20, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=20, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=20, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=20, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=50, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=50, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=50, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=50, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=50, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=50, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=50, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=50, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=50, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=50, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=50, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=50, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=50, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=50, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=50, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=50, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=50, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=50, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=75, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=75, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=75, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=75, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=75, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=75, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=75, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=75, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=75, max_features='sqrt', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=75, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=75, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=75, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=75, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=75, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=75, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=5,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=75, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=1, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=75, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
 RF,"RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
             max_depth=75, max_features='log2', max_leaf_nodes=None,
             min_samples_leaf=1, min_samples_split=10,
             min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=-1,
-            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.7857142857142857
+            oob_score=False, random_state=0, verbose=0, warm_start=False)",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=1,
+            max_features='sqrt', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.625,0.75,0.0,0.0,0.0
+DT,"DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=1,
+            max_features='sqrt', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=5, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.625,0.75,0.0,0.0,0.0
+DT,"DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=1,
+            max_features='log2', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.625,0.75,0.0,0.0,0.0
+DT,"DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=1,
+            max_features='log2', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=5, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.625,0.75,0.0,0.0,0.0
+DT,"DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
+            max_features='sqrt', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
+            max_features='sqrt', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=5, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.625,0.75,0.0,0.0,0.0
+DT,"DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
+            max_features='log2', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
+            max_features='log2', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=5, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=10,
+            max_features='sqrt', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=10,
+            max_features='sqrt', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=5, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=10,
+            max_features='log2', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=10,
+            max_features='log2', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=5, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=20,
+            max_features='sqrt', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=20,
+            max_features='sqrt', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=5, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=20,
+            max_features='log2', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=20,
+            max_features='log2', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=5, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=1,
+            max_features='sqrt', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.625,0.75,0.0,0.0,0.0
+DT,"DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=1,
+            max_features='sqrt', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=5, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.625,0.75,0.0,0.0,0.0
+DT,"DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=1,
+            max_features='log2', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.625,0.75,0.0,0.0,0.0
+DT,"DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=1,
+            max_features='log2', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=5, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.625,0.75,0.0,0.0,0.0
+DT,"DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=5,
+            max_features='sqrt', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=5,
+            max_features='sqrt', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=5, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.625,0.75,0.0,0.0,0.0
+DT,"DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=5,
+            max_features='log2', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=5,
+            max_features='log2', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=5, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.625,0.75,0.0,0.0,0.0
+DT,"DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=10,
+            max_features='sqrt', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=10,
+            max_features='sqrt', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=5, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=10,
+            max_features='log2', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=10,
+            max_features='log2', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=5, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=20,
+            max_features='sqrt', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=20,
+            max_features='sqrt', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=5, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=20,
+            max_features='log2', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
+DT,"DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=20,
+            max_features='log2', max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=5, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')",0.71875,0.8125,1.0,0.25,0.40000000000000002
