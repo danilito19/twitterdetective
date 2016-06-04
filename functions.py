@@ -19,8 +19,6 @@ import re
 import datetime
 import pandas as pd
 import random
-<<<<<<< HEAD
-=======
 import csv
 from sklearn.grid_search import ParameterGrid
 import matplotlib.pyplot as plt
@@ -31,7 +29,6 @@ import numpy as np
 
 plt.rcParams["figure.figsize"] = [18.0, 8.0]
 
->>>>>>> 4ca27d3b57af3fa772be7bff14a0d39cb78b6f0f
 
 
 clfs = {'RF': RandomForestClassifier(n_estimators=50, n_jobs=-1, random_state=0),
@@ -227,8 +224,6 @@ def train_model_offline(tweet_df, predictor_columns):
 
     Returns the best model according to evaluation criteria
     '''
-<<<<<<< HEAD
-=======
     print("TRAINING OFFLINE    (lasts about a minute)")
 
     BEST_MODEL = ''
@@ -238,7 +233,6 @@ def train_model_offline(tweet_df, predictor_columns):
     table_file = open('parameters-table.csv', 'wb')
     w = csv.writer(table_file, delimiter=',')
     w.writerow(['MODEL', 'PARAMETERS', 'AUC'])
->>>>>>> 4ca27d3b57af3fa772be7bff14a0d39cb78b6f0f
 
     train, test = train_test_split(tweet_df, test_size = 0.35)
 
@@ -262,15 +256,14 @@ def train_model_offline(tweet_df, predictor_columns):
                 best_auc = AUC
                 BEST_PARAMS = clf
 
-<<<<<<< HEAD
-=======
+
     if best_auc <= 0.05:
         print('WARNING:  BEST AUC IS TOO SMALL : ', best_auc)
         print('predicted y values are')
         print(y_pred_probs)
 
     table_file.close()
->>>>>>> 4ca27d3b57af3fa772be7bff14a0d39cb78b6f0f
+
 
 def evaluate_model(test_data, classification_col, y_pred_probs):
     '''
@@ -278,12 +271,6 @@ def evaluate_model(test_data, classification_col, y_pred_probs):
 
     DO WE WANT RECALL at a specific precision point, instead?
     '''
-<<<<<<< HEAD
-    precision_curve, recall_curve, pr_thresholds = precision_recall_curve(test_data[classification_col], y_pred_probs)
-    precision = precision_curve[:-1]
-    recall = recall_curve[:-1]
-
-=======
     #import pdb; pdb.set_trace()
 
     ''' may get error if precision_recall_curve outputs a small array 
@@ -292,7 +279,6 @@ def evaluate_model(test_data, classification_col, y_pred_probs):
     precision_curve, recall_curve, pr_thresholds = precision_recall_curve(test_data_classification_col, y_pred_probs)
     precision = precision_curve # taking out [:-1]
     recall = recall_curve  #[:-1]
->>>>>>> 4ca27d3b57af3fa772be7bff14a0d39cb78b6f0f
     AUC = auc(recall, precision)
     return AUC
 
@@ -310,10 +296,6 @@ def predict_classification(predictor_columns, tweet_df_classified, tweet_df_uncl
     and add the classifications to this dataframe in place
 
     '''
-<<<<<<< HEAD
-    clf = clfs[BEST_MODEL]  
-    clf.set_params(**BEST_PARAMS)
-=======
 
     print('PREDICTING CLASSIFICATION')
 
@@ -323,7 +305,6 @@ def predict_classification(predictor_columns, tweet_df_classified, tweet_df_uncl
     clf = clfs[best_model] 
     params = best_params 
     clf.set_params(**best_params)
->>>>>>> 4ca27d3b57af3fa772be7bff14a0d39cb78b6f0f
     model = clf.fit(tweet_df_classified[predictor_columns], tweet_df_classified["classification"])
 
     predicted_values = model.predict(tweet_df_unclassified[predictor_columns])
@@ -340,13 +321,8 @@ def predict_classification(predictor_columns, tweet_df_classified, tweet_df_uncl
         else:
             y_pred_probs = clf.decision_function(test[features])
 
-<<<<<<< HEAD
-        plot_precision_recall(tweet_df_unclassified['classification'], y_pred_probs, BEST_MODEL, BEST_PARAMS)
-
-=======
         plot_precision_recall(tweet_df_unclassified['classification'], y_pred_probs, best_model, best_params)
         #plot_precision_and_recall(tweet_df_unclassified['classification'], y_pred_probs, best_model, best_params)
->>>>>>> 4ca27d3b57af3fa772be7bff14a0d39cb78b6f0f
 
 def plot_precision_recall(y_true, y_prob, model_name, model_params):
 
@@ -356,10 +332,10 @@ def plot_precision_recall(y_true, y_prob, model_name, model_params):
 
     print('PLOTTING PRECISION RECALL WITH')
 
-    print 'y true'
-    print y_true
-    print 'y probs'
-    print y_prob
+    print('y true')
+    print(y_true)
+    print('y probs')
+    print(y_prob)
 
     precision_curve, recall_curve, pr_thresholds = precision_recall_curve(y_true, y_prob)
     precision = precision_curve[:-1]
