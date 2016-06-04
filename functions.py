@@ -19,6 +19,19 @@ import re
 import datetime
 import pandas as pd
 import random
+<<<<<<< HEAD
+=======
+import csv
+from sklearn.grid_search import ParameterGrid
+import matplotlib.pyplot as plt
+import pylab
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+import numpy as np
+
+plt.rcParams["figure.figsize"] = [18.0, 8.0]
+
+>>>>>>> 4ca27d3b57af3fa772be7bff14a0d39cb78b6f0f
 
 
 clfs = {'RF': RandomForestClassifier(n_estimators=50, n_jobs=-1, random_state=0),
@@ -214,8 +227,20 @@ def train_model_offline(tweet_df, predictor_columns):
 
     Returns the best model according to evaluation criteria
     '''
+<<<<<<< HEAD
+=======
+    print("TRAINING OFFLINE    (lasts about a minute)")
 
-    train, test = train_test_split(tweet_df, test_size = 0.2)
+    BEST_MODEL = ''
+    BEST_PARAMS = ''
+    best_auc = 0
+
+    table_file = open('parameters-table.csv', 'wb')
+    w = csv.writer(table_file, delimiter=',')
+    w.writerow(['MODEL', 'PARAMETERS', 'AUC'])
+>>>>>>> 4ca27d3b57af3fa772be7bff14a0d39cb78b6f0f
+
+    train, test = train_test_split(tweet_df, test_size = 0.35)
 
     best_auc = 0
 
@@ -237,6 +262,15 @@ def train_model_offline(tweet_df, predictor_columns):
                 best_auc = AUC
                 BEST_PARAMS = clf
 
+<<<<<<< HEAD
+=======
+    if best_auc <= 0.05:
+        print('WARNING:  BEST AUC IS TOO SMALL : ', best_auc)
+        print('predicted y values are')
+        print(y_pred_probs)
+
+    table_file.close()
+>>>>>>> 4ca27d3b57af3fa772be7bff14a0d39cb78b6f0f
 
 def evaluate_model(test_data, classification_col, y_pred_probs):
     '''
@@ -244,12 +278,22 @@ def evaluate_model(test_data, classification_col, y_pred_probs):
 
     DO WE WANT RECALL at a specific precision point, instead?
     '''
+<<<<<<< HEAD
     precision_curve, recall_curve, pr_thresholds = precision_recall_curve(test_data[classification_col], y_pred_probs)
     precision = precision_curve[:-1]
     recall = recall_curve[:-1]
 
-    AUC = auc(recall, precision)
+=======
+    #import pdb; pdb.set_trace()
 
+    ''' may get error if precision_recall_curve outputs a small array 
+    because [n_thresholds <= len(np.unique(probas_pred))]'''
+
+    precision_curve, recall_curve, pr_thresholds = precision_recall_curve(test_data_classification_col, y_pred_probs)
+    precision = precision_curve # taking out [:-1]
+    recall = recall_curve  #[:-1]
+>>>>>>> 4ca27d3b57af3fa772be7bff14a0d39cb78b6f0f
+    AUC = auc(recall, precision)
     return AUC
 
 
@@ -266,23 +310,43 @@ def predict_classification(predictor_columns, tweet_df_classified, tweet_df_uncl
     and add the classifications to this dataframe in place
 
     '''
+<<<<<<< HEAD
     clf = clfs[BEST_MODEL]  
     clf.set_params(**BEST_PARAMS)
+=======
+
+    print('PREDICTING CLASSIFICATION')
+
+    print('BEST MODEL: ', best_model)
+    print('BEST PARAMS: ', best_params)
+
+    clf = clfs[best_model] 
+    params = best_params 
+    clf.set_params(**best_params)
+>>>>>>> 4ca27d3b57af3fa772be7bff14a0d39cb78b6f0f
     model = clf.fit(tweet_df_classified[predictor_columns], tweet_df_classified["classification"])
 
     predicted_values = model.predict(tweet_df_unclassified[predictor_columns])
-
     tweet_df_unclassified['classification'] = predicted_values
 
-    #if plot parameters is True, get y_pred probs
+    '''ISSUE:  model is predicting almost all 0!!! '''
+    print('predicted values for unclassified df   (weird if all 0 or 1!')
+    print(tweet_df_unclassified['classification'])
+    
+    #if plot parameters is True, get y_pred probs to plot with
     if plot:
         if hasattr(clf, 'predict_proba'):
             y_pred_probs = clf.predict_proba(test[features])[:,1] #second col only for class = 1
         else:
             y_pred_probs = clf.decision_function(test[features])
 
+<<<<<<< HEAD
         plot_precision_recall(tweet_df_unclassified['classification'], y_pred_probs, BEST_MODEL, BEST_PARAMS)
 
+=======
+        plot_precision_recall(tweet_df_unclassified['classification'], y_pred_probs, best_model, best_params)
+        #plot_precision_and_recall(tweet_df_unclassified['classification'], y_pred_probs, best_model, best_params)
+>>>>>>> 4ca27d3b57af3fa772be7bff14a0d39cb78b6f0f
 
 def plot_precision_recall(y_true, y_prob, model_name, model_params):
 
@@ -290,9 +354,24 @@ def plot_precision_recall(y_true, y_prob, model_name, model_params):
     Plot a precision recall curve for one model with its y_prob values.
     '''
 
+    print('PLOTTING PRECISION RECALL WITH')
+
+    print 'y true'
+    print y_true
+    print 'y probs'
+    print y_prob
+
     precision_curve, recall_curve, pr_thresholds = precision_recall_curve(y_true, y_prob)
     precision = precision_curve[:-1]
     recall = recall_curve[:-1]
+
+    '''Because all y_true values are 0, very few precision and recall points so NO GRAPH :9'''
+    print('precision curve ', precision_curve)
+    print('recall curve ', recall_curve)
+    print('precision:', precision)
+    print('recall" ', recall)
+    print()
+
     plt.clf()
     plt.plot(recall, precision, label='%s' % model_params)
     plt.xlabel('Recall')
@@ -300,16 +379,22 @@ def plot_precision_recall(y_true, y_prob, model_name, model_params):
     plt.ylim([0.0, 1.0])
     plt.xlim([0.0, 1.0])
     plt.title("Precision Recall Curve for %s" %model_name)
-    plt.savefig(model_name)
     plt.legend(loc="lower right")
+    plt.savefig(model_name)
+
     #plt.show()
 
 
 def plot_precision_and_recall(y_true, y_prob, model_name, model_params):
+
     precision_curve, recall_curve, pr_thresholds = precision_recall_curve(y_true, y_prob)
     precision = precision_curve[:-1]
     recall = recall_curve[:-1]
 
+    print(precision)
+    print(recall)
+
+    ''' NEEDS DEBUGGING '''
     num = len(y_prob)
     pct_above_per_thresh = []
     for value in pr_thresholds:
@@ -320,7 +405,7 @@ def plot_precision_and_recall(y_true, y_prob, model_name, model_params):
     
     plt.clf()
     fig, ax1 = plt.subplots()
-    ax1.plot(pct_above_per_thresh, precision_curve, "blue", label = '%s' % model_param)
+    ax1.plot(pct_above_per_thresh, precision_curve, "blue", label = '%s' % model_params)
     ax1.set_xlabel("Percent of Population")
     ax1.set_ylabel("Precision", color = "blue")
     
@@ -329,6 +414,7 @@ def plot_precision_and_recall(y_true, y_prob, model_name, model_params):
     ax2.set_ylabel("Recall", color = "red")
     plt.title("Precision Recall Curve for %s" %model_name)
     plt.legend(loc="lower right")
+    plt.savefig(model_name + 'DEVIN')
     #plt.show()
 
 

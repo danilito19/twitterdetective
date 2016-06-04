@@ -46,6 +46,9 @@ if __name__ == "__main__":
     first_query = input(color.BOLD + "Query terms: " + color.END)
     query_words = first_query.split()
 
+    # query_words = ['hilary']
+    # num_tweets_process = 50
+    # temp_file_processed = 'Sessions/d.txt'
     tw = Twitterlock(words = query_words, size = num_tweets_process, filename= temp_file_processed)
 
     tw.cycle1()
