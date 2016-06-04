@@ -41,7 +41,7 @@ class Twitterlock:
         BEST_MODEL, BEST_PARAMS = fct.train_model_offline(self.old_df, columns)
         ## BIG PROBLEM:  the keywords from new tweets are ALL getting
         # classified as 0 !!!
-        fct.predict_classification(columns, self.old_df, tweets_df, BEST_MODEL, BEST_PARAMS, True)
+        fct.predict_classification(columns, self.old_df, tweets_df, BEST_MODEL, BEST_PARAMS)
 
         #prep for validation and next round
         self.df["classification"] = tweets_df["classification"]

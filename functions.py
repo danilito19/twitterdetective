@@ -41,7 +41,7 @@ clfs = {'RF': RandomForestClassifier(n_estimators=50, n_jobs=-1, random_state=0)
         }
 
 grid = { 
-'RF':{'n_estimators': [1,10,100], 'max_depth': [1,5,10,20,50,75], 'max_features': ['sqrt','log2'],'min_samples_split': [2,5,10]},
+'RF':{'n_estimators': [1,10,100], 'max_depth': [1,5,10,20, 50], 'max_features': ['sqrt','log2'],'min_samples_split': [2,5,10]},
 'LR': { 'penalty': ['l1','l2'], 'C': [0.00001,0.0001,0.001,0.01,0.1,1,5]},
 'NB' : {},
 'SVM' :{'C' :[0.001,0.01,0.1,1], 'penalty': ['l1', 'l2']},
