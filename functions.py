@@ -49,15 +49,10 @@ grid = {
 'KNN' :{'n_neighbors': [1, 3, 5,10,25,50,100],'weights': ['uniform','distance'],'algorithm': ['auto','ball_tree','kd_tree']}
        }
 
-<<<<<<< HEAD
-MODELS_TO_RUN = ['LR'] #add more from above
-BEST_MODEL = "NB"
-BEST_PARAMS = ""
-=======
+
 MODELS_TO_RUN = ['LR', "NB", 'SVM', "RF", 'DT'] #add more from above
 # BEST_MODEL = "NB"
 # BEST_PARAMS = ''
->>>>>>> 65d7bd69bcd0c67928739c9e52f8675ef2d19c65
 
 
 def get_credents():
@@ -167,7 +162,7 @@ def process_tweets(file_name):
     return tweet_df
 
 
-def semantic_indexing(tweets_df, max_keywords = 20):
+def semantic_indexing(tweet_df, max_keywords = 20):
     '''
     Person Responsible: Devin Munger
 
@@ -249,11 +244,7 @@ def train_model_offline(tweet_df, predictor_columns):
     w = csv.writer(table_file, delimiter=',')
     w.writerow(['MODEL', 'PARAMETERS', 'AUC', 'acc', 'preci', 'recall', 'f1'])
 
-<<<<<<< HEAD
-    best_auc = 0
-=======
     train, test = train_test_split(tweet_df, test_size = 0.4)
->>>>>>> 65d7bd69bcd0c67928739c9e52f8675ef2d19c65
 
     for index,clf in enumerate([clfs[x] for x in MODELS_TO_RUN]):
         running_model = MODELS_TO_RUN[index]
@@ -270,20 +261,12 @@ def train_model_offline(tweet_df, predictor_columns):
             else:
                 y_pred_probs = clf.decision_function(test[predictor_columns])
 
-<<<<<<< HEAD
-            AUC = evaluate_model(test, 'classification', y_pred_probs)
-=======
             AUC = evaluate_model_auc(test['classification'], y_pred_probs)
             w.writerow([running_model, clf, AUC, accuracy, precision, recall, f1])
->>>>>>> 65d7bd69bcd0c67928739c9e52f8675ef2d19c65
 
             if AUC > best_auc:
                 BEST_MODEL = running_model
                 best_auc = AUC
-<<<<<<< HEAD
-                BEST_PARAMS = clf
-
-=======
                 BEST_PARAMS = p
                 best_y_probs = y_pred_probs
                 best_pred_values = predicted_values
@@ -299,7 +282,6 @@ def train_model_offline(tweet_df, predictor_columns):
     w.writerow(['MODEL', 'PARAMETERS', 'AUC', 'acc', 'preci', 'recall', 'f1', 'y-probs', 'pred-values'])
     w.writerow([running_model, clf, AUC, best_acc, best_prec, best_recall, best_f1, best_y_probs, best_pred_values])
     best.close()
->>>>>>> 65d7bd69bcd0c67928739c9e52f8675ef2d19c65
 
     if best_auc <= 0.05:
         print('WARNING:  BEST AUC IS TOO SMALL : ', best_auc)
@@ -311,11 +293,8 @@ def train_model_offline(tweet_df, predictor_columns):
     #     #plot_precision_and_recall(tweet_df_unclassified['classification'], y_pred_probs, best_model, best_params)
 
 
-<<<<<<< HEAD
-def evaluate_model(test_data, classification_col, y_pred_probs):
-=======
 def evaluate_model_auc(test_data_classification_col, y_pred_probs):
->>>>>>> 65d7bd69bcd0c67928739c9e52f8675ef2d19c65
+
     '''
     Evaluate model with AUC of Precision-recall curve
 
@@ -374,24 +353,8 @@ def predict_classification(predictor_columns, tweet_df_classified, tweet_df_uncl
     predicted_values = model.predict(tweet_df_unclassified[predictor_columns])
     tweet_df_unclassified['classification'] = predicted_values
 
-<<<<<<< HEAD
-    '''ISSUE:  model is predicting almost all 0!!! '''
-    print('predicted values for unclassified df   (weird if all 0 or 1!')
-    print(tweet_df_unclassified['classification'])
-    
-    #if plot parameters is True, get y_pred probs to plot with
-    if plot:
-        if hasattr(clf, 'predict_proba'):
-            y_pred_probs = clf.predict_proba(test[features])[:,1] #second col only for class = 1
-        else:
-            y_pred_probs = clf.decision_function(test[features])
-
-        plot_precision_recall(tweet_df_unclassified['classification'], y_pred_probs, best_model, best_params)
-        #plot_precision_and_recall(tweet_df_unclassified['classification'], y_pred_probs, best_model, best_params)
-=======
     print('predicted values for unclassified df')
     print(tweet_df_unclassified[['keywords', 'classification']])
->>>>>>> 65d7bd69bcd0c67928739c9e52f8675ef2d19c65
 
 def plot_precision_recall(y_true, y_prob, model_name, model_params):
 
