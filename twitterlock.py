@@ -26,7 +26,6 @@ class Twitterlock:
     def cycle2(self):
         #classify old dataframe based on new feedback
         fct.classify_tweets(self.df, self.feedback)
-        print(self.df.head)
         columns = fct.keyword_binary_col(self.keywords, self.df)
         self.old_df = self.df
 
@@ -38,12 +37,11 @@ class Twitterlock:
         #classify data from temporary new dataframe with model based on old dataframe
         fct.add_keywords_df(tweets_df, self.old_keywords)
         fct.keyword_binary_col(self.old_keywords, tweets_df)
-        print("binary 2 passed")
-        print(self.old_df)
-        self.old_df.to_csv("old_df.csv", sep=',', encoding='utf-8')
-        fct.train_model_offline(self.old_df, columns)
 
-        #fct.predict_classification(columns, self.old_df, tweets_df)
+        BEST_MODEL, BEST_PARAMS = fct.train_model_offline(self.old_df, columns)
+        ## BIG PROBLEM:  the keywords from new tweets are ALL getting
+        # classified as 0 !!!
+        fct.predict_classification(columns, self.old_df, tweets_df, BEST_MODEL, BEST_PARAMS)
 
         #prep for validation and next round
         self.df["classification"] = tweets_df["classification"]

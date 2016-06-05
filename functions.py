@@ -5,6 +5,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn import svm, ensemble
 from sklearn.metrics import *
 from sklearn.cross_validation import train_test_split, KFold
+from sklearn.tree import DecisionTreeClassifier
 from autorizador import *
 import twitter
 import sys
@@ -19,27 +20,38 @@ import re
 import datetime
 import pandas as pd
 import random
+import csv
 from sklearn.grid_search import ParameterGrid
+import matplotlib.pyplot as plt
+import pylab
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+import numpy as np
+
+plt.rcParams["figure.figsize"] = [18.0, 8.0]
+
 
 
 clfs = {'RF': RandomForestClassifier(n_estimators=50, n_jobs=-1, random_state=0),
     'LR': LogisticRegression(random_state=0, n_jobs=-1),
     'SVM': svm.LinearSVC(random_state=0, dual= False),
     'NB': GaussianNB(),
+    'DT': DecisionTreeClassifier(),
     'KNN': KNeighborsClassifier(n_jobs = -1),
         }
 
 grid = { 
-'RF':{'n_estimators': [1,10,100], 'max_depth': [1,5,10,20,50,75], 'max_features': ['sqrt','log2'],'min_samples_split': [2,5,10]},
+'RF':{'n_estimators': [1,10,100], 'max_depth': [1,5,10,20, 50], 'max_features': ['sqrt','log2'],'min_samples_split': [2,5,10]},
 'LR': { 'penalty': ['l1','l2'], 'C': [0.00001,0.0001,0.001,0.01,0.1,1,5]},
 'NB' : {},
 'SVM' :{'C' :[0.001,0.01,0.1,1], 'penalty': ['l1', 'l2']},
+'DT': {'criterion': ['gini', 'entropy'], 'max_depth': [1,5,10,20], 'max_features': ['sqrt','log2'],'min_samples_split': [2,5]},
 'KNN' :{'n_neighbors': [1, 3, 5,10,25,50,100],'weights': ['uniform','distance'],'algorithm': ['auto','ball_tree','kd_tree']}
        }
 
-MODELS_TO_RUN = ['LR'] #add more from above
-BEST_MODEL = "NB"
-BEST_PARAMS = ""
+MODELS_TO_RUN = ['LR', "NB", 'SVM', "RF", 'DT'] #add more from above
+# BEST_MODEL = "NB"
+# BEST_PARAMS = ''
 
 
 def get_credents():
@@ -215,10 +227,23 @@ def train_model_offline(tweet_df, predictor_columns):
 
     Returns the best model according to evaluation criteria
     '''
+    print("TRAINING OFFLINE    (lasts about a minute)")
 
-    train, test = train_test_split(tweet_df, test_size = 0.2)
-
+    BEST_MODEL = ''
+    BEST_PARAMS = ''
     best_auc = 0
+    best_y_probs = None
+    best_pred_values = None
+    best_acc = 0
+    best_prec = 0
+    best_recall = 0
+    best_f1 = 0
+
+    table_file = open('parameters-table.csv', 'wb')
+    w = csv.writer(table_file, delimiter=',')
+    w.writerow(['MODEL', 'PARAMETERS', 'AUC', 'acc', 'preci', 'recall', 'f1'])
+
+    train, test = train_test_split(tweet_df, test_size = 0.4)
 
     for index,clf in enumerate([clfs[x] for x in MODELS_TO_RUN]):
         running_model = MODELS_TO_RUN[index]
@@ -226,38 +251,81 @@ def train_model_offline(tweet_df, predictor_columns):
         for p in ParameterGrid(parameter_values):
             clf.set_params(**p)
             clf.fit(train[predictor_columns], train['classification'])
+            predicted_values = clf.predict(test[predictor_columns])
+
+            accuracy, precision, recall, f1 = evaluate_model(test['classification'], predicted_values)
+
             if hasattr(clf, 'predict_proba'):
                 y_pred_probs = clf.predict_proba(test[predictor_columns])[:,1] #second col only for class = 1
             else:
                 y_pred_probs = clf.decision_function(test[predictor_columns])
 
-            AUC = evaluate_model(test['classification'], y_pred_probs)
+            AUC = evaluate_model_auc(test['classification'], y_pred_probs)
+            w.writerow([running_model, clf, AUC, accuracy, precision, recall, f1])
 
             if AUC > best_auc:
                 BEST_MODEL = running_model
                 best_auc = AUC
-                BEST_PARAMS = clf
-    print(BEST_PARAMS)
-    print(BEST_PARAMS)
+                BEST_PARAMS = p
+                best_y_probs = y_pred_probs
+                best_pred_values = predicted_values
+                best_acc = accuracy
+                best_prec = precision
+                best_recall = recall
+                best_f1 = f1
 
-def evaluate_model(test_data_classification_col, y_pred_probs):
+    table_file.close()
+
+    best = open('best-model.csv', 'wb')
+    w = csv.writer(best, delimiter=',')
+    w.writerow(['MODEL', 'PARAMETERS', 'AUC', 'acc', 'preci', 'recall', 'f1', 'y-probs', 'pred-values'])
+    w.writerow([running_model, clf, AUC, best_acc, best_prec, best_recall, best_f1, best_y_probs, best_pred_values])
+    best.close()
+
+    if best_auc <= 0.05:
+        print('WARNING:  BEST AUC IS TOO SMALL : ', best_auc)
+        print('predicted y values are')
+        print(y_pred_probs)
+
+    else:
+        plot_precision_recall(test['classification'], best_y_probs, BEST_MODEL, BEST_PARAMS)
+    #     #plot_precision_and_recall(tweet_df_unclassified['classification'], y_pred_probs, best_model, best_params)
+
+    return BEST_MODEL, BEST_PARAMS
+
+def evaluate_model_auc(test_data_classification_col, y_pred_probs):
     '''
     Evaluate model with AUC of Precision-recall curve
 
     DO WE WANT RECALL at a specific precision point, instead?
     '''
-    precision_curve, recall_curve, pr_thresholds = precision_recall_curve(test_data[classification_col], y_pred_probs)
-    precision = precision_curve[:-1]
-    recall = recall_curve[:-1]
+    #import pdb; pdb.set_trace()
 
-    print(precision)
-    print(recall)
+    ''' may get error if precision_recall_curve outputs a small array 
+    because [n_thresholds <= len(np.unique(probas_pred))]'''
+
+    precision_curve, recall_curve, pr_thresholds = precision_recall_curve(test_data_classification_col, y_pred_probs)
+    precision = precision_curve # taking out [:-1]
+    recall = recall_curve  #[:-1]
     AUC = auc(recall, precision)
-
     return AUC
 
+def evaluate_model(test_data_classification_col, predicted_values):
+    '''
+    Compare the label of the test data to predicted values
+    and return accuracy, precision, recall, and f1 score.
 
-def predict_classification(predictor_columns, tweet_df_classified, tweet_df_unclassified, plot=False):
+    '''
+    accuracy = accuracy_score(test_data_classification_col, predicted_values) 
+    precision = precision_score(test_data_classification_col, predicted_values) 
+    recall = recall_score(test_data_classification_col, predicted_values) 
+    # f1 calculation is F1 = 2 * (precision * recall) / (precision + recall)
+    f1 = f1_score(test_data_classification_col, predicted_values) 
+
+    return accuracy, precision, recall, f1
+
+
+def predict_classification(predictor_columns, tweet_df_classified, tweet_df_unclassified, best_model, best_params, plot=False):
     '''
     Person Responsible: Dani Alcala
 
@@ -270,23 +338,22 @@ def predict_classification(predictor_columns, tweet_df_classified, tweet_df_uncl
     and add the classifications to this dataframe in place
 
     '''
-    clf = clfs[BEST_MODEL]  
-    clf.set_params(**BEST_PARAMS)
+
+    print('PREDICTING CLASSIFICATION')
+
+    print('BEST MODEL: ', best_model)
+    print('BEST PARAMS: ', best_params)
+
+    clf = clfs[best_model] 
+    params = best_params 
+    clf.set_params(**best_params)
     model = clf.fit(tweet_df_classified[predictor_columns], tweet_df_classified["classification"])
 
     predicted_values = model.predict(tweet_df_unclassified[predictor_columns])
-
     tweet_df_unclassified['classification'] = predicted_values
 
-    #if plot parameters is True, get y_pred probs
-    if plot:
-        if hasattr(clf, 'predict_proba'):
-            y_pred_probs = clf.predict_proba(test[features])[:,1] #second col only for class = 1
-        else:
-            y_pred_probs = clf.decision_function(test[features])
-
-        plot_precision_recall(tweet_df_unclassified['classification'], y_pred_probs, BEST_MODEL, BEST_PARAMS)
-
+    print('predicted values for unclassified df')
+    print(tweet_df_unclassified[['keywords', 'classification']])
 
 def plot_precision_recall(y_true, y_prob, model_name, model_params):
 
@@ -294,9 +361,23 @@ def plot_precision_recall(y_true, y_prob, model_name, model_params):
     Plot a precision recall curve for one model with its y_prob values.
     '''
 
+    print('PLOTTING PRECISION RECALL WITH')
+
+    print 'y true'
+    print y_true
+    print 'y probs'
+    print y_prob
+
     precision_curve, recall_curve, pr_thresholds = precision_recall_curve(y_true, y_prob)
     precision = precision_curve[:-1]
     recall = recall_curve[:-1]
+
+    print('precision curve ', precision_curve)
+    print('recall curve ', recall_curve)
+    print('precision:', precision)
+    print('recall" ', recall)
+    print()
+
     plt.clf()
     plt.plot(recall, precision, label='%s' % model_params)
     plt.xlabel('Recall')
@@ -304,16 +385,22 @@ def plot_precision_recall(y_true, y_prob, model_name, model_params):
     plt.ylim([0.0, 1.0])
     plt.xlim([0.0, 1.0])
     plt.title("Precision Recall Curve for %s" %model_name)
-    plt.savefig(model_name)
     plt.legend(loc="lower right")
+    plt.savefig(model_name)
+
     #plt.show()
 
 
 def plot_precision_and_recall(y_true, y_prob, model_name, model_params):
+
     precision_curve, recall_curve, pr_thresholds = precision_recall_curve(y_true, y_prob)
     precision = precision_curve[:-1]
     recall = recall_curve[:-1]
 
+    print(precision)
+    print(recall)
+
+    ''' NEEDS DEBUGGING '''
     num = len(y_prob)
     pct_above_per_thresh = []
     for value in pr_thresholds:
@@ -324,7 +411,7 @@ def plot_precision_and_recall(y_true, y_prob, model_name, model_params):
     
     plt.clf()
     fig, ax1 = plt.subplots()
-    ax1.plot(pct_above_per_thresh, precision_curve, "blue", label = '%s' % model_param)
+    ax1.plot(pct_above_per_thresh, precision_curve, "blue", label = '%s' % model_params)
     ax1.set_xlabel("Percent of Population")
     ax1.set_ylabel("Precision", color = "blue")
     
@@ -333,6 +420,7 @@ def plot_precision_and_recall(y_true, y_prob, model_name, model_params):
     ax2.set_ylabel("Recall", color = "red")
     plt.title("Precision Recall Curve for %s" %model_name)
     plt.legend(loc="lower right")
+    plt.savefig(model_name + 'DEVIN')
     #plt.show()
 
 
