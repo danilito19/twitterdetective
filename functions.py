@@ -184,7 +184,15 @@ def semantic_indexing(tweet_df, master_feedback, max_keywords = 20):
     ## Return sample of highest weighted keywords
     indices = random.sample(range(len(weighted_words)), min(max_keywords, len(weighted_words)))
 
-    keywords = []
+    keywords = [weighted_words[i] for i in indices]
+    new_keywords = []
+    old_keywords = master_feedback.keys()
+    for word in keywords:
+        if word not in old_keywords:
+            new_keywords.append(word)
+    return new_keywords
+
+    '''
     pool = len(indices)
     i = 0
 
@@ -201,7 +209,7 @@ def semantic_indexing(tweet_df, master_feedback, max_keywords = 20):
             keywords.append(weighted_words[x])
             pool = pool - 1
         i += 1
-
+    '''
     return keywords #[weighted_words[i] for i in indices]
     
 
@@ -345,11 +353,7 @@ def evaluate_model(test_data_classification_col, predicted_values):
     return accuracy, precision, recall, f1
 
 
-<<<<<<< HEAD
-def predict_classification(predictor_columns, tweet_df_classified, tweet_df_unclassified, plot=False):
-=======
 def predict_classification(predictor_columns, tweet_df_classified, tweet_df_unclassified, best_model='NB', best_params='', plot=False):
->>>>>>> b3fc8a9b3854c1b80e51f65c8cf8cb16b3fe497f
     '''
     Person Responsible: Dani Alcala
 
