@@ -364,8 +364,7 @@ def predict_classification(predictor_columns, tweet_df_classified, tweet_df_uncl
     print('BEST PARAMS: ', best_params)
 
     clf = clfs[best_model] 
-    params = best_params 
-    #clf.set_params(**best_params)
+    clf.set_params(**best_params)
     model = clf.fit(tweet_df_classified[predictor_columns], tweet_df_classified["classification"])
 
     predicted_values = model.predict(tweet_df_unclassified[predictor_columns])

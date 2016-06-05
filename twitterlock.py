@@ -43,10 +43,10 @@ class Twitterlock:
 
         #commenting out testing
 
-        #BEST_MODEL, BEST_PARAMS = fct.train_model_offline(self.old_df, columns)
-        #fct.predict_classification(columns, self.old_df, tweets_df, BEST_MODEL, BEST_PARAMS)
+        BEST_MODEL, BEST_PARAMS = fct.train_model_offline(self.old_df, columns)
+        fct.predict_classification(columns, self.old_df, tweets_df, BEST_MODEL, BEST_PARAMS)
 
-        fct.predict_classification(columns, self.old_df, tweets_df)
+        #fct.predict_classification(columns, self.old_df, tweets_df)
 
         #prep for validation and next round
         self.df["classification"] = tweets_df["classification"]
