@@ -57,23 +57,18 @@ class Twitterlock:
         self.keywords = new_keywords
 
     def take_feedback(self, feedback):
-        print(self.master_keywords)
-        print(self.keywords)
         self.feedback = feedback
-        print(self.feedback)
         self.old_keywords = self.keywords
         self.keywords = fct.update_keywords(self.feedback)
         self.master_keywords.extend(self.keywords)
         self.master_feedback.update(self.feedback)
-        print(self.keywords)
-        print(self.master_keywords)
 
     def finish(self, filename):
         #final query and write tweets to filename
-        good_words = fct.update_keywords(self.feedback)
-        tweets = fct.get_tweets(good_words, self.size, filename)
-        tweets_df, _ = fct.process_tweets(tweets)
-        tweets_df.to_csv(filename)
+        tweets = fct.get_tweets(self.master_keywords, self.size, self.filename)
+        tweets_df = fct.process_tweets(self.filename)
+        name = filename + ".csv"
+        tweets_df.to_csv(name)
 
     def set_satisfaction(self, response):
         self.satisfactory = response
