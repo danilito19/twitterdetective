@@ -43,10 +43,10 @@ class Twitterlock:
 
         #commenting out testing
 
-        BEST_MODEL, BEST_PARAMS = fct.train_model_offline(self.old_df, columns)
-        fct.predict_classification(columns, self.old_df, tweets_df, BEST_MODEL, BEST_PARAMS)
+        #BEST_MODEL, BEST_PARAMS = fct.train_model_offline(self.old_df, columns)
+        #fct.predict_classification(columns, self.old_df, tweets_df, BEST_MODEL, BEST_PARAMS)
 
-        #fct.predict_classification(columns, self.old_df, tweets_df)
+        fct.predict_classification(columns, self.old_df, tweets_df)
 
         #prep for validation and next round
         self.df["classification"] = tweets_df["classification"]
@@ -57,11 +57,16 @@ class Twitterlock:
         self.keywords = new_keywords
 
     def take_feedback(self, feedback):
+        print(self.master_keywords)
+        print(self.keywords)
         self.feedback = feedback
+        print(self.feedback)
         self.old_keywords = self.keywords
         self.keywords = fct.update_keywords(self.feedback)
         self.master_keywords.extend(self.keywords)
         self.master_feedback.update(self.feedback)
+        print(self.keywords)
+        print(self.master_keywords)
 
     def finish(self, filename):
         #final query and write tweets to filename
