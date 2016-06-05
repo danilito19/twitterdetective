@@ -61,7 +61,7 @@ class Twitterlock:
     def finish(self, filename):
         #final query and write tweets to filename
         good_words = fct.update_keywords(self.feedback)
-        tweets = fct.get_tweets(query_words, self.size, filename)
+        tweets = fct.get_tweets(good_words, self.size, filename)
         tweets_df, _ = fct.process_tweets(tweets)
         tweets_df.to_csv(filename)
 
