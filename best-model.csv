@@ -1,6 +1,0 @@
-MODEL,PARAMETERS,AUC,acc,preci,recall,f1,y-probs,pred-values
-DT,"DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=20,
-            max_features='log2', max_leaf_nodes=None, min_samples_leaf=1,
-            min_samples_split=5, min_weight_fraction_leaf=0.0,
-            presort=False, random_state=None, splitter='best')",0.65000000000000002,0.69999999999999996,0.0,0.0,0.0,"[ 0.5  0.5  0.5  0.5  0.5  0.5  0.5  0.5  0.5  0.5  0.5  0.5  0.5  0.5  0.5
-  0.5  0.5  0.5  0.5  0.5]",[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
