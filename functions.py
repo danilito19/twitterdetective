@@ -161,7 +161,7 @@ def process_tweets(file_name):
     return tweet_df
 
 
-def semantic_indexing(tweet_df, max_keywords = 20):
+def semantic_indexing(tweet_df, master_feedback, max_keywords = 20):
     '''
     Person Responsible: Devin Munger
 
@@ -182,7 +182,26 @@ def semantic_indexing(tweet_df, max_keywords = 20):
     weighted_words = [features[i] for i, x in enumerate(weights) if x == max_weight]
     ## Return sample of highest weighted keywords
     indices = random.sample(range(len(weighted_words)), min(max_keywords, len(weighted_words)))
-    return [weighted_words[i] for i in indices]
+
+    keywords = []
+    pool = len(indices)
+    i = 0
+
+    print(weighted_words)
+    print(type(weighted_words))
+    print(master_feedback)
+    print(type(master_feedback))
+
+    while pool > 0:
+        print(i)
+        print(len(indices))
+        x = indices[i]
+        if weighted_words[x] not in master_feedback:
+            keywords.append(weighted_words[x])
+            pool = pool - 1
+        i += 1
+
+    return keywords #[weighted_words[i] for i in indices]
     
 
 def add_keywords_df(tweet_df, keywords):
@@ -325,7 +344,7 @@ def evaluate_model(test_data_classification_col, predicted_values):
     return accuracy, precision, recall, f1
 
 
-def predict_classification(predictor_columns, tweet_df_classified, tweet_df_unclassified, best_model, best_params, plot=False):
+def predict_classification(predictor_columns, tweet_df_classified, tweet_df_unclassified, best_model='NB', best_params='', plot=False):
     '''
     Person Responsible: Dani Alcala
 
@@ -346,7 +365,7 @@ def predict_classification(predictor_columns, tweet_df_classified, tweet_df_uncl
 
     clf = clfs[best_model] 
     params = best_params 
-    clf.set_params(**best_params)
+    #clf.set_params(**best_params)
     model = clf.fit(tweet_df_classified[predictor_columns], tweet_df_classified["classification"])
 
     predicted_values = model.predict(tweet_df_unclassified[predictor_columns])
@@ -363,10 +382,10 @@ def plot_precision_recall(y_true, y_prob, model_name, model_params):
 
     print('PLOTTING PRECISION RECALL WITH')
 
-    print 'y true'
-    print y_true
-    print 'y probs'
-    print y_prob
+    print('y true')
+    print(y_true)
+    print('y probs')
+    print(y_prob)
 
     precision_curve, recall_curve, pr_thresholds = precision_recall_curve(y_true, y_prob)
     precision = precision_curve[:-1]
