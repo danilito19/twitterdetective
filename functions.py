@@ -182,7 +182,7 @@ def semantic_indexing(tweet_df, master_feedback, max_keywords = 20):
     max_weight = max(weights)
     weighted_words = [features[i] for i, x in enumerate(weights) if x == max_weight]
     ## Return sample of highest weighted keywords
-    indices = random.sample(range(len(weighted_words)), min(max_keywords, len(weighted_words)))
+    indices = random.sample(range(len(weighted_words)), min(20, max_keywords, len(weighted_words)))
 
     keywords = [weighted_words[i] for i in indices]
     new_keywords = []
@@ -353,7 +353,7 @@ def evaluate_model(test_data_classification_col, predicted_values):
     return accuracy, precision, recall, f1
 
 
-def predict_classification(predictor_columns, tweet_df_classified, tweet_df_unclassified, best_model='NB', best_params='', plot=False):
+def predict_classification(predictor_columns, tweet_df_classified, tweet_df_unclassified, best_model='NB', best_params = grid["NB"], plot=False):
     '''
     Person Responsible: Dani Alcala
 
@@ -373,7 +373,7 @@ def predict_classification(predictor_columns, tweet_df_classified, tweet_df_uncl
     print('BEST PARAMS: ', best_params)
 
     clf = clfs[best_model] 
-    clf.set_params(**best_params)
+    #clf.set_params(**best_params)
     model = clf.fit(tweet_df_classified[predictor_columns], tweet_df_classified["classification"])
 
     predicted_values = model.predict(tweet_df_unclassified[predictor_columns])
@@ -543,7 +543,7 @@ def update_keywords(keyword_dict):
     '''
     new_keywords = []
     for key, value in keyword_dict.items():
-        if value == "good" or value == "1":
+        if value == "good" or value == 1:
             new_keywords.append(key)
 
     return new_keywords
