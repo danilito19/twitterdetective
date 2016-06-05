@@ -62,7 +62,10 @@ if __name__ == "__main__":
         cont = input("Are you satisfied with all these terms (y/n)? ")
 
         if cont == "y":
-
+            feedback = {}
+            for word in tw.keywords:
+                feedback[word] = 1
+            tw.take_feedback(feedback)
             tw.set_satisfaction(True)
 
         else:
@@ -77,22 +80,20 @@ if __name__ == "__main__":
                 feedback[word] = int(response)
             tw.take_feedback(feedback)
 
-            print("Here is your full list of suggested search terms:")
+        print("Here is your full list of suggested search terms:")
 
-            print(", ".join(tw.master_keywords))
+        print(", ".join(tw.master_keywords))
 
-            cont = input("Are you satisfied with this list (y/n)? ")
+        cont = input("Are you satisfied with this list (y/n)? ")
 
-            if cont == "n":
+        if cont == "n":
 
-                tw.cycle2()
+            tw.cycle2()
 
-            elif cont == "y":
+        elif cont == "y":
 
-                tw.set_satisfaction(True)
+            tw.set_satisfaction(True)
 
-    filename = input("Where would you like the results of your query stored? Type file path: ")
+        filename = input("Where would you like the results of your query stored? Type file path: ")
 
-    tw.finish(filename)
-
-
+        tw.finish(filename)
