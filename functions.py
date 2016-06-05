@@ -162,7 +162,7 @@ def process_tweets(file_name):
     return tweet_df
 
 
-def semantic_indexing(tweet_df, max_keywords = 20):
+def semantic_indexing(tweet_df, master_feedback, max_keywords = 20):
     '''
     Person Responsible: Devin Munger
 
@@ -183,7 +183,26 @@ def semantic_indexing(tweet_df, max_keywords = 20):
     weighted_words = [features[i] for i, x in enumerate(weights) if x == max_weight]
     ## Return sample of highest weighted keywords
     indices = random.sample(range(len(weighted_words)), min(max_keywords, len(weighted_words)))
-    return [weighted_words[i] for i in indices]
+
+    keywords = []
+    pool = len(indices)
+    i = 0
+
+    print(weighted_words)
+    print(type(weighted_words))
+    print(master_feedback)
+    print(type(master_feedback))
+
+    while pool > 0:
+        print(i)
+        print(len(indices))
+        x = indices[i]
+        if weighted_words[x] not in master_feedback:
+            keywords.append(weighted_words[x])
+            pool = pool - 1
+        i += 1
+
+    return keywords #[weighted_words[i] for i in indices]
     
 
 def add_keywords_df(tweet_df, keywords):
@@ -326,7 +345,11 @@ def evaluate_model(test_data_classification_col, predicted_values):
     return accuracy, precision, recall, f1
 
 
+<<<<<<< HEAD
 def predict_classification(predictor_columns, tweet_df_classified, tweet_df_unclassified, plot=False):
+=======
+def predict_classification(predictor_columns, tweet_df_classified, tweet_df_unclassified, best_model='NB', best_params='', plot=False):
+>>>>>>> b3fc8a9b3854c1b80e51f65c8cf8cb16b3fe497f
     '''
     Person Responsible: Dani Alcala
 
@@ -346,7 +369,6 @@ def predict_classification(predictor_columns, tweet_df_classified, tweet_df_uncl
     print('BEST PARAMS: ', best_params)
 
     clf = clfs[best_model] 
-    params = best_params 
     clf.set_params(**best_params)
     model = clf.fit(tweet_df_classified[predictor_columns], tweet_df_classified["classification"])
 

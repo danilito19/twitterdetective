@@ -9,22 +9,22 @@ from six.moves import input #for python2.7
 
 
 class color:
-   '''
-   use to make terminal interfase pretty.
-   usage: 
-   print color.BOLD + 'Hello World !' + color.END
-   '''
+    '''
+    use to make terminal interfase pretty.
+    usage: 
+    print color.BOLD + 'Hello World !' + color.END
+    '''
 
-   PURPLE = '\033[95m'
-   CYAN = '\033[96m'
-   DARKCYAN = '\033[36m'
-   BLUE = '\033[94m'
-   GREEN = '\033[92m'
-   YELLOW = '\033[93m'
-   RED = '\033[91m'
-   BOLD = '\033[1m'
-   UNDERLINE = '\033[4m'
-   END = '\033[0m'
+    PURPLE = '\033[95m'
+    CYAN = '\033[96m'
+    DARKCYAN = '\033[36m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    END = '\033[0m'
 
 
 if __name__ == "__main__":
@@ -53,41 +53,43 @@ if __name__ == "__main__":
 
     tw.cycle1()
 
-    print(color.BOLD + "Here are your suggested search terms:" + color.END)
-
-    print(", ".join(tw.keywords))
-
-    cont = input("Are you satisfied with this list (y/n)? ")
-
-    if cont == "y":
-
-      tw.set_satisfaction(True)
-
     while not tw.satisfactory:
 
-        print("Indicate the relevance of each term to your interest.")
-
-        response_dict = {1: "good", "relevant": "good", 2: "neutral", "neutral": "neutral", 3:"bad", "irrelevant": "bad"}
-        feedback = {}
-        for word in tw.keywords:
-            prompt = color.PURPLE + word + color.END + " is (1) relevant, (2) neutral, (3) irrelevant: "
-            response = input(prompt)
-            feedback[word] = int(response)
-        tw.take_feedback(feedback)
-
-        print("Here are your suggested search terms:")
+        print(color.BOLD + "Here are some additional search terms:" + color.END)
 
         print(", ".join(tw.keywords))
 
-        cont = input("Are you satisfied with this list (y/n)? ")
+        cont = input("Are you satisfied with all these terms (y/n)? ")
 
-        if cont == "n":
-
-            tw.cycle2()
-
-        elif cont == "y":
+        if cont == "y":
 
             tw.set_satisfaction(True)
+
+        else:
+
+            print("Indicate the relevance of each term to your interest.")
+
+            response_dict = {1: "good", "relevant": "good", 2: "neutral", "neutral": "neutral", 3:"bad", "irrelevant": "bad"}
+            feedback = {}
+            for word in tw.keywords:
+                prompt = color.PURPLE + word + color.END + " is (1) relevant, (2) neutral, (3) irrelevant: "
+                response = input(prompt)
+                feedback[word] = int(response)
+            tw.take_feedback(feedback)
+
+            print("Here is your full list of suggested search terms:")
+
+            print(", ".join(tw.master_keywords))
+
+            cont = input("Are you satisfied with this list (y/n)? ")
+
+            if cont == "n":
+
+                tw.cycle2()
+
+            elif cont == "y":
+
+                tw.set_satisfaction(True)
 
     filename = input("Where would you like the results of your query stored? Type file path: ")
 
