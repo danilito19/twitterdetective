@@ -49,6 +49,7 @@ grid = {
 'KNN' :{'n_neighbors': [1, 3, 5,10,25,50,100],'weights': ['uniform','distance'],'algorithm': ['auto','ball_tree','kd_tree']}
        }
 
+
 MODELS_TO_RUN = ['LR', "NB", 'SVM', "RF", 'DT'] #add more from above
 # BEST_MODEL = "NB"
 # BEST_PARAMS = ''
@@ -153,7 +154,7 @@ def process_tweets(file_name):
             ## Remove links from text
             text = re.sub(r"http\S+", "", text)
             ## Remove twitter keywords
-            text.replace("rt", "")
+            text.replace("RT ", "")
             ## Remove handle, punctuation from tweet text
             text_words = filter(lambda x: x not in string.punctuation, tokenizer.tokenize(text))
             ## Add tweet to dataframe
@@ -183,7 +184,15 @@ def semantic_indexing(tweet_df, master_feedback, max_keywords = 20):
     ## Return sample of highest weighted keywords
     indices = random.sample(range(len(weighted_words)), min(max_keywords, len(weighted_words)))
 
-    keywords = []
+    keywords = [weighted_words[i] for i in indices]
+    new_keywords = []
+    old_keywords = master_feedback.keys()
+    for word in keywords:
+        if word not in old_keywords:
+            new_keywords.append(word)
+    return new_keywords
+
+    '''
     pool = len(indices)
     i = 0
 
@@ -200,7 +209,7 @@ def semantic_indexing(tweet_df, master_feedback, max_keywords = 20):
             keywords.append(weighted_words[x])
             pool = pool - 1
         i += 1
-
+    '''
     return keywords #[weighted_words[i] for i in indices]
     
 
@@ -310,9 +319,9 @@ def train_model_offline(tweet_df, predictor_columns):
         plot_precision_recall(test['classification'], best_y_probs, BEST_MODEL, BEST_PARAMS)
     #     #plot_precision_and_recall(tweet_df_unclassified['classification'], y_pred_probs, best_model, best_params)
 
-    return BEST_MODEL, BEST_PARAMS
 
 def evaluate_model_auc(test_data_classification_col, y_pred_probs):
+
     '''
     Evaluate model with AUC of Precision-recall curve
 
@@ -460,15 +469,20 @@ def classify_tweets(tweet_df, keyword_dict):
     Tweets containing "good" and "neutral" words and *no* "bad" words
     should be classified as relevant
     '''
+
+    print(tweet_df.head)
+
     class_column = []
+
+    print(tweet_df.head)
 
     for word_list in tweet_df["keywords"]:
         word_class_list = []
         for word in word_list:
             word_class_list.append(keyword_dict[word])
-        if 3 in word_class_list:
+        if "bad" in word_class_list:
             classification = 0
-        elif 1 not in word_class_list:
+        elif "good" not in word_class_list:
             classification = 0
         else:
             classification = 1
@@ -489,6 +503,8 @@ def keyword_binary_col(keywords, tweet_df):
 
     for word in keywords:
         key_dict[word] = []
+
+    print(tweet_df.head)
 
     for word, bin_col in key_dict.items():
         # for index, row in tweet_df.iterrows():   
@@ -527,7 +543,7 @@ def update_keywords(keyword_dict):
     '''
     new_keywords = []
     for key, value in keyword_dict.items():
-        if value == 1:
+        if value == "good" or value == "1":
             new_keywords.append(key)
 
     return new_keywords
