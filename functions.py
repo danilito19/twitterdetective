@@ -154,7 +154,7 @@ def process_tweets(file_name):
             ## Remove links from text
             text = re.sub(r"http\S+", "", text)
             ## Remove twitter keywords
-            text.replace("rt", "")
+            text.replace("RT ", "")
             ## Remove handle, punctuation from tweet text
             text_words = filter(lambda x: x not in string.punctuation, tokenizer.tokenize(text))
             ## Add tweet to dataframe
