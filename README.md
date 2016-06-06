@@ -1,9 +1,68 @@
+##  TWITTER DETECTIVE
 
-twitter detective
-========================
+INTRODUCTION AND POLICY  MOTIVATION
 
-### What is this?
--------------
+Public policy implementation is faced with the challenges of scarce information, colliding interests, and pressing deadlines. Being able to listen and understand the stream of information surrounding a policy topic can provide government officials with key insights that allow them to act to improve the lives of their constituents. When policymakers are well-informed, many of the obstacles that can hinder the implementation of a policy can be overcome.
+ 
+The purpose of the Twitter Detective tool is to provide a framework for policymakers to efficiently follow a specific topic of interest at a low cost. This allows them to identify and respond to the most pressing issues. Polling is expensive: it must be planned in advance and can only focus on a set of specific issues. Twitter Detective allows policymakers to dynamically follow a topic and respond in real time.
 
-A Machine Learning project to generate Twitter query terms that are synonymous or of similar topic to a user-specified term.
+CURRENT APPROACHES TO THE PROBLEM
 
+A large body of work exists on the topic of text-based sentiment analysis. The categorization of a tweet as positive or negative can be performed using a variety of existing algorithms for feature extraction and classification, including navie Bayes, multinomial logistic regression, or a maximum entropy model. Nevertheless, few efforts have been made to identify new terms referring to a specific topic of interest as they surge in social media. One exception is the effort of Aron Culotta, who uses a list of Twitter users to perform automatized topic classification and domain adaptation. Additionally, we drew inspiration from Google Sets, a now-defunct Google Labs project for synonym generation. A Google Set can be used to augment a word list based on assigned weights of existing list items. In a similar way, our project attempts to return like words for a given term query. Our approach is novel in that we specify a list of keywords, and the model identifies more terms that refer to the same topic but that had been overlooked by the initial list.
+
+
+
+
+DATA SOURCES
+
+For this project, we use Twitter data. The application dynamically harvests tweets from the Twitter API based on user-selected queries and generated keyword searches. We limit our results to English language tweets indexed within approximately the past week, and use the individual tweet text and unique id number for our analysis.
+
+PROBLEM FORMULATION AND SOLUTION
+
+Overview
+
+While Twitter has the potential to be a useful source of real-time data on public opinion, formulating a query that will obtain as many relevant tweets as possible, and determining whether or not tweets are relevant, remains problematic. Queries are often limited to the terms that researchers are already familiar with, leaving other relevant terms undiscovered; consequently, tweets that use only those terms are left out.
+ 
+Twitter Detective addresses this problem by iteratively building up a query of relevant search terms and continually integrating new user feedback and new Twitter queries. Twitter Detective begins by asking the user for starting terms – this can be a single term or a list – and querying the Twitter API with these terms. Twitter Detective then takes the resulting tweets and analyzes the content of their text for terms that are likely to be significant using frequency indexing. The interface then presents these terms to the user and asks whether the user is satisfied with all of these terms. Assuming the user is not satisfied, they are then asked to provide feedback on each term, rating them relevant, neutral, or irrelevant. Words that are deemed relevant are added to the master list of keywords, and the tweets are then classified according to the user feedback. Tweets that contain any irrelevant terms or that contain only neutral terms are marked as irrelevant, while tweets containing relevant terms and no irrelevant terms are marked as relevant. The user is then asked if they is satisfied with the new master list of keywords. If not, a new query is conducted with the master list of keywords. Keywords are likewise extracted from this selection of tweets and presented to the user. This process continues until the user is presented with a list of keywords with which they are fully satisfied.
+
+Once the user says they are satisfied with the list of keywords presented, this list is used to conduct a final query to Twitter. Prior feedback from the user is then used to train a model on the previous set of tweets which have been classified according to their contents and the user feedback. This model is then used to predict which of the new tweets are likely to be relevant. Finally, tweets which are predicted to be irrelevant are discarded and the relevant tweets are written out to a file for the user.
+
+2. Semantic Indexing
+
+In performing our semantic analysis, we utilize the Natural Language Toolkit to parse tweets and the scikit-learn library to extract relevant keywords. To clean the data, we analyze the text of individual tweets, removing Twitter handles and keywords (e.g. the retweet indicator “RT”), as well as punctuation and identifiable URLs. From this standardized text, we develop a list of keywords, based on a scikit-learn implementation of the Term Frequency-Inverse Document Frequency (TF-IDF) algorithm. Briefly, TF-IDF weights the frequency of a word’s appearance within a document by its overall prevalence. In this way, a ranking of keywords can be generated that accounts for the relative importance of a term within a text. For the purposes of our project, each tweet is treated as a document within the overall corpus of returned tweets. A random slice of the highest weighted keywords words is returned to the user for validation, based on the total number of tweets a user queries.
+
+3. Machine Learning & Predictive Modeling
+
+The purpose of using machine learning tools for this project is to find a model that can adequately predict if a user would classify a tweet as relevant or not. To determine which machine learning model best predicts tweet classification, we tested six different machine learning classifiers – logistic regression, support vector machines, k-nearest neighbors, naive bayes, decision trees, and random forest. Our algorithm begins by receiving a dataframe of classified tweet keywords from the user interface. This classified dataframe is split into train-test datasets, used to fit the model and evaluate the fit. Our evaluation methodology outputs precision, recall, accuracy, and F1 scores for each model, and uses Area Under the Precision-Recall Curve (AUC) to select the best model. We chose to rely on the AUC to evaluate across models because we wish to optimize both precision and recall. That is, we care both that the model is able to recall as many of the tweets the user would classify as relevant as well as be precise on finding relevant tweets. We neither care that the tool gives the user all the possible relevant tweets nor provides a few definitely relevant tweets.
+
+
+
+
+EVALUATION
+
+It is best practice in machine learning to test various parameters for each model to find best fit. However, we picked reasonable model parameters for our predictive project. For example, we tested decision trees and random forests with no higher than a max depth of 50 and the k-nearest neighbors with no more than 100 neighbors. While these parameters never performed well, including them is not computationally prohibitive.
+Our tool is interactive, querying the Twitter API for any of the keywords the user is interested in. Because our data is not static due to each user session getting new tweets, the best overall model for prediction varies. Various runs of our tool offered different results. For example, requesting between 10 and 100 Tweets for terms such as “Trump”, “Donald Trump”, “Hillary”, “candidate”, the best model was consistently logistic regression. With 100 Tweets and the key term “Trump”, the decision tree had the best predictive value. However, with more Twitter data (greater than 300 Tweets and over 30 key term responses), the best model was the random forest.
+
+Evaluation results must be considered with caution. The best model is only 0.01 AUC points better than the others. These results are also retrieved with only 300 tweets, which returned about 40 key terms to classify. 
+
+OUTCOMES
+
+In our trials, Twitter Detective was particularly successful in identifying hashtags and nicknames associated with a political candidate that were outside of our original search term. We initiated twitter detective with the term “Hillary,” and found other keywords such as “hillbot,” “hillarysoqualified,” “hillaryhasclass, ”and “hitlery.” Ideally we would then be able to use these keywords to find tweets, which may or may not mention our original search terms. However, these more unusual terms are used less frequently, and a very large query of more unusual terms must be compiled in order to yield results from these terms in a timely manner.
+
+While there were a few useful pseudonyms that were neutral, like “hrc,” the majority of the invented terms that were discovered were decidedly negative. Thus it is very likely that our final output of tweets, while perhaps relevant, were also biased towards the snarkier users of twitter. This underlines the fact that Twitter Detective is a useful supplement to other queries, as it can catch tweets that more widely used neutral terms would miss, but does not purport to provide a representative sample. As its name suggests, Twitter Detective is more useful for routing out harder-to-find tweets. Its results are highly dependent on how the user interacts with it, which is both a potential weakness and strength.
+
+CAVEATS AND FUTURE WORK
+
+Most of the challenges in creating Twitter Detective were structural, i.e. creating a logical and meaningful application workflow. In its current version, Twitter Detective has yielded some interesting results, but there are many improvements that could be made to enhance its predictive power and user interface. Other limitations are native to Twitter, and should be kept in mind when using the application.
+
+The most critical part of Twitter Detective is currently the interaction of the semantic indexing and the continual user input. This allows the user to discover terms they wouldn’t necessarily think of without overwhelming them with information, thereby retrieving relevant tweets they wouldn’t otherwise find. This approach is very useful for digging into insular groups and discovering in-group references. Our method for predicting whether or not collected tweets will be relevant, however, only uses the most recently found query terms that the user has deemed “useful.” In the future, it would be better to use the entirety of the collected feedback to predict whether tweets would be relevant, and perhaps collect user feedback on whether specific tweets were relevant in the finishing stages.
+
+Another limitation is that the weights resulting from semantic indexing are not particularly stratified, and it is possible for a large number of terms to be detected with the same maximum weight. We addressed this problem by choosing a maximum of 20 from the top-weighted terms. In the future, adding other criteria for the keyword selection, such as eliminating words which are unlikely to yield very specific results (i.e. “attacks), could help to isolate more idiosyncratic terms more efficiently and consistently. While we considered eliminating “Scrabble dictionary” words as a secondary means of filtering – correctly spelled English words that are not proper nouns – this would remove names that are also words, (i.e. “trump”).
+
+There are also issues of working with Twitter that must be kept in mind. Beginning with an uncommon search term means results will be slow, because the stream must be “listened to” until the requisite number of tweets have been found. Additionally, as one marks the relevance of various tweets, the meaning of some “words” may be inscrutable to the user, making it difficult to determine their relevance. Lastly, it is a matter of luck how quickly one “catches” relevant words from Twitter Detective and can redirect the search towards those more idiosyncratic terms. While Twitterlock makes finding query terms more systematic than guessing or searching twitter manually, it still takes time and multiple sessions to accumulate a robust query list.
+
+POLICY RECOMMENDATIONS  
+
+We imagine Twitter Detective to be most useful when deployed in conjunction with traditional sentiment analysis tools. The aim of our application is search word discovery. In addition to identifying general synonyms and related terms, by analyzing Twitter text directly, we hope to offer better insight into this specifically online lingo. Social media language is fast-changing and words used exclusively online, such as hashtags, may provide a novel avenue to to capture and assess public opinion. In this way, Twitter Detective helps broaden the pool of relevant tweets from which information can be extracted.
+
+While we encourage policymakers to take advantage of the data and insight social media analysis can provide, we caution against giving too much weight to results derived from such data. Results from Twitter are inherently biased toward populations that have access to technology and communities that are active online. However, as a tool to monitor the general political climate, Twitter data and analytic tools such as Twitter Detective can help policymakers understand public policy discussion from disparate viewpoints.
